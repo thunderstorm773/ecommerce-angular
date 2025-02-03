@@ -562,6 +562,10 @@ input.au-input.au-input-xl{
     color:#585858
 }
 
+.product-box a {
+    text-decoration: none;
+}
+
 /* 
  * ----------------------------
  * Shopping Cart Checkout
