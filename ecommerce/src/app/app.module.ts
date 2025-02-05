@@ -7,6 +7,8 @@ import { ProductListComponent } from './components/product-list/product-list-gri
 import { provideHttpClient } from '@angular/common/http';
 import { ProductService } from './services/product.service';
 import { Routes, RouterModule } from '@angular/router';
+import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
+import { ProductCategoryService } from './services/product-category.service';
 
 const routes: Routes = [
   {path: 'category/:id', component: ProductListComponent},
@@ -19,14 +21,15 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductCategoryMenuComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [provideHttpClient(), ProductService],
+  providers: [provideHttpClient(), ProductService, ProductCategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
