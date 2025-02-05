@@ -18,6 +18,14 @@ export class ProductService {
       map(response => response.content)
     );
   }
+
+  getProductListByCategory(productCategoryId: number): Observable<Product[]> {
+    const searchCategoryUrl = `${this.baseUrl}/category/${productCategoryId}`;
+    
+    return this.httpClient.get<GetResponse>(searchCategoryUrl).pipe(
+      map(response => response.content)
+    );
+  }
 }
 
 interface GetResponse {
