@@ -29,13 +29,19 @@ export class ProductService {
     return this.getProducts(searchByNameUrl);
   }
 
+  getProduct(productId: number): Observable<Product> {
+    const productUrl = `${this.baseUrl}/${productId}`;
+
+    return this.httpClient.get<Product>(productUrl);
+  }
+
   private getProducts(url: string): Observable<Product[]> {
-    return this.httpClient.get<GetResponse>(url).pipe(
+    return this.httpClient.get<GetResponseMany>(url).pipe(
       map(response => response.content)
     );
   }
 }
 
-interface GetResponse {
+interface GetResponseMany {
   content: Product[]
 }
