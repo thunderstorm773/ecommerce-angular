@@ -25,10 +25,7 @@ export class ProductListComponent implements OnInit {
     // Query params
     this.route.queryParamMap.subscribe(params => {
       this.currentCategoryName = params.get('categoryName');
-      if(params.has('name')) {
-        this.searchMode = true;
-        this.listProducts();
-      }
+      this.listProducts();
     });
 
     // path params
@@ -38,6 +35,8 @@ export class ProductListComponent implements OnInit {
   }
 
   listProducts() {
+    this.searchMode = this.route.snapshot.queryParamMap.has('name');
+
     if(this.searchMode) {
       this.handleSearchProducts();
     } else {
