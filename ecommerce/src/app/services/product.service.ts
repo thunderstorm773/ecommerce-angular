@@ -13,20 +13,26 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getProductList(): Observable<Product[]> {
-    return this.getProducts(this.baseUrl);
+  getProductListPaginate(currentPageNumber: number,
+                         pageSize: number): Observable<GetResponseMany> {
+  
+    return this.getProductsPaginate(this.baseUrl, currentPageNumber, pageSize);
   }
 
-  getProductListByCategory(productCategoryId: number): Observable<Product[]> {
+  getProductListByCategory(productCategoryId: number,
+                           currentPageNumber: number,
+                           pageSize: number): Observable<GetResponseMany> {
     const searchByCategoryUrl = `${this.baseUrl}/category/${productCategoryId}`;
     
-    return this.getProducts(searchByCategoryUrl);
+    return this.getProductsPaginate(searchByCategoryUrl, currentPageNumber, pageSize);
   }
 
-  searchProducts(nameKeyword: string): Observable<Product[]> {
+  searchProducts(nameKeyword: string,
+                 currentPageNumber: number,
+                 pageSize: number): Observable<GetResponseMany> {
     const searchByNameUrl = `${this.baseUrl}?name=${nameKeyword}`;
 
-    return this.getProducts(searchByNameUrl);
+    return this.getProductsPaginate(searchByNameUrl, currentPageNumber, pageSize);
   }
 
   getProduct(productId: number): Observable<Product> {
@@ -35,13 +41,23 @@ export class ProductService {
     return this.httpClient.get<Product>(productUrl);
   }
 
-  private getProducts(url: string): Observable<Product[]> {
-    return this.httpClient.get<GetResponseMany>(url).pipe(
-      map(response => response.content)
-    );
+  private getProductsPaginate(url: string, 
+                              currentPageNumber: number,
+                              pageSize: number): Observable<GetResponseMany> {
+    if (url.includes('?')) {
+      url = url + `&page=${currentPageNumber}&size=${pageSize}`
+    } else {
+      url = url + `?page=${currentPageNumber}&size=${pageSize}`
+    }
+ 
+    return this.httpClient.get<GetResponseMany>(url);
   }
 }
 
 interface GetResponseMany {
-  content: Product[]
+  content: Product[];
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  number: number;
 }
