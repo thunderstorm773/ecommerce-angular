@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NomenclatureFormService } from '../../services/nomenclature-form.service';
+import { Country } from '../../common/country';
 
 @Component({
   selector: 'app-checkout',
@@ -18,6 +19,8 @@ export class CheckoutComponent implements OnInit{
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
 
+  countries: Country[] = [];
+
   constructor(private formBuilder: FormBuilder,
               private nomenclatureFormService: NomenclatureFormService) {}
 
@@ -30,6 +33,8 @@ export class CheckoutComponent implements OnInit{
 
     // populate credit card years
     this.subscribeToCreditCardYears();
+
+    this.populateCountries();
   }
 
   createCheckoutFormGroup() {
@@ -117,5 +122,14 @@ export class CheckoutComponent implements OnInit{
 
     this.subscribeToCreditCardMonths(startMonth);
     creditCardFormGroup?.get('expirationMonth')?.setValue(startMonth);
+  }
+
+  populateCountries() {
+    this.nomenclatureFormService.getCountries().subscribe(
+      data =>  {
+        //console.log(`Countries: ${JSON.stringify(data)}`);
+        this.countries = data;
+      }
+    );
   }
 }
