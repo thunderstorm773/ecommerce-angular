@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NomenclatureFormService } from '../../services/nomenclature-form.service';
 import { Country } from '../../common/country';
+import { State } from '../../common/state';
 
 @Component({
   selector: 'app-checkout',
@@ -20,6 +21,8 @@ export class CheckoutComponent implements OnInit{
   creditCardMonths: number[] = [];
 
   countries: Country[] = [];
+  shippingAddressStates: State[] = [];
+  billingAddressStates: State[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private nomenclatureFormService: NomenclatureFormService) {}
@@ -83,8 +86,11 @@ export class CheckoutComponent implements OnInit{
     if (checkboxInput.checked) {
       const shippingAddressGroup = this.checkoutFormGroup.controls['shippingAddress'];
       billingAddressGroup.setValue(shippingAddressGroup.value);
+
+      this.billingAddressStates = this.shippingAddressStates;
     }else {
       billingAddressGroup.reset();
+      this.billingAddressStates = [];
     }
   }
 
@@ -129,6 +135,25 @@ export class CheckoutComponent implements OnInit{
       data =>  {
         //console.log(`Countries: ${JSON.stringify(data)}`);
         this.countries = data;
+      }
+    );
+  }
+
+  getStates(formGroupName: string) {
+    const formGroup = this.checkoutFormGroup.get(formGroupName);
+
+    const countryCode = formGroup?.value.country.code;
+
+    this.nomenclatureFormService.getStates(countryCode).subscribe(
+      data => {
+        if (formGroupName === 'shippingAddress') {
+          this.shippingAddressStates = data;
+        } else {
+          this.billingAddressStates = data;
+        }
+
+        // set as default first state
+        formGroup?.get('state')?.setValue(data[0]);
       }
     );
   }
