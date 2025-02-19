@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NomenclatureFormService } from '../../services/nomenclature-form.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
+import { CheckoutValidator } from '../../validators/checkout-validator';
 
 @Component({
   selector: 'app-checkout',
@@ -43,9 +44,9 @@ export class CheckoutComponent implements OnInit{
   createCheckoutFormGroup() {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: [''],
-        lastName: [''],
-        email: ['']
+        firstName: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
+        lastName: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
+        email: new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])
       }),
       shippingAddress: this.formBuilder.group({
         country: [''],
@@ -76,7 +77,11 @@ export class CheckoutComponent implements OnInit{
 
   onSubmitPurchaseBtn() {
     console.log('Handling the submit purchase button');
-    console.log(this.checkoutFormGroup.get('creditCard')?.value);
+    //console.log(this.checkoutFormGroup.get('creditCard')?.value);
+
+    if (this.checkoutFormGroup.invalid) {
+      this.checkoutFormGroup.markAllAsTouched();
+    }
   }
 
   copyShippingToBillingAddress(event: Event) {
@@ -156,5 +161,17 @@ export class CheckoutComponent implements OnInit{
         formGroup?.get('state')?.setValue(data[0]);
       }
     );
+  }
+
+  get firstName() {
+    return this.checkoutFormGroup.get('customer.firstName');
+  }
+
+  get lastName() {
+    return this.checkoutFormGroup.get('customer.lastName');
+  }
+
+  get email() {
+    return this.checkoutFormGroup.get('customer.email');
   }
 }
