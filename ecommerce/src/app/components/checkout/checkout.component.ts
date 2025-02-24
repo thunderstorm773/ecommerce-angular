@@ -4,6 +4,7 @@ import { NomenclatureFormService } from '../../services/nomenclature-form.servic
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CheckoutValidator } from '../../validators/checkout-validator';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -26,9 +27,11 @@ export class CheckoutComponent implements OnInit{
   billingAddressStates: State[] = [];
 
   constructor(private formBuilder: FormBuilder,
-              private nomenclatureFormService: NomenclatureFormService) {}
+              private nomenclatureFormService: NomenclatureFormService,
+              private cartService: CartService) {}
 
   ngOnInit(): void {
+
     this.createCheckoutFormGroup();
 
     // populate credit card months
@@ -39,6 +42,8 @@ export class CheckoutComponent implements OnInit{
     this.subscribeToCreditCardYears();
 
     this.populateCountries();
+
+    this.reviewCartDetails();
   }
 
   createCheckoutFormGroup() {
@@ -133,6 +138,23 @@ export class CheckoutComponent implements OnInit{
 
     this.subscribeToCreditCardMonths(startMonth);
     creditCardFormGroup?.get('expirationMonth')?.setValue(startMonth);
+  }
+
+  reviewCartDetails() {
+    // subscribe to cartService totalPrice
+    this.cartService.totalPrice.subscribe(
+      data => {
+        this.totalPrice = data
+      }
+    );
+
+
+    // subscribe to cartService totalQuantity
+    this.cartService.totalQuantity.subscribe(
+      data => {
+        this.totalQuantity = data;
+      }
+    );
   }
 
   populateCountries() {
