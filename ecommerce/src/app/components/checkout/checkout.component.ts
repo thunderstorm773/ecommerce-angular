@@ -5,6 +5,8 @@ import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CheckoutValidator } from '../../validators/checkout-validator';
 import { CartService } from '../../services/cart.service';
+import { CheckoutService } from '../../services/checkout.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -28,7 +30,9 @@ export class CheckoutComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder,
               private nomenclatureFormService: NomenclatureFormService,
-              private cartService: CartService) {}
+              private cartService: CartService,
+              private checkoutService: CheckoutService,
+              private router: Router) {}
 
   ngOnInit(): void {
 
@@ -81,12 +85,16 @@ export class CheckoutComponent implements OnInit{
 
 
   onSubmitPurchaseBtn() {
-    console.log('Handling the submit purchase button');
+    //console.log('Handling the submit purchase button');
     //console.log(this.checkoutFormGroup.get('creditCard')?.value);
 
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
+      return
     }
+
+    // set up purchase and call REST API
+    
   }
 
   copyShippingToBillingAddress(event: Event) {
