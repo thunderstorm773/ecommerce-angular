@@ -7,6 +7,11 @@ import { CheckoutValidator } from '../../validators/checkout-validator';
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { Router } from '@angular/router';
+import { Order } from '../../common/order';
+import { OrderItem } from '../../common/order-item';
+import { Address } from '../../common/address';
+import { Customer } from '../../common/customer';
+import { Purchase } from '../../common/purchase';
 
 @Component({
   selector: 'app-checkout',
@@ -90,11 +95,28 @@ export class CheckoutComponent implements OnInit{
 
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
-      return
+      return;
     }
 
     // set up purchase and call REST API
-    
+    let order = this.createOrderObj();
+    let orderItems = this.createOrderItemsObj();
+    let shippingAddress = this.createAddressObj('shippingAddress');
+    let billingAddress = this.createAddressObj('billingAddress');
+    let customer = this.createCustomerObj();
+    let purchase = this.createPurchaseObj(order, orderItems, shippingAddress, billingAddress, customer);
+
+    // call REST API
+    this.checkoutService.placeOrder(purchase).subscribe({
+        next: response => {
+          alert(`Your order has been received. \nOrder tracking number: ${response.orderTrackingNumber}`);
+          this.resetCart();
+        },
+        error: err => {
+          alert(`There was an error: ${err.message}`);
+        }
+      }
+    );
   }
 
   copyShippingToBillingAddress(event: Event) {
@@ -163,6 +185,44 @@ export class CheckoutComponent implements OnInit{
         this.totalQuantity = data;
       }
     );
+  }
+
+  createOrderObj(): Order {
+    return new Order(this.totalQuantity, this.totalPrice);
+  }
+
+  createOrderItemsObj(): OrderItem[] {
+    return this.cartService.cartItems.map(item => new OrderItem(item));
+  }
+
+  createAddressObj(formGroupControlName: string): Address {
+    const formGroup = this.checkoutFormGroup.controls[formGroupControlName].value;
+    const countryState: State = JSON.parse(JSON.stringify(formGroup.state));
+    const country: Country = JSON.parse(JSON.stringify(formGroup.country));
+    return new Address(formGroup.street, formGroup.city, country.name, countryState.name, formGroup.zipCode);
+  }
+
+  createCustomerObj(): Customer {
+    const formGroup = this.checkoutFormGroup.controls['customer'].value;
+    return new Customer(formGroup.firstName, formGroup.lastName, formGroup.email);
+  }
+
+  createPurchaseObj(order: Order, orderItems: OrderItem[], shippingAddress: Address,
+                    billingAddress: Address, customer: Customer): Purchase {
+    return new Purchase(customer, shippingAddress, billingAddress, order, orderItems);
+  }
+
+  resetCart() {
+    // reset cart data
+    this.cartService.cartItems = [];
+    this.cartService.totalPrice.next(0);
+    this.cartService.totalQuantity.next(0);
+
+    // reset the form
+    this.checkoutFormGroup.reset();
+
+    // navigate back to the products page
+    this.router.navigateByUrl('/products');
   }
 
   populateCountries() {
