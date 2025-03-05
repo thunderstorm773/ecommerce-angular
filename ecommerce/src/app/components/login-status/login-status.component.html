@@ -2,13 +2,19 @@
 
     <div *ngIf="isAuthenticated && userFullName" class="login-status-user-info">
         Hi, {{ userFullName }}
+
+        <button (click)="logout()" class="security-btn">
+            Logout
+        </button>
+    
+        <button routerLink="/members" class="security-btn">
+            Member
+        </button>
     </div>
 
-    <button *ngIf="!isAuthenticated" routerLink="/login" class="security-btn">
-        Login
-    </button>
-
-    <button *ngIf="isAuthenticated" (click)="logout()" class="security-btn">
-        Logout
-    </button>
+    <div *ngIf="!isAuthenticated" class="login-status-user-info">
+        <button *ngIf="!isAuthenticated" routerLink="/login" class="security-btn">
+            Login
+        </button>
+    </div>
 </div>
