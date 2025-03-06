@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (response.status === 'SUCCESS') {
           await this.oktaAuth.handleLoginRedirect(response.tokens);
           await this.router.navigate(['/products']);
-
         }
       },
       (error: any) => {
