@@ -16,7 +16,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   oktaSignIn: any;
 
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth) { 
+  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth) { }
+  
+  ngOnDestroy(): void {
+    this.oktaSignIn.remove();
+  }
+
+  ngOnInit(): void {
     this.oktaSignIn = new OktaSignIn({
       logo: appConfig.oidc.logo,
       baseUrl: appConfig.oidc.baseUrl,
@@ -28,12 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         scopes: appConfig.oidc.scopes
       }
     });
-  }
-  ngOnDestroy(): void {
-    this.oktaSignIn.remove();
-  }
-
-  ngOnInit(): void {
+    
     this.oktaSignIn.renderEl({
       el: '#okta-sign-in-widget'},
       (response: any) => {
