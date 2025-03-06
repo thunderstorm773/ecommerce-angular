@@ -4,6 +4,7 @@ import { OktaAuth } from '@okta/okta-auth-js';
 import OktaSignIn from '@okta/okta-signin-widget';
 
 import appConfig from '../../config/app-config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +17,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   oktaSignIn: any;
 
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth) { }
-  
+  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth,
+              private router: Router) { }
+
   ngOnDestroy(): void {
     this.oktaSignIn.remove();
   }
@@ -34,12 +36,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         scopes: appConfig.oidc.scopes
       }
     });
-    
+
     this.oktaSignIn.renderEl({
       el: '#okta-sign-in-widget'},
-      (response: any) => {
+      async (response: any) => {
         if (response.status === 'SUCCESS') {
-          this.oktaAuth.signInWithRedirect();
+          await this.oktaAuth.handleLoginRedirect(response.tokens);
+          await this.router.navigate(['/products']);
+
         }
       },
       (error: any) => {
