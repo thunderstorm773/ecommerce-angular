@@ -42,7 +42,9 @@ const routes: Routes = [
   {path: 'products/:id', component: ProductDetailsComponent},
   {path: 'products/category/:id', component: ProductListComponent},
   {path: 'cart-details', component: CartDetailsComponent},
-  {path: 'checkout', component: CheckoutComponent},
+  {path: 'checkout', component: CheckoutComponent, canActivate: [OktaAuthGuard],
+                     data: {onAuthRequired: sendToLoginPage}
+  },
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
   {path: '', redirectTo: 'products', pathMatch: 'full'},
