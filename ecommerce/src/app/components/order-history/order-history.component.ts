@@ -11,7 +11,7 @@ import { OrderHistoryService } from '../../services/order-history.service';
 })
 export class OrderHistoryComponent implements OnInit {
 
-  orderHistory: OrderHistory[] = [];
+  orderHistoryList: OrderHistory[] = [];
   storage: Storage = sessionStorage;
 
   constructor(private orderHistoryService: OrderHistoryService) { }
@@ -25,7 +25,7 @@ export class OrderHistoryComponent implements OnInit {
 
     this.orderHistoryService.getOrderHistory(userEmail).subscribe(
       data => {
-        this.orderHistory = data.content;
+        this.orderHistoryList = data.content;
       }
     );
   }
