@@ -9,8 +9,8 @@ import { State } from '../common/state';
 })
 export class NomenclatureFormService {
 
-  private countriesURL: string = 'http://localhost:8080/api/countries';
-  private statesURL: string = 'http://localhost:8080/api/states';
+  private countriesURL: string = 'https://localhost:8080/api/countries';
+  private statesURL: string = 'https://localhost:8080/api/states';
 
   constructor(private httpClient: HttpClient) { }
 
