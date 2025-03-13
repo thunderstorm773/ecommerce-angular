@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Country } from '../common/country';
 import { State } from '../common/state';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NomenclatureFormService {
 
-  private countriesURL: string = 'https://localhost:8443/api/countries';
-  private statesURL: string = 'https://localhost:8443/api/states';
+  private countriesURL: string = environment.ecommerceURL + 'countries';
+  private statesURL: string =  environment.ecommerceURL + 'states';
 
   constructor(private httpClient: HttpClient) { }
 
