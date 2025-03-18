@@ -53,17 +53,7 @@ export class CheckoutComponent implements OnInit{
     this.setupStripePaymentForm();
     this.createCheckoutFormGroup();
 
-    /* For delete
-    // populate credit card months
-    const startMonth = new Date().getMonth() + 1;
-    this.subscribeToCreditCardMonths(startMonth);
-
-    // populate credit card years
-    this.subscribeToCreditCardYears();
-    */
-
     this.populateCountries();
-
     this.reviewCartDetails();
   }
 
