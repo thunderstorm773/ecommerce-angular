@@ -5,9 +5,9 @@ import { OrderItem } from "./order-item";
 
 export class Purchase {
 
-    constructor(private customer: Customer,
-                private shippingAddress: Address,
-                private billingAddress: Address,
-                private order: Order,
-                private orderItems: OrderItem[]) { }
+    constructor(public customer: Customer,
+                public shippingAddress: Address,
+                public billingAddress: Address,
+                public order: Order,
+                public orderItems: OrderItem[]) { }
 }
