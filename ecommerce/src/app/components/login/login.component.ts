@@ -34,6 +34,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         pkce: true,
         issuer: appConfig.oidc.issuer,
         scopes: appConfig.oidc.scopes
+      },
+      features: {
+        registration: true
       }
     });
 
