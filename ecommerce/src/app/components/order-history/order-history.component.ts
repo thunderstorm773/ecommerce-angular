@@ -12,7 +12,7 @@ import { OrderHistoryService } from '../../services/order-history.service';
 export class OrderHistoryComponent implements OnInit {
 
   orderHistoryList: OrderHistory[] = [];
-  storage: Storage = sessionStorage;
+  storage: Storage = localStorage;
 
   constructor(private orderHistoryService: OrderHistoryService) { }
 
