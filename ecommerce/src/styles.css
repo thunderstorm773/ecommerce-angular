@@ -526,6 +526,10 @@ input.au-input.au-input-xl{
  * ----------------------------
  */
 
+.product-title{
+    width: 350px;
+}
+
 .product-box img {
     width: 150px;
 }
@@ -790,6 +794,10 @@ a.primary-btn:hover{
  * Footer section
  * ----------------------------
  */
+
+footer {
+    height: 100%;
+}
 
 footer ul li a{
     color:#fff;
