@@ -13,6 +13,7 @@ export class LoginStatusComponent implements OnInit {
   
   isAuthenticated: boolean = false;
   userFullName: string = '';
+  userRoleDropdownLabel: string = 'User';
 
   storage: Storage = localStorage;
 
@@ -35,6 +36,11 @@ export class LoginStatusComponent implements OnInit {
       this.oktaAuth.getUser().then(
         (res) => {
           this.userFullName = res.name as string;
+
+          // Check if user is in the Admin group
+          if (Array.isArray(res['groups']) && res['groups'].includes('Admin')) {
+            this.userRoleDropdownLabel = 'Admin';
+          }
           
           const userEmail = res.email;
           this.storage.setItem('userEmail', JSON.stringify(userEmail));

@@ -6,14 +6,14 @@
         <button (click)="logout()" class="security-btn">
             Logout
         </button>
-    
-        <button routerLink="/members" class="security-btn ml-1">
-            Member
-        </button>
 
-        <button routerLink="/order-history" class="security-btn ml-1">
-            Orders
-        </button>
+        <div style="margin-left: 5px;" ngbDropdown class="d-inline-block">
+            <button class="security-btn" ngbDropdownToggle>{{ userRoleDropdownLabel }}</button>
+            <div ngbDropdownMenu>
+                <button routerLink="/members" class="dropdown-item">Member</button>
+                <button routerLink="/order-history" class="dropdown-item">Orders</button>
+            </div>
+        </div>
     </div>
 
     <div *ngIf="!isAuthenticated" class="login-status-user-info">
