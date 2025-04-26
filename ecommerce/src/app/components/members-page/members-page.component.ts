@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Coupon } from '../../common/coupon';
+import { CouponService } from '../../services/coupon.service';
 
 @Component({
   selector: 'app-members-page',
@@ -7,11 +9,21 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './members-page.component.html',
   styleUrl: './members-page.component.css'
 })
-export class MembersPageComponent implements OnInit{
+export class MembersPageComponent implements OnInit {
 
-  constructor() { }
+  activeCoupons: Coupon[] = [];
+  
+  constructor(private couponService: CouponService) { }
 
   ngOnInit(): void {
+    this.handleActiveCoupons();
   }
 
+  handleActiveCoupons() {
+    this.couponService.getActiveCoupons().subscribe(
+      data => {
+        this.activeCoupons = data.content
+      }
+    );
+  }
 }

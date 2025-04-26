@@ -19,9 +19,9 @@ export class AuthInterceptorService implements HttpInterceptor {
   private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
 
     const baseURL = environment.ecommerceURL;
-    const securedEndpoints = [ baseURL + 'orders'];
+    const securedEndpoints = ['orders', 'coupons'];
 
-    if (securedEndpoints.some(url => request.urlWithParams.includes(url))) {
+    if (securedEndpoints.some(url => request.urlWithParams.includes(baseURL + url))) {
       // get access token
       const accessToken = this.oktaAuth.getAccessToken();
 

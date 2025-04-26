@@ -2,8 +2,34 @@
 
     <div align="center" class="alert alert-warning col-md-12" role="alert">
         <h3>Members Special</h3>
-
         <p>Thank you for being a member.</p>
-        <p>Member discounts are coming soon!</p>
+        <p *ngIf="activeCoupons.length == 0">Member discounts are coming soon!</p>
     </div>
+
+    <div *ngIf="activeCoupons.length > 0" class="section-content section-content-p30">
+        <div class="container-fluid">
+            <h3>Active Coupons</h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" width="20%">Discount Code</th>
+                            <th scope="col" width="10%">Valid From</th>
+                            <th scope="col" width="10%">Valid To</th>
+                            <th scope="col" width="10%">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let coupons of activeCoupons">
+                            <td>{{ coupons.discountCode }}</td>
+                            <td>{{ coupons.validFrom | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+                            <td>{{ coupons.validTo | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+                            <td>{{ coupons.status ? 'Active' : 'Inactive' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+
 </div>
