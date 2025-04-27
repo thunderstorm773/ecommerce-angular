@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NomenclatureFormService } from '../../services/nomenclature-form.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
-import { CheckoutValidator } from '../../validators/checkout-validator';
+import { FormValidator } from '../../validators/form-validator';
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { Router } from '@angular/router';
@@ -79,23 +79,23 @@ export class CheckoutComponent implements OnInit{
     
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
-        lastName: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
+        firstName: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace]),
+        lastName: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace]),
         email: new FormControl(userEmail, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])
       }),
       shippingAddress: this.formBuilder.group({
         country: new FormControl('', [Validators.required]),
         state: new FormControl('', [Validators.required]),
-        street: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
-        city: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
-        zipCode: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace])
+        street: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace]),
+        city: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace]),
+        zipCode: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace])
       }),
       billingAddress: this.formBuilder.group({
         country: new FormControl('', [Validators.required]),
         state: new FormControl('', [Validators.required]),
-        street: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
-        city: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
-        zipCode: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace])
+        street: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace]),
+        city: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace]),
+        zipCode: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace])
       }),
       creditCard: this.formBuilder.group({
         /*

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormValidator } from '../../validators/form-validator';
 
 
 @Component({
@@ -58,7 +59,7 @@ export class CartDetailsComponent implements OnInit{
 
   createCouponFormGroup() {
     this.couponFormGroup = this.formBuilder.group({
-      couponCode: new FormControl('', [Validators.required, Validators.minLength(4)])
+      couponCode: new FormControl('', [Validators.required, Validators.minLength(4), FormValidator.checkNotOnlyWhitespace])
     });
   }
 

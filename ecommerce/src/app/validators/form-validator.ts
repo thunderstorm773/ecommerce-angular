@@ -1,6 +1,6 @@
 import { FormControl, ValidationErrors } from "@angular/forms";
 
-export class CheckoutValidator {
+export class FormValidator {
 
     // whitespace validation
     static checkNotOnlyWhitespace(control: FormControl): ValidationErrors {
