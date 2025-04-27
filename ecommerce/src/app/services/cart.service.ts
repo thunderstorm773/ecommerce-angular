@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CartItem } from '../common/cart-item';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { Coupon } from '../common/coupon';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ export class CartService {
 
   cartItems: CartItem[] = [];
   cartItemsKey: string = 'cartItems';
+  couponsKey: string = 'coupons';
+  coupons: Coupon[] = [];
 
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
@@ -16,6 +19,7 @@ export class CartService {
   storage: Storage = sessionStorage;
 
   constructor() { 
+    this.getCouponsFromStorage();
     this.getCartItemsFromStorage();
   }
 
@@ -30,8 +34,21 @@ export class CartService {
     }
   }
 
+  getCouponsFromStorage() {
+    let data = JSON.parse(this.storage.getItem(this.couponsKey)!);
+
+    // If there is data in the session storage
+    if (data != null) {
+      this.coupons = data;
+    }
+  }
+
   persistCartItems() {
     this.storage.setItem(this.cartItemsKey, JSON.stringify(this.cartItems));
+  }
+
+  persistCoupons() {
+    this.storage.setItem(this.couponsKey, JSON.stringify(this.coupons));
   }
 
   addToCart(cartItem: CartItem) {
@@ -62,12 +79,20 @@ export class CartService {
       totalQuantityValue += cartItem.quantity;
     }
 
+    // if there is applied coupon
+    if (this.coupons.length > 0) {
+      for (const coupon of this.coupons) {
+        totalPriceValue = totalPriceValue - (totalPriceValue * coupon.discountPercent / 100);
+      }
+    }
+
     // publish the new values
     this.totalPrice.next(totalPriceValue);
     this.totalQuantity.next(totalQuantityValue);
 
     // persist cart items
     this.persistCartItems();
+    this.persistCoupons();
   }
 
   decrementItemQuantity(cartItem: CartItem) {

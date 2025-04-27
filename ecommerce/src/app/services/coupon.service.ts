@@ -14,9 +14,13 @@ export class CouponService {
   constructor(private httpClient: HttpClient) { }
 
   getActiveCoupons(): Observable<GetResponseCoupon> {
-
     const activeCouponURL = `${this.couponURL}/actives`;
     return this.httpClient.get<GetResponseCoupon>(activeCouponURL);
+  }
+
+  chechIsActiveCoupon(couponCode: string): Observable<Coupon> {
+    const checkActiveCouponURL = `${this.couponURL}/check-active/${couponCode}`;
+    return this.httpClient.get<Coupon>(checkActiveCouponURL);
   }
 }
 

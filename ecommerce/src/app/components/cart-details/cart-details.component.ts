@@ -3,6 +3,7 @@ import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormValidator } from '../../validators/form-validator';
+import { CouponService } from '../../services/coupon.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class CartDetailsComponent implements OnInit{
   couponFormGroup!: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private cartService: CartService) {}
+              private cartService: CartService,
+              private couponService: CouponService) {}
 
   ngOnInit(): void {
     this.createCouponFormGroup();
@@ -69,7 +71,32 @@ export class CartDetailsComponent implements OnInit{
       return;
     }
 
-    
+    this.checkIsCouponActive();
+  }
+
+  checkIsCouponActive() {
+    const couponCode = this.couponCode?.value;
+
+    this.couponService.chechIsActiveCoupon(couponCode).subscribe({
+      next: data => {
+        if (!data) {
+          alert('Invalid coupon code!');
+
+        } else {
+          if (this.cartService.coupons.length > 0) {
+            alert('Already applied coupon code!');
+            return;
+          }
+
+          this.cartService.coupons.push(data);
+          this.cartService.computeCartTotals();
+          alert(`Coupon code ${data.discountCode} is applied!`);
+        }
+      },
+      error: err => {
+        alert('Invalid coupon code!');
+      }
+    });
   }
 
   setCouponCodeUppercase() {
