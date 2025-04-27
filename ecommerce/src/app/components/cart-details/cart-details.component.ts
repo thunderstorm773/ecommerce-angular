@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-cart-details',
@@ -14,10 +16,13 @@ export class CartDetailsComponent implements OnInit{
   cartItems: CartItem[] = [];
   totalPrice: number = 0.00;
   totalQuantity: number = 0;
+  couponFormGroup!: FormGroup;
 
-  constructor(private cartService: CartService) {}
+  constructor(private formBuilder: FormBuilder,
+              private cartService: CartService) {}
 
   ngOnInit(): void {
+    this.createCouponFormGroup();
     this.listCartDetails();
   }
 
@@ -49,5 +54,28 @@ export class CartDetailsComponent implements OnInit{
 
   removeItem(cartItem: CartItem) {
     this.cartService.removeItem(cartItem);
+  }
+
+  createCouponFormGroup() {
+    this.couponFormGroup = this.formBuilder.group({
+      couponCode: new FormControl('', [Validators.required, Validators.minLength(4)])
+    });
+  }
+
+  applyCoupon() {
+    if (this.couponFormGroup.invalid) {
+      this.couponFormGroup.markAllAsTouched();
+      return;
+    }
+
+    
+  }
+
+  setCouponCodeUppercase() {
+    this.couponCode?.setValue(this.couponCode?.value.toUpperCase());
+  }
+
+  get couponCode() {
+    return this.couponFormGroup.get('couponCode');
   }
 }
