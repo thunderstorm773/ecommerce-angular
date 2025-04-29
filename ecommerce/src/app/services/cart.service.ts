@@ -84,6 +84,11 @@ export class CartService {
       for (const coupon of this.coupons) {
         totalPriceValue = totalPriceValue - (totalPriceValue * coupon.discountPercent / 100);
       }
+    } 
+    
+    // remove coupons from storage if the cart is empty
+    if (this.cartItems.length == 0) {
+      this.coupons = [];
     }
 
     // publish the new values

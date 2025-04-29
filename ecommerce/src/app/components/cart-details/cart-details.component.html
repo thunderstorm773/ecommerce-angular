@@ -88,11 +88,16 @@
                           <div *ngIf="couponCode?.errors?.['minlength']">
                             Coupon Code must be at least 4 characters long
                           </div>
-                          
 
                         </div>
                     </div>
                   </form>
+
+                  <div>
+                    <span *ngFor="let coupon of cartService.coupons" 
+                          class="badge rounded-pill bg-secondary">{{ coupon.discountCode }} ({{ coupon.discountPercent }}%)</span>
+                  </div>  
+
                 </div>
 
                 <div class="mt-3">

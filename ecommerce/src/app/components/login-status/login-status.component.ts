@@ -15,7 +15,7 @@ export class LoginStatusComponent implements OnInit {
   userFullName: string = '';
   userRoleDropdownLabel: string = 'User';
 
-  storage: Storage = localStorage;
+  storage: Storage = sessionStorage;
 
   constructor(private oktaAuthService: OktaAuthStateService,
               @Inject(OKTA_AUTH) private oktaAuth: OktaAuth) { }

@@ -20,8 +20,8 @@ export class CartDetailsComponent implements OnInit{
   totalQuantity: number = 0;
   couponFormGroup!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder,
-              private cartService: CartService,
+  constructor(public cartService: CartService,
+              private formBuilder: FormBuilder,
               private couponService: CouponService) {}
 
   ngOnInit(): void {
@@ -90,7 +90,7 @@ export class CartDetailsComponent implements OnInit{
 
           this.cartService.coupons.push(data);
           this.cartService.computeCartTotals();
-          alert(`Coupon code ${data.discountCode} is applied!`);
+          alert(`Coupon code: ${data.discountCode} for ${data.discountPercent}% discount is applied!`);
         }
       },
       error: err => {
