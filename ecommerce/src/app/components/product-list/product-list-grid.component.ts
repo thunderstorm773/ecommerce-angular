@@ -27,11 +27,9 @@ export class ProductListComponent implements OnInit {
 
   previousNameKeyword: string | null = null;
 
-  constructor(
-    private productService: ProductService,
-    private cartService: CartService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private productService: ProductService,
+              private cartService: CartService,
+              private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     // Query params
