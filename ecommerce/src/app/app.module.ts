@@ -24,6 +24,7 @@ import appConfig from './config/app-config';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
+import { AboutUsComponent } from './components/about-us/about-us.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -48,6 +49,7 @@ const routes: Routes = [
   },
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
+  {path: 'about-us', component: AboutUsComponent},
   {path: '', redirectTo: 'products', pathMatch: 'full'},
   {path: '**', redirectTo: 'products', pathMatch: 'full'}
 ];
@@ -65,7 +67,8 @@ const routes: Routes = [
     LoginComponent,
     LoginStatusComponent,
     MembersPageComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    AboutUsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
