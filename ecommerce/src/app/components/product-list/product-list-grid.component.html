@@ -28,13 +28,13 @@
                 </div>
 
                 <!-- If products empty then display a message -->
-                <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                <div *ngIf="products.length == 0" class="alert alert-warning col-md-12" role="alert">
                     No products found.
                 </div>
             </div>
 
             <!-- begin footer -->
-            <div class="footer-pagination">
+            <div class="footer-pagination" *ngIf="products.length > 0">
                 <div class="row">
                     <div class="col-md-6"></div>
 

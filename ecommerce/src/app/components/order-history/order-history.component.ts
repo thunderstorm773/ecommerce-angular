@@ -12,21 +12,36 @@ import { OrderHistoryService } from '../../services/order-history.service';
 export class OrderHistoryComponent implements OnInit {
 
   orderHistoryList: OrderHistory[] = [];
-  storage: Storage = localStorage;
+  storage: Storage = sessionStorage;
+
+  // pagination properties
+  currentPageNumber: number = 1;
+  pageSize: number = 20;
+  totalElements: number = 0;
 
   constructor(private orderHistoryService: OrderHistoryService) { }
 
   ngOnInit(): void {
-    this.handleOrderHistory();
+    this.listOrderHistory();
   }
 
-  handleOrderHistory() {
+  listOrderHistory() {
     const userEmail = JSON.parse(this.storage.getItem('userEmail')!);
 
-    this.orderHistoryService.getOrderHistory(userEmail).subscribe(
-      data => {
-        this.orderHistoryList = data.content;
-      }
-    );
+    this.orderHistoryService.getOrderHistoryPaginate(userEmail, this.currentPageNumber, this.pageSize)
+                            .subscribe(data => this.processResult(data));
+  }
+
+  updatePageSize(pageSize: string) {
+    this.pageSize = +pageSize;
+    this.currentPageNumber = 1;
+    this.listOrderHistory();
+  }
+
+  processResult(data: any) {
+    this.orderHistoryList = data.content;
+    this.currentPageNumber = data.number + 1;
+    this.pageSize = data.size;
+    this.totalElements = data.totalElements;
   }
 }

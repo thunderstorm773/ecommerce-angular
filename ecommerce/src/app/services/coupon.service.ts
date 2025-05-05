@@ -13,8 +13,10 @@ export class CouponService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getActiveCoupons(): Observable<GetResponseCoupon> {
-    const activeCouponURL = `${this.couponURL}/actives`;
+  getActiveCouponsPaginate(currentPageNumber: number, 
+                           pageSize: number): Observable<GetResponseCoupon> {
+
+    let activeCouponURL = `${this.couponURL}/actives?page=${currentPageNumber}&size=${pageSize}`;
     return this.httpClient.get<GetResponseCoupon>(activeCouponURL);
   }
 
