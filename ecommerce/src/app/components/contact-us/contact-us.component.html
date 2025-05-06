@@ -42,7 +42,16 @@
                 Sofia 1729
             </p>
 
-            
+            <div class="map-container" *ngIf="mapInitialized">
+                <google-map [center]="center" [zoom]="zoom">
+                    <map-marker *ngFor="let store of stores" 
+                                [position]="store.position" 
+                                [title]="store.name">
+                    </map-marker>
+                </google-map>
+            </div>  
+
+            <br/>
 
             <p>
                 Business hours:<br>

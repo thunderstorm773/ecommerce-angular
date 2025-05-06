@@ -26,6 +26,7 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -81,7 +82,8 @@ const routes: Routes = [
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    OktaAuthModule
+    OktaAuthModule,
+    GoogleMapsModule
   ],
   providers: [provideHttpClient(withInterceptorsFromDi()), ProductService, ProductCategoryService, 
              {provide: OKTA_CONFIG, useValue: { oktaAuth }}, 
