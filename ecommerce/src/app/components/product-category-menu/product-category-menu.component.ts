@@ -11,20 +11,19 @@ import { ProductCategoryService } from '../../services/product-category.service'
 })
 export class ProductCategoryMenuComponent implements OnInit {
 
-  productCategories: ProductCategory[] = [];
+  activeProductCategories: ProductCategory[] = [];
 
   constructor(private productCategoryService: ProductCategoryService) {}
 
 
   ngOnInit(): void {
-    this.listProductCategories();
+    this.listActiveProductCategories();
   }
 
-  listProductCategories() {
-    this.productCategoryService.getProductCategories().subscribe(
+  listActiveProductCategories() {
+    this.productCategoryService.getActiveProductCategories().subscribe(
       data => {
-        //console.log('Product Categories= ' + JSON.stringify(data));
-        this.productCategories = data
+        this.activeProductCategories = data
       }
     );
   }

@@ -9,17 +9,24 @@ import { environment } from '../../environments/environment';
 })
 export class ProductCategoryService {
 
-  private baseUrl =  environment.ecommerceURL + 'product-categories';
+  private productCategoryUrl =  environment.ecommerceURL + 'product-categories';
+  private productCategoryAdminBaseUrl =  environment.ecommerceURL + 'admin/product-categories';
   
   constructor(private httpClient: HttpClient) { }
 
-  getProductCategories(): Observable<ProductCategory[]> {
-    return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
-      map(response => response.content)
-    );
+  getActiveProductCategories(): Observable<ProductCategory[]> {
+    return this.httpClient.get<ProductCategory[]>(this.productCategoryUrl);
+  }
+
+  getProductCategories(currentPageNumber: number, 
+                       pageSize: number): Observable<GetProductCategoryResponse> {
+
+    
+    const productCategoryAdminUrl = `${this.productCategoryAdminBaseUrl}?page=${currentPageNumber}&size=${pageSize}`;
+    return this.httpClient.get<GetProductCategoryResponse>(productCategoryAdminUrl);
   }
 }
 
-interface GetResponse {
+interface GetProductCategoryResponse {
   content: ProductCategory[]
 }

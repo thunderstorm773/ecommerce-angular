@@ -27,6 +27,8 @@ import { AuthInterceptorService } from './interceptors/auth-interceptor.service'
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { AdminCategoriesComponent } from './components/admin-categories/admin-categories.component';
+import { AuthGroupGuard } from './guards/auth-group.guard';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -48,6 +50,9 @@ const routes: Routes = [
   {path: 'cart-details', component: CartDetailsComponent},
   {path: 'checkout', component: CheckoutComponent, canActivate: [OktaAuthGuard],
                      data: {onAuthRequired: sendToLoginPage}
+  },
+  {path: 'admin/categories', component: AdminCategoriesComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
+    data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
   },
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
@@ -72,7 +77,8 @@ const routes: Routes = [
     MembersPageComponent,
     OrderHistoryComponent,
     AboutUsComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    AdminCategoriesComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {

@@ -12,6 +12,7 @@
             <div ngbDropdownMenu>
                 <button routerLink="/members" class="dropdown-item">Member</button>
                 <button routerLink="/order-history" class="dropdown-item">Orders</button>
+                <button *oktaHasAnyGroup="['Admin']" routerLink="/admin/categories" class="dropdown-item">Categories</button>
             </div>
         </div>
     </div>
