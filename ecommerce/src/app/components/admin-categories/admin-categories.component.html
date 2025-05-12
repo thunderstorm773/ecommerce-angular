@@ -23,7 +23,8 @@
                             <td>{{ productCategory.lastUpdated | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
                             <td>{{ productCategory.isActive ? 'Active' : 'Inactive' }}</td>
                             <td>
-                                <button class="btn btn-warning me-2" [routerLink]="['/edit', productCategory.id]">Edit</button>
+                                <button class="btn btn-warning me-2" 
+                                        [routerLink]="['/admin/categories/edit', productCategory.id]">Edit</button>
                                 <button class="btn btn-danger" [routerLink]="['/delete', productCategory.id]">Delete</button>
                             </td>
                         </tr>

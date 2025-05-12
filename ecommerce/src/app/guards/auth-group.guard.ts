@@ -23,13 +23,10 @@ export class AuthGroupGuard implements CanActivate {
         return true;
       }
 
-      this.router.navigate(['/']);
       return false;
       
     } catch (error) {
       console.error('Error fetching user groups:', error);
-      this.router.navigate(['/']);
-
       return false;
     }
   }
