@@ -29,6 +29,7 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AdminCategoriesComponent } from './components/admin-categories/admin-categories.component';
 import { AuthGroupGuard } from './guards/auth-group.guard';
+import { AdminAddCategoryComponent } from './components/admin-add-category/admin-add-category.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -52,6 +53,9 @@ const routes: Routes = [
                      data: {onAuthRequired: sendToLoginPage}
   },
   {path: 'admin/categories', component: AdminCategoriesComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
+    data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
+  },
+  {path: 'admin/categories/add', component: AdminAddCategoryComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
     data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
   },
   {path: 'category', component: ProductListComponent},
@@ -78,7 +82,8 @@ const routes: Routes = [
     OrderHistoryComponent,
     AboutUsComponent,
     ContactUsComponent,
-    AdminCategoriesComponent
+    AdminCategoriesComponent,
+    AdminAddCategoryComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {
