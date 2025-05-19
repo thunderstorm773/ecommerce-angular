@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { ProductCategory } from '../../common/product-category';
 import { ProductCategoryService } from '../../services/product-category.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-categories',
@@ -12,6 +13,8 @@ import { ProductCategoryService } from '../../services/product-category.service'
 export class AdminCategoriesComponent implements OnInit {
 
    productCategories: ProductCategory[] = [];
+   selectedProductCategoryId?: number;
+   modalService = inject(NgbModal);
   
     // pagination properties
     currentPageNumber: number = 1;
@@ -42,4 +45,15 @@ export class AdminCategoriesComponent implements OnInit {
       this.totalElements = data.totalElements;
     }
 
+    open(content: TemplateRef<any>, productCategoryId: number) {
+      this.selectedProductCategoryId = productCategoryId;
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true });
+    }
+
+    deleteCategory(productCategoryId?: number) {
+      if (productCategoryId) {
+        this.modalService.dismissAll();
+        console.log(`Deleting category with id: ${productCategoryId}`);
+      }
+    }
 }
