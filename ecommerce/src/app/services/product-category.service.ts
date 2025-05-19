@@ -9,21 +9,26 @@ import { environment } from '../../environments/environment';
 })
 export class ProductCategoryService {
 
-  private productCategoryUrl =  environment.ecommerceURL + 'product-categories';
+  private productCategoryBaseUrl =  environment.ecommerceURL + 'product-categories';
   private productCategoryAdminBaseUrl =  environment.ecommerceURL + 'admin/product-categories';
   
   constructor(private httpClient: HttpClient) { }
 
   getActiveProductCategories(): Observable<ProductCategory[]> {
-    return this.httpClient.get<ProductCategory[]>(this.productCategoryUrl);
+    return this.httpClient.get<ProductCategory[]>(this.productCategoryBaseUrl);
   }
 
   getProductCategories(currentPageNumber: number, 
                        pageSize: number): Observable<GetProductCategoryResponse> {
 
     
-    const productCategoryAdminUrl = `${this.productCategoryAdminBaseUrl}?page=${currentPageNumber}&size=${pageSize}`;
-    return this.httpClient.get<GetProductCategoryResponse>(productCategoryAdminUrl);
+    const productCategoryUrl = `${this.productCategoryAdminBaseUrl}?page=${currentPageNumber}&size=${pageSize}`;
+    return this.httpClient.get<GetProductCategoryResponse>(productCategoryUrl);
+  }
+
+  getProductCategoryById(id: number): Observable<ProductCategory> {
+    const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/${id}`;
+    return this.httpClient.get<ProductCategory>(productCategoryUrl);
   }
 }
 

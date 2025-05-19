@@ -26,6 +26,11 @@ export class AdminAddCategoryComponent implements OnInit {
   }
 
   createNewCategory() {
+    if (this.categoryFormGroup.invalid) {
+      this.categoryFormGroup.markAllAsTouched();
+      return;
+    }
+
     console.log('createNewCategory()');
   }
 
