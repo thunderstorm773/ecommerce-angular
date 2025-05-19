@@ -11,7 +11,7 @@
             <button class="security-btn" ngbDropdownToggle>{{ userRoleDropdownLabel }}</button>
             <div ngbDropdownMenu>
                 <button *ngIf="userRoleDropdownLabel != 'Admin'" routerLink="/members" class="dropdown-item">Member</button>
-                <button routerLink="/order-history" class="dropdown-item">Orders</button>
+                <button routerLink="/order-history" class="dropdown-item">My Orders</button>
                 <button *oktaHasAnyGroup="['Admin']" routerLink="/admin/categories" class="dropdown-item">Categories</button>
             </div>
         </div>
