@@ -23,6 +23,9 @@
                         Category Name must be at least 2 characters long
                     </div>
 
+                    <div *ngIf="categoryName?.errors?.['categoryNameExists']">
+                        Category Name already exists
+                    </div>
                 </div>
 
                 <div class="mt-3">

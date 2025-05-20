@@ -30,6 +30,11 @@ export class ProductCategoryService {
     const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/${id}`;
     return this.httpClient.get<ProductCategory>(productCategoryUrl);
   }
+
+  getProductCategoryByName(name: string): Observable<ProductCategory> {
+    const productCategoryUrl = `${this.productCategoryBaseUrl}/name/${name}`;
+    return this.httpClient.get<ProductCategory>(productCategoryUrl);
+  }
 }
 
 interface GetProductCategoryResponse {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CategoryNameValidator } from '../../validators/category-name-validator';
 import { FormValidator } from '../../validators/form-validator';
 
 @Component({
@@ -13,7 +14,8 @@ export class AdminAddCategoryComponent implements OnInit {
 
   categoryFormGroup!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private categoryNameValidator: CategoryNameValidator) { }
 
   ngOnInit(): void {
     this.createCategoryFormGroup();
@@ -21,7 +23,9 @@ export class AdminAddCategoryComponent implements OnInit {
 
   createCategoryFormGroup() {
     this.categoryFormGroup = this.formBuilder.group({
-      categoryName: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace])
+      categoryName: ['', {validators: [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace], 
+                          asyncValidators: [this.categoryNameValidator.validate.bind(this.categoryNameValidator)]
+        }]
     });
   }
 

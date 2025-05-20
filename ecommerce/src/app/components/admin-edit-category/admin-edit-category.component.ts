@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { FormValidator } from '../../validators/form-validator';
 import { ProductCategoryService } from '../../services/product-category.service';
 import { ActivatedRoute } from '@angular/router';
+import { CategoryNameValidator } from '../../validators/category-name-validator';
 
 @Component({
   selector: 'app-admin-edit-category',
@@ -17,7 +18,8 @@ export class AdminEditCategoryComponent implements OnInit {
   
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
-              private productCategoryService: ProductCategoryService) { }
+              private productCategoryService: ProductCategoryService,
+              private categoryNameValidator: CategoryNameValidator) { }
 
   ngOnInit(): void {
       this.editCategoryFormGroup();
@@ -26,7 +28,9 @@ export class AdminEditCategoryComponent implements OnInit {
   
     editCategoryFormGroup() {
       this.categoryFormGroup = this.formBuilder.group({
-        categoryName: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace])
+        categoryName: ['', {validators: [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace], 
+                            asyncValidators: [this.categoryNameValidator.validate.bind(this.categoryNameValidator)]
+          }]
       });
     }
 
