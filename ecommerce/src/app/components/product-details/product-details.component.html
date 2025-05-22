@@ -14,3 +14,15 @@
         <a routerLink="/products" class="primary-btn mt-5">Back</a>
     </div>
 </div>
+
+
+<div class="main-content" *ngIf="!product">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <!-- If product empty then display a message -->
+            <div class="alert alert-warning col-md-12" role="alert">
+                No product found.
+            </div>
+        </div>
+    </div>
+</div>
