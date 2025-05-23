@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { ProductCategory } from '../common/product-category';
 import { environment } from '../../environments/environment';
 import { AddProductCategory } from '../common/add-product-category';
+import { EditProductCategory } from '../common/edit-product-category';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,11 @@ export class ProductCategoryService {
   createProductCategory(productCategory: AddProductCategory): Observable<any> {
     const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/add`;
     return this.httpClient.post<AddProductCategory>(productCategoryUrl, productCategory);
+  }
+
+  editProductCategory(id: number, productCategory: EditProductCategory): Observable<any> {
+    const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/edit/${id}`;
+    return this.httpClient.put<EditProductCategory>(productCategoryUrl, productCategory);
   }
 }
 

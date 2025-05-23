@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormValidator } from '../../validators/form-validator';
 import { ProductCategoryService } from '../../services/product-category.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryNameValidator } from '../../validators/category-name-validator';
+import { EditProductCategory } from '../../common/edit-product-category';
 
 @Component({
   selector: 'app-admin-edit-category',
@@ -15,9 +16,11 @@ import { CategoryNameValidator } from '../../validators/category-name-validator'
 export class AdminEditCategoryComponent implements OnInit {
 
   categoryFormGroup!: FormGroup;
+  isDisabled: boolean = false;
   
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
+              private router: Router,
               private productCategoryService: ProductCategoryService,
               private categoryNameValidator: CategoryNameValidator) { }
 
@@ -50,7 +53,25 @@ export class AdminEditCategoryComponent implements OnInit {
         return;
       }
 
-      console.log('editCategory()');
+      const categoryId: number = +this.route.snapshot.paramMap.get('id')!;
+
+      this.isDisabled = true;
+      const categoryName = this.categoryFormGroup.controls['categoryName'].value;
+      const productCategory = new EditProductCategory(categoryName);
+      
+          this.productCategoryService.editProductCategory(categoryId, productCategory).subscribe({
+            next: (data) => {
+              this.isDisabled = false;
+              this.categoryFormGroup.reset();
+              alert(`Category edited successfully`);
+      
+              this.router.navigateByUrl('/admin/categories');
+            },
+            error: (err) => {
+              this.isDisabled = false;
+              alert(`Error editing category: ${err.message}`);
+            }
+          });
     }
   
     get categoryName() {
