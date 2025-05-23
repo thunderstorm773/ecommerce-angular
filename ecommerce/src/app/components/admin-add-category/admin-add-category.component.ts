@@ -52,6 +52,7 @@ export class AdminAddCategoryComponent implements OnInit {
         alert(`Category created successfully`);
 
         this.router.navigateByUrl('/admin/categories');
+        this.productCategoryService.notifyRefreshActiveProductCategories();
       },
       error: (err) => {
         this.isDisabled = false;

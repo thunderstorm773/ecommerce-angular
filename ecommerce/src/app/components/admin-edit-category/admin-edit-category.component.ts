@@ -66,6 +66,7 @@ export class AdminEditCategoryComponent implements OnInit {
               alert(`Category edited successfully`);
       
               this.router.navigateByUrl('/admin/categories');
+              this.productCategoryService.notifyRefreshActiveProductCategories();
             },
             error: (err) => {
               this.isDisabled = false;

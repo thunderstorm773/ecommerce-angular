@@ -18,6 +18,9 @@ export class ProductCategoryMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.listActiveProductCategories();
+    this.productCategoryService.refreshActiveProductCategories.subscribe(() => {
+      this.listActiveProductCategories();
+    });
   }
 
   listActiveProductCategories() {
