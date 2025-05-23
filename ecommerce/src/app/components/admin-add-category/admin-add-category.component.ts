@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryNameValidator } from '../../validators/category-name-validator';
 import { FormValidator } from '../../validators/form-validator';
+import { AddProductCategory } from '../../common/add-product-category';
+import { ProductCategoryService } from '../../services/product-category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-add-category',
@@ -13,9 +16,12 @@ import { FormValidator } from '../../validators/form-validator';
 export class AdminAddCategoryComponent implements OnInit {
 
   categoryFormGroup!: FormGroup;
+  isDisabled: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
-              private categoryNameValidator: CategoryNameValidator) { }
+              private router: Router,
+              private categoryNameValidator: CategoryNameValidator,
+              private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
     this.createCategoryFormGroup();
@@ -35,7 +41,23 @@ export class AdminAddCategoryComponent implements OnInit {
       return;
     }
 
-    console.log('createNewCategory()');
+    this.isDisabled = true;
+    const categoryName = this.categoryFormGroup.controls['categoryName'].value;
+    const newProductCategory = new AddProductCategory(categoryName);
+
+    this.productCategoryService.createProductCategory(newProductCategory).subscribe({
+      next: (data) => {
+        this.isDisabled = false;
+        this.categoryFormGroup.reset();
+        alert(`Category created successfully`);
+
+        this.router.navigateByUrl('/admin/categories');
+      },
+      error: (err) => {
+        this.isDisabled = false;
+        alert(`Error creating category: ${err.message}`);
+      }
+    });
   }
 
   get categoryName() {

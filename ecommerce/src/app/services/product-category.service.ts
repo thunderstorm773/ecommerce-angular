@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ProductCategory } from '../common/product-category';
 import { environment } from '../../environments/environment';
+import { AddProductCategory } from '../common/add-product-category';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,11 @@ export class ProductCategoryService {
   getProductCategoryByName(name: string): Observable<ProductCategory> {
     const productCategoryUrl = `${this.productCategoryBaseUrl}/name/${name}`;
     return this.httpClient.get<ProductCategory>(productCategoryUrl);
+  }
+
+  createProductCategory(productCategory: AddProductCategory): Observable<any> {
+    const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/add`;
+    return this.httpClient.post<AddProductCategory>(productCategoryUrl, productCategory);
   }
 }
 
