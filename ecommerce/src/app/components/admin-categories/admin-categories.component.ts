@@ -70,6 +70,20 @@ export class AdminCategoriesComponent implements OnInit {
     }
 
     activateProductCategory(productCategoryId?: number) {
-      console.log(`Activate product category id: ${productCategoryId}`);
+      if (productCategoryId) {
+        this.modalService.dismissAll();
+
+        this.productCategoryService.activateProductCategory(productCategoryId).subscribe({
+          next: (data) => {
+            alert(`Category activated successfully`);
+    
+            this.listProductCategories();
+            this.productCategoryService.notifyRefreshActiveProductCategories();
+          },
+          error: (err) => {
+            alert(`Error activating category: ${err.error.message}`);
+          }
+        });
+      }
     }
 }

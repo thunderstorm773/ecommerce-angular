@@ -27,7 +27,7 @@
                                         [routerLink]="['/admin/categories/edit', productCategory.id]">Edit</button>
                                 <button *ngIf="productCategory.isActive" class="btn btn-danger" 
                                         (click)="open(deactivate, productCategory.id)">Deactivate</button>
-                                <button *ngIf="!productCategory.isActive" class="btn btn-success" 
+                                <button *ngIf="!productCategory.isActive" class="btn btn-info" 
                                         (click)="open(activate, productCategory.id)">Activate</button>
                             </td>
                         </tr>
@@ -105,7 +105,7 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-success" (click)="activateProductCategory(selectedProductCategoryId)">Activate</button>
+		<button type="button" class="btn btn-info" (click)="activateProductCategory(selectedProductCategoryId)">Activate</button>
 	</div>
 </ng-template>
 

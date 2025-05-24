@@ -58,6 +58,11 @@ export class ProductCategoryService {
     return this.httpClient.post(productCategoryUrl, null);
   }
 
+  activateProductCategory(id: number): Observable<any> {
+    const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/activate/${id}`;
+    return this.httpClient.post(productCategoryUrl, null);
+  }
+
   get refreshActiveProductCategories() {
     return this._refreshActiveProductCategories.asObservable();
   }
