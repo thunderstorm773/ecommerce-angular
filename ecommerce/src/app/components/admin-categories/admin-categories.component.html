@@ -26,7 +26,9 @@
                                 <button class="btn btn-warning me-2" 
                                         [routerLink]="['/admin/categories/edit', productCategory.id]">Edit</button>
                                 <button *ngIf="productCategory.isActive" class="btn btn-danger" 
-                                        (click)="open(content, productCategory.id)">Deactivate</button>
+                                        (click)="open(deactivate, productCategory.id)">Deactivate</button>
+                                <button *ngIf="!productCategory.isActive" class="btn btn-success" 
+                                        (click)="open(activate, productCategory.id)">Activate</button>
                             </td>
                         </tr>
                     </tbody>
@@ -73,20 +75,37 @@
 
 </div>
 
-<ng-template #content let-modal>
+<ng-template #deactivate let-modal>
 	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Deactivate Category</h4>
+		<h4 class="modal-title" id="modal-basic-title">Deactivate Product Category</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body">
 		<form>
 			<div class="mb-3">
-				<p>Do you really want to deactivate this category?</p>
+				<p>Do you really want to deactivate this product category?</p>
 			</div>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-danger" (click)="deactivateCategory(selectedProductCategoryId)">Deactivate</button>
+		<button type="button" class="btn btn-danger" (click)="deactivateProductCategory(selectedProductCategoryId)">Deactivate</button>
+	</div>
+</ng-template>
+
+<ng-template #activate let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Activate Product Category</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+				<p>Do you want to activate this product category?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="activateProductCategory(selectedProductCategoryId)">Activate</button>
 	</div>
 </ng-template>
 

@@ -51,7 +51,7 @@ export class AdminCategoriesComponent implements OnInit {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true });
     }
 
-    deactivateCategory(productCategoryId?: number) {
+    deactivateProductCategory(productCategoryId?: number) {
       if (productCategoryId) {
         this.modalService.dismissAll();
 
@@ -67,5 +67,9 @@ export class AdminCategoriesComponent implements OnInit {
           }
         });
       }
+    }
+
+    activateProductCategory(productCategoryId?: number) {
+      console.log(`Activate product category id: ${productCategoryId}`);
     }
 }
