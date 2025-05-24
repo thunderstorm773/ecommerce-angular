@@ -2,6 +2,7 @@ import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { ProductCategory } from '../../common/product-category';
 import { ProductCategoryService } from '../../services/product-category.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-categories',
@@ -50,10 +51,21 @@ export class AdminCategoriesComponent implements OnInit {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true });
     }
 
-    deleteCategory(productCategoryId?: number) {
+    deactivateCategory(productCategoryId?: number) {
       if (productCategoryId) {
         this.modalService.dismissAll();
-        console.log(`Deleting category with id: ${productCategoryId}`);
+
+        this.productCategoryService.deactivateProductCategory(productCategoryId).subscribe({
+          next: (data) => {
+            alert(`Category deactivated successfully`);
+    
+            this.listProductCategories();
+            this.productCategoryService.notifyRefreshActiveProductCategories();
+          },
+          error: (err) => {
+            alert(`Error deactivating category: ${err.error.message}`);
+          }
+        });
       }
     }
 }

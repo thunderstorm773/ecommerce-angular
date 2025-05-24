@@ -56,7 +56,7 @@ export class AdminAddCategoryComponent implements OnInit {
       },
       error: (err) => {
         this.isDisabled = false;
-        alert(`Error creating category: ${err.message}`);
+        alert(`Error creating category: ${err.error.message}`);
       }
     });
   }

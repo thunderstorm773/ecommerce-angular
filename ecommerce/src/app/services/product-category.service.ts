@@ -53,6 +53,11 @@ export class ProductCategoryService {
     return this.httpClient.put<EditProductCategory>(productCategoryUrl, productCategory);
   }
 
+  deactivateProductCategory(id: number): Observable<any> {
+    const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/deactivate/${id}`;
+    return this.httpClient.post(productCategoryUrl, null);
+  }
+
   get refreshActiveProductCategories() {
     return this._refreshActiveProductCategories.asObservable();
   }

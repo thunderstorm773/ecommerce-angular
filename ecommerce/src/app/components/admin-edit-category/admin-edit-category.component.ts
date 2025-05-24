@@ -70,7 +70,7 @@ export class AdminEditCategoryComponent implements OnInit {
             },
             error: (err) => {
               this.isDisabled = false;
-              alert(`Error editing category: ${err.message}`);
+              alert(`Error editing category: ${err.error.message}`);
             }
           });
     }
