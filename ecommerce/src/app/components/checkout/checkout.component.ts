@@ -14,6 +14,7 @@ import { Customer } from '../../common/customer';
 import { Purchase } from '../../common/purchase';
 import { environment } from '../../../environments/environment';
 import { PaymentInfo } from '../../common/payment-info';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-checkout',
@@ -47,6 +48,7 @@ export class CheckoutComponent implements OnInit{
               private nomenclatureFormService: NomenclatureFormService,
               private cartService: CartService,
               private checkoutService: CheckoutService,
+              private toastService: ToastService,
               private router: Router) {}
 
   ngOnInit(): void {
@@ -165,18 +167,19 @@ export class CheckoutComponent implements OnInit{
         .then((result: any) => {
           if (result.error) {
             // there is error
-            alert(`There was an error: ${result.error.message}`);
+            this.toastService.show({message: `There was an error: ${result.error.message}`, className: 'bg-danger text-light' });
             this.isDisabled = false;
           } else {
             // call checkout REST API
             this.checkoutService.placeOrder(purchase).subscribe({
               next: (response: any) => {
-                alert(`Your order has been received. \nOrder tracking number: ${response.orderTrackingNumber}`);
+                this.toastService.show({message: `Your order has been received`, 
+                                        className: 'bg-success-toast text-light' });
                 this.isDisabled = false;
                 this.resetCart();
               },
               error: (err: any) => {
-                alert(`There was an error: ${err.message}`);
+                this.toastService.show({message: `There was an error: ${err.message}`, className: 'bg-danger text-light' });
                 this.isDisabled = false;
               }
             });

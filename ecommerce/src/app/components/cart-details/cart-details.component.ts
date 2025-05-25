@@ -4,6 +4,7 @@ import { CartService } from '../../services/cart.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormValidator } from '../../validators/form-validator';
 import { CouponService } from '../../services/coupon.service';
+import { ToastService } from '../../services/toast.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class CartDetailsComponent implements OnInit{
 
   constructor(public cartService: CartService,
               private formBuilder: FormBuilder,
-              private couponService: CouponService) {}
+              private couponService: CouponService,
+              private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.createCouponFormGroup();
@@ -80,21 +82,22 @@ export class CartDetailsComponent implements OnInit{
     this.couponService.chechIsActiveCoupon(couponCode).subscribe({
       next: data => {
         if (!data) {
-          alert('Invalid coupon code!');
+          this.toastService.show({message: 'Invalid coupon code', className: 'bg-danger text-light' });
 
         } else {
           if (this.cartService.coupons.length > 0) {
-            alert('Already applied coupon code!');
+            this.toastService.show({message: 'Already applied coupon code', className: 'bg-danger text-light' });
             return;
           }
 
           this.cartService.coupons.push(data);
           this.cartService.computeCartTotals();
-          alert(`Coupon code: ${data.discountCode} for ${data.discountPercent}% discount is applied!`);
+          this.toastService.show({message: `Coupon code: ${data.discountCode} for ${data.discountPercent}% discount is applied!`, 
+                                  className: 'bg-success-toast text-light' });
         }
       },
       error: err => {
-        alert('Invalid coupon code!');
+        this.toastService.show({message: 'Invalid coupon code', className: 'bg-danger text-light' });
       }
     });
   }
