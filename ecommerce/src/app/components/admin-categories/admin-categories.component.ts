@@ -2,7 +2,7 @@ import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { ProductCategory } from '../../common/product-category';
 import { ProductCategoryService } from '../../services/product-category.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-admin-categories',
@@ -22,7 +22,8 @@ export class AdminCategoriesComponent implements OnInit {
     pageSize: number = 20;
     totalElements: number = 0;
     
-    constructor(private productCategoryService: ProductCategoryService) { }
+    constructor(private productCategoryService: ProductCategoryService,
+                private toastService: ToastService) { }
   
     ngOnInit(): void {
       this.listProductCategories();
@@ -57,13 +58,14 @@ export class AdminCategoriesComponent implements OnInit {
 
         this.productCategoryService.deactivateProductCategory(productCategoryId).subscribe({
           next: (data) => {
-            alert(`Category deactivated successfully`);
+            this.toastService.show({message: 'Category deactivated successfully', className: 'bg-success-toast text-light' });
     
             this.listProductCategories();
             this.productCategoryService.notifyRefreshActiveProductCategories();
           },
           error: (err) => {
-            alert(`Error deactivating category: ${err.error.message}`);
+            this.toastService.show({message: `Error deactivating category: ${err.error.message}`,
+                                    className: 'bg-danger text-light' });
           }
         });
       }
@@ -75,13 +77,14 @@ export class AdminCategoriesComponent implements OnInit {
 
         this.productCategoryService.activateProductCategory(productCategoryId).subscribe({
           next: (data) => {
-            alert(`Category activated successfully`);
+            this.toastService.show({message: 'Category activated successfully', className: 'bg-success-toast text-light' });
     
             this.listProductCategories();
             this.productCategoryService.notifyRefreshActiveProductCategories();
           },
           error: (err) => {
-            alert(`Error activating category: ${err.error.message}`);
+            this.toastService.show({message: `Error activating category: ${err.error.message}`, 
+                                    className: 'bg-danger text-light' });
           }
         });
       }

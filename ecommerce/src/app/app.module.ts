@@ -31,6 +31,7 @@ import { AdminCategoriesComponent } from './components/admin-categories/admin-ca
 import { AuthGroupGuard } from './guards/auth-group.guard';
 import { AdminAddCategoryComponent } from './components/admin-add-category/admin-add-category.component';
 import { AdminEditCategoryComponent } from './components/admin-edit-category/admin-edit-category.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -88,7 +89,8 @@ const routes: Routes = [
     ContactUsComponent,
     AdminCategoriesComponent,
     AdminAddCategoryComponent,
-    AdminEditCategoryComponent
+    AdminEditCategoryComponent,
+    ToastComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {
