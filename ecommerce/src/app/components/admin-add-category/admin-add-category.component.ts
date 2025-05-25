@@ -5,6 +5,7 @@ import { FormValidator } from '../../validators/form-validator';
 import { AddProductCategory } from '../../common/add-product-category';
 import { ProductCategoryService } from '../../services/product-category.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-admin-add-category',
@@ -21,7 +22,8 @@ export class AdminAddCategoryComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private categoryNameValidator: CategoryNameValidator,
-              private productCategoryService: ProductCategoryService) { }
+              private productCategoryService: ProductCategoryService,
+              private toastService: ToastService) { }
 
   ngOnInit(): void {
     this.createCategoryFormGroup();
@@ -49,14 +51,14 @@ export class AdminAddCategoryComponent implements OnInit {
       next: (data) => {
         this.isDisabled = false;
         this.categoryFormGroup.reset();
-        alert(`Category created successfully`);
 
         this.router.navigateByUrl('/admin/categories');
         this.productCategoryService.notifyRefreshActiveProductCategories();
+        this.toastService.show({message: 'Category created successfully', className: 'bg-success-toast text-light' });
       },
       error: (err) => {
         this.isDisabled = false;
-        alert(`Error creating category: ${err.error.message}`);
+        this.toastService.show({message: `Error creating category: ${err.error.message}`, className: 'bg-danger text-light' });
       }
     });
   }

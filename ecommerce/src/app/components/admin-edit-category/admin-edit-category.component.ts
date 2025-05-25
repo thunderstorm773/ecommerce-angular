@@ -5,6 +5,7 @@ import { ProductCategoryService } from '../../services/product-category.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryNameValidator } from '../../validators/category-name-validator';
 import { EditProductCategory } from '../../common/edit-product-category';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-admin-edit-category',
@@ -22,7 +23,8 @@ export class AdminEditCategoryComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private productCategoryService: ProductCategoryService,
-              private categoryNameValidator: CategoryNameValidator) { }
+              private categoryNameValidator: CategoryNameValidator,
+              private toastService: ToastService) { }
 
   ngOnInit(): void {
       this.editCategoryFormGroup();
@@ -63,14 +65,14 @@ export class AdminEditCategoryComponent implements OnInit {
             next: (data) => {
               this.isDisabled = false;
               this.categoryFormGroup.reset();
-              alert(`Category edited successfully`);
       
               this.router.navigateByUrl('/admin/categories');
               this.productCategoryService.notifyRefreshActiveProductCategories();
+              this.toastService.show({message: 'Category edited successfully', className: 'bg-success-toast text-light' });
             },
             error: (err) => {
               this.isDisabled = false;
-              alert(`Error editing category: ${err.error.message}`);
+              this.toastService.show({message: `Error editing category: ${err.error.message}`, className: 'bg-danger text-light' });
             }
           });
     }
