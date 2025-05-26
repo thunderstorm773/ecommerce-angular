@@ -82,11 +82,11 @@
                                     class="alert alert-danger mt-1">
 
                           <div *ngIf="couponCode?.errors?.['required'] || couponCode?.errors?.['notOnlyWhitespace']">
-                            Coupon Code is required
+                            Coupon code is required
                           </div>
 
                           <div *ngIf="couponCode?.errors?.['minlength']">
-                            Coupon Code must be at least 4 characters long
+                            Coupon code must be at least 4 characters long
                           </div>
 
                         </div>

@@ -9,7 +9,7 @@
                     <h3>Customer</h3>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>First Name</label></div>
+                        <div class="col-md-2"> <label>First name</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="firstName" type="text">
@@ -18,11 +18,11 @@
                                      class="alert alert-danger mt-1">
                                     
                                      <div *ngIf="firstName?.errors?.['required'] || firstName?.errors?.['notOnlyWhitespace']">
-                                        First Name is required
+                                        First name is required
                                     </div>
 
                                     <div *ngIf="firstName?.errors?.['minlength']">
-                                        First Name must be at least 2 characters long
+                                        First name must be at least 2 characters long
                                     </div>
 
                                 </div>
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Last Name</label></div>
+                        <div class="col-md-2"> <label>Last name</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="lastName" type="text">
@@ -40,11 +40,11 @@
                                      class="alert alert-danger mt-1">
                                     
                                      <div *ngIf="lastName?.errors?.['required'] || lastName?.errors?.['notOnlyWhitespace']">
-                                        Last Name is required
+                                        Last name is required
                                     </div>
 
                                     <div *ngIf="lastName?.errors?.['minlength']">
-                                        Last Name must be at least 2 characters long
+                                        Last name must be at least 2 characters long
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Zip Code</label></div>
+                        <div class="col-md-2"> <label>Zip code</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="zipCode" type="text">
@@ -175,11 +175,11 @@
 
                                     <div *ngIf="shippingAddressZipCode?.errors?.['required'] || 
                                          shippingAddressZipCode?.errors?.['notOnlyWhitespace']">
-                                         Zip Code is required
+                                         Zip code is required
                                     </div>
 
                                     <div *ngIf="shippingAddressZipCode?.errors?.['minlength']">
-                                        Zip Code must be at least 2 characters long
+                                        Zip code must be at least 2 characters long
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +191,7 @@
                  <div class="input-space">
                     <label class="au-checkbox">
                         <input type="checkbox" (change)="copyShippingToBillingAddress($event)">
-                        <span class="au-checkmark"></span>Billing Address same as Shipping Address 
+                        <span class="au-checkmark"></span>Billing address same as shipping address 
                     </label>
                  </div>
 
@@ -287,7 +287,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Zip Code</label></div>
+                        <div class="col-md-2"> <label>Zip code</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="zipCode" type="text">
@@ -297,11 +297,11 @@
 
                                     <div *ngIf="billingAddressZipCode?.errors?.['required'] || 
                                          billingAddressZipCode?.errors?.['notOnlyWhitespace']">
-                                         Zip Code is required
+                                         Zip code is required
                                     </div>
 
                                     <div *ngIf="billingAddressZipCode?.errors?.['minlength']">
-                                        Zip Code must be at least 2 characters long
+                                        Zip code must be at least 2 characters long
                                     </div>
                                 </div>
                             </div>
