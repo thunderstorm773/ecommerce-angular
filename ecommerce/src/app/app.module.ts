@@ -33,6 +33,8 @@ import { AdminAddCategoryComponent } from './components/admin-add-category/admin
 import { AdminEditCategoryComponent } from './components/admin-edit-category/admin-edit-category.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { AdminCouponsComponent } from './components/admin-coupons/admin-coupons.component';
+import { AdminAddCouponComponent } from './components/admin-add-coupon/admin-add-coupon.component';
+import { AdminEditCouponComponent } from './components/admin-edit-coupon/admin-edit-coupon.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -67,6 +69,12 @@ const routes: Routes = [
   {path: 'admin/coupons', component: AdminCouponsComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
     data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
   },
+  {path: 'admin/coupons/add', component: AdminAddCouponComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
+    data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
+  },
+  {path: 'admin/coupons/edit/:id', component: AdminEditCouponComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
+    data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
+  },
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
   {path: 'about-us', component: AboutUsComponent},
@@ -95,7 +103,9 @@ const routes: Routes = [
     AdminAddCategoryComponent,
     AdminEditCategoryComponent,
     ToastComponent,
-    AdminCouponsComponent
+    AdminCouponsComponent,
+    AdminAddCouponComponent,
+    AdminEditCouponComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {
