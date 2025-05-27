@@ -10,6 +10,7 @@ import { Coupon } from '../common/coupon';
 export class CouponService {
 
   private couponURL: string = environment.ecommerceURL + 'coupons';
+  private couponAdminBaseUrl =  environment.ecommerceURL + 'admin/coupons';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -23,6 +24,13 @@ export class CouponService {
   chechIsActiveCoupon(couponCode: string): Observable<Coupon> {
     const checkActiveCouponURL = `${this.couponURL}/check-active/${couponCode}`;
     return this.httpClient.get<Coupon>(checkActiveCouponURL);
+  }
+
+  getAllCouponsPaginate(currentPageNumber: number, 
+                        pageSize: number): Observable<GetResponseCoupon> {
+
+    const couponUrl = `${this.couponAdminBaseUrl}?page=${currentPageNumber}&size=${pageSize}`;
+    return this.httpClient.get<GetResponseCoupon>(couponUrl);
   }
 }
 

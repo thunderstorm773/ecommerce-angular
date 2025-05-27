@@ -19,7 +19,8 @@ export class AuthInterceptorService implements HttpInterceptor {
   private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
 
     const baseURL = environment.ecommerceURL;
-    const securedEndpoints = ['orders', 'coupons/actives', 'admin/product-categories', 'checkout'];
+    const securedEndpoints = ['orders', 'coupons/actives', 'admin/coupons', 
+                              'admin/product-categories', 'checkout'];
 
     if (securedEndpoints.some(url => request.urlWithParams.includes(baseURL + url))) {
       // get access token

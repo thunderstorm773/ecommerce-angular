@@ -1,5 +1,98 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <p>admin-coupons works!</p>
+
+    <div *ngIf="coupons.length > 0" class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3>Coupons</h3>
+                <button class="btn btn-primary" routerLink="/admin/coupons/add">Add Coupon</button>
+            </div>
+
+                <table class="table table-hover mt-2">
+                    <thead>
+                        <tr>
+                            <th scope="col" width="10%">Discount Code</th>
+                            <th scope="col" width="5%">Discount</th>
+                            <th scope="col" width="20%">Valid From</th>
+                            <th scope="col" width="20%">Valid To</th>
+                            <th scope="col" width="20%">Last Updated</th>
+                            <th scope="col" width="10%">Status</th>
+                            <th scope="col" width="15%">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let coupon of coupons">
+                            <td>{{ coupon.discountCode }}</td>
+                            <td>{{ coupon.discountPercent / 100 | percent}}</td>
+                            <td>{{ coupon.validFrom | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+                            <td>{{ coupon.validTo | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+                            <td>{{ coupon.lastUpdated | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+                            <td>{{ coupon.status ? 'Active' : 'Inactive' }}</td>
+                            <td>
+                                <button class="btn btn-warning me-2" 
+                                        [routerLink]="['/admin/coupons/edit', coupon.id]">Edit</button>
+                                <button *ngIf="coupon.status" class="btn btn-danger" 
+                                        (click)="open(deleteMdl, coupon.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            <!-- begin footer -->
+            <div class="footer-pagination" *ngIf="coupons.length > 0">
+                <div class="row">
+                    <div class="col-md-6"></div>
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-9" style="padding-left: 30%">
+
+                                <ngb-pagination [(page)]="currentPageNumber"
+                                                [pageSize]="pageSize"
+                                                [collectionSize]="totalElements"
+                                                [maxSize]="5"
+                                                [boundaryLinks]="true"
+                                                (pageChange)="listCoupons()">
+                                </ngb-pagination>
+                            </div>
+
+                            <div class="col-md-3 mt-2" style="text-align: right;">
+                                <span class="mr-2">Page Size</span>
+
+                                <select #pageSizeSelect (change)="updatePageSize(pageSizeSelect.value)">
+                                    <option>5</option>
+                                    <option>10</option>
+                                    <option selected="true">20</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- end footer --> 
+
+        </div>
     </div>
+
 </div>
+
+<ng-template #deleteMdl let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Delete Coupon</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+				<p>Do you really want to delete this coupon?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="deleteCoupon(selectedCouponId)">Delete</button>
+	</div>
+</ng-template>
+
