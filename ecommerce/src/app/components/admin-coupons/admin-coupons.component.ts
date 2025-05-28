@@ -55,8 +55,17 @@ export class AdminCouponsComponent implements OnInit {
   deleteCoupon(couponId?: number) {
     if (couponId) {
       this.modalService.dismissAll();
-    }
 
-    console.log('Deleting coupon with ID:', couponId);
+      this.couponService.deleteCoupon(couponId).subscribe({
+        next: (data) => {
+          this.toastService.show({message: 'Coupon deleted successfully', className: 'bg-success-toast text-light' });
+          this.listCoupons();
+        },
+        error: (err) => {
+          this.toastService.show({message: `Error deleting coupon: ${err.error.message}`,
+                                  className: 'bg-danger text-light' });
+        }
+      });
+    }
   }
 }

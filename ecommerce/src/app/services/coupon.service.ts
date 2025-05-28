@@ -32,6 +32,11 @@ export class CouponService {
     const couponUrl = `${this.couponAdminBaseUrl}?page=${currentPageNumber}&size=${pageSize}`;
     return this.httpClient.get<GetResponseCoupon>(couponUrl);
   }
+
+  deleteCoupon(id: number): Observable<any> {
+    const couponUrl = `${this.couponAdminBaseUrl}/delete/${id}`;
+    return this.httpClient.delete(couponUrl);
+  }
 }
 
 interface GetResponseCoupon {
