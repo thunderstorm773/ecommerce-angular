@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryNameValidator } from '../../validators/category-name-validator';
 import { FormValidator } from '../../validators/form-validator';
 import { AddProductCategory } from '../../common/add-product-category';
@@ -32,7 +32,7 @@ export class AdminAddCategoryComponent implements OnInit {
   createCategoryFormGroup() {
     this.categoryFormGroup = this.formBuilder.group({
       categoryName: ['', {validators: [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace], 
-                          asyncValidators: [this.categoryNameValidator.validate.bind(this.categoryNameValidator)]
+                          asyncValidators: [(control: AbstractControl) => this.categoryNameValidator.validateCustom(null, control)]
         }]
     });
   }

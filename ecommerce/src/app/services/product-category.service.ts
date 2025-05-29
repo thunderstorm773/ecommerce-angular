@@ -38,8 +38,9 @@ export class ProductCategoryService {
     return this.httpClient.get<ProductCategory>(productCategoryUrl);
   }
 
-  getProductCategoryByName(name: string): Observable<ProductCategory> {
-    const productCategoryUrl = `${this.productCategoryBaseUrl}/name/${name}`;
+  canEditProductCategoryName(id: number | null, name: string): Observable<ProductCategory> {
+    const queryString = id ? `id=${id}&name=${name}` : `name=${name}`;
+    const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/can-edit-name?${queryString}`;
     return this.httpClient.get<ProductCategory>(productCategoryUrl);
   }
 

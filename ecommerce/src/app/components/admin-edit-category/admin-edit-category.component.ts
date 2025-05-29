@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormValidator } from '../../validators/form-validator';
 import { ProductCategoryService } from '../../services/product-category.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,15 +32,16 @@ export class AdminEditCategoryComponent implements OnInit {
     }
   
     editCategoryFormGroup() {
+      const categoryId: number = this.getCategoryId();
       this.categoryFormGroup = this.formBuilder.group({
         categoryName: ['', {validators: [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace], 
-                            asyncValidators: [this.categoryNameValidator.validate.bind(this.categoryNameValidator)]
+                            asyncValidators: [(control: AbstractControl) => this.categoryNameValidator.validateCustom(categoryId, control)],
           }]
       });
     }
 
     fillCategoryName() {
-      const categoryId: number = +this.route.snapshot.paramMap.get('id')!;
+      const categoryId: number = this.getCategoryId();
 
       this.productCategoryService.getProductCategoryById(categoryId).subscribe(
         data => {
@@ -75,6 +76,10 @@ export class AdminEditCategoryComponent implements OnInit {
               this.toastService.show({message: `Error editing category: ${err.error.message}`, className: 'bg-danger text-light' });
             }
           });
+    }
+
+    getCategoryId() {
+      return +this.route.snapshot.paramMap.get('id')!;
     }
   
     get categoryName() {
