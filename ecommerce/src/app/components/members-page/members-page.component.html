@@ -15,9 +15,8 @@
                         <tr>
                             <th scope="col" width="20%">Discount Code</th>
                             <th scope="col" width="20%">Discount Percent</th>
-                            <th scope="col" width="10%">Valid From</th>
-                            <th scope="col" width="10%">Valid To</th>
-                            <th scope="col" width="10%">Status</th>
+                            <th scope="col" width="15%">Valid From</th>
+                            <th scope="col" width="15%">Valid To</th>
                         </tr>
                     </thead>
 
@@ -27,7 +26,6 @@
                             <td>{{ coupons.discountPercent / 100 | percent }}</td>
                             <td>{{ coupons.validFrom | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
                             <td>{{ coupons.validTo | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
-                            <td>{{ coupons.status ? 'Active' : 'Inactive' }}</td>
                         </tr>
                     </tbody>
                 </table>
