@@ -7,26 +7,31 @@
             </div>
 
             <form [formGroup]="categoryFormGroup" (ngSubmit)="createNewCategory()">
-                <div class="input-group" style="width: 25%;">
-                    <input type="text" class="form-control" formControlName="categoryName"
-                           placeholder="Enter category name" maxlength="20"/>
-                </div>
+                <div class="row">
+                    <div class="col-md-2"> <label>Category name</label></div>
+                    <div class="col-md-9">
+                        <div class="input-space">
+                            <input type="text" formControlName="categoryName" placeholder="Enter category name" 
+                                   style="width: 30%;" maxlength="20">
 
-                <div *ngIf="categoryName?.invalid && (categoryName?.dirty || categoryName?.touched)" 
-                                class="alert alert-danger mt-1" style="width: 25%;">
-
-                    <div *ngIf="categoryName?.errors?.['required'] || categoryName?.errors?.['notOnlyWhitespace']">
-                        Category name is required
+                            <div *ngIf="categoryName?.invalid && (categoryName?.dirty || categoryName?.touched)" 
+                                 class="alert alert-danger mt-1" style="width: 30%;">
+   
+                                 <div *ngIf="categoryName?.errors?.['required'] || categoryName?.errors?.['notOnlyWhitespace']">
+                                    Category name is required
+                                </div>
+            
+                                <div *ngIf="categoryName?.errors?.['minlength']">
+                                    Category name must be at least 2 characters long
+                                </div>
+            
+                                <div *ngIf="categoryName?.errors?.['categoryNameExists']">
+                                    Category name already exists
+                                </div>
+   
+                            </div>
+                        </div>
                     </div>
-
-                    <div *ngIf="categoryName?.errors?.['minlength']">
-                        Category name must be at least 2 characters long
-                    </div>
-
-                    <div *ngIf="categoryName?.errors?.['categoryNameExists']">
-                        Category name already exists
-                    </div>
-
                 </div>
 
                 <div class="mt-3">
