@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { FormValidator } from '../../validators/form-validator';
+import { CouponService } from '../../services/coupon.service';
+import { CouponDiscountCodeValidator } from '../../validators/coupon-discount-code-validator';
 
 @Component({
   selector: 'app-admin-add-coupon',
@@ -18,6 +20,8 @@ export class AdminAddCouponComponent implements OnInit {
   
   constructor(private formBuilder: FormBuilder,
               private router: Router,
+              private couponService: CouponService, 
+              private couponDiscountCodeValidator: CouponDiscountCodeValidator,
               private toastService: ToastService) {}
 
 
@@ -27,7 +31,9 @@ export class AdminAddCouponComponent implements OnInit {
 
   createCouponFormGroup() {
     this.couponFormGroup = this.formBuilder.group({
-        discountCode: ['', {validators: [Validators.required, Validators.minLength(4), FormValidator.checkNotOnlyWhitespace]}],
+        discountCode: ['', {validators: [Validators.required, Validators.minLength(4), FormValidator.checkNotOnlyWhitespace],
+                            asyncValidators: [(control: AbstractControl) => this.couponDiscountCodeValidator.validateCustom(null, control)]
+                           }],
         discountPercent: [null, {validators: [Validators.required, Validators.min(1), Validators.max(30)]}],
         validFrom: [null, {validators: [Validators.required]}],
         validTo: [null, {validators: [Validators.required]}],

@@ -38,10 +38,10 @@ export class ProductCategoryService {
     return this.httpClient.get<ProductCategory>(productCategoryUrl);
   }
 
-  canEditProductCategoryName(id: number | null, name: string): Observable<ProductCategory> {
+  canEditProductCategoryName(id: number | null, name: string): Observable<any> {
     const queryString = id ? `id=${id}&name=${name}` : `name=${name}`;
     const productCategoryUrl = `${this.productCategoryAdminBaseUrl}/can-edit-name?${queryString}`;
-    return this.httpClient.get<ProductCategory>(productCategoryUrl);
+    return this.httpClient.get(productCategoryUrl);
   }
 
   createProductCategory(productCategory: AddProductCategory): Observable<any> {

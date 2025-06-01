@@ -33,6 +33,12 @@ export class CouponService {
     return this.httpClient.get<GetResponseCoupon>(couponUrl);
   }
 
+  canEditCouponDiscountCode(id: number | null, discountCode: string): Observable<any> {
+      const queryString = id ? `id=${id}&discountCode=${discountCode}` : `discountCode=${discountCode}`;
+      const couponUrl = `${this.couponAdminBaseUrl}/can-edit-discount-code?${queryString}`;
+      return this.httpClient.get(couponUrl);
+  }
+
   deleteCoupon(id: number): Observable<any> {
     const couponUrl = `${this.couponAdminBaseUrl}/delete/${id}`;
     return this.httpClient.delete(couponUrl);

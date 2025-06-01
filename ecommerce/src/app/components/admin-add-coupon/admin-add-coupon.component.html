@@ -24,6 +24,10 @@
                                 <div *ngIf="discountCode?.errors?.['minlength']">
                                     Discount code must be at least 4 characters long
                                 </div>
+
+                                <div *ngIf="discountCode?.errors?.['couponDiscountCodeExists']">
+                                    Discount code already exists
+                                </div>
    
                             </div>
                         </div>
