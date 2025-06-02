@@ -5,6 +5,7 @@ import { ToastService } from '../../services/toast.service';
 import { FormValidator } from '../../validators/form-validator';
 import { CouponService } from '../../services/coupon.service';
 import { CouponDiscountCodeValidator } from '../../validators/coupon-discount-code-validator';
+import { AddCoupon } from '../../common/add-coupon';
 
 @Component({
   selector: 'app-admin-add-coupon',
@@ -47,7 +48,31 @@ export class AdminAddCouponComponent implements OnInit {
       return;
     }
 
+    this.isDisabled = true;
+    const discountCode = this.couponFormGroup.controls['discountCode'].value;
+    const discountPercent = this.couponFormGroup.controls['discountPercent'].value;
+    const validFrom = this.formatDatetime(this.couponFormGroup.controls['validFrom'].value);
+    const validTo = this.formatDatetime(this.couponFormGroup.controls['validTo'].value);
+    const isActive = this.couponFormGroup.controls['isActive'].value;
+    const newCoupon = new AddCoupon(discountCode, discountPercent, validFrom, validTo, isActive);
+    
+    this.couponService.createCoupon(newCoupon).subscribe({
+      next: (data) => {
+        this.isDisabled = false;
+        this.couponFormGroup.reset();
+    
+        this.router.navigateByUrl('/admin/coupons');
+        this.toastService.show({message: 'Coupon created successfully', className: 'bg-success-toast text-light' });
+      },
+      error: (err) => {
+        this.isDisabled = false;
+        this.toastService.show({message: `Error creating coupon: ${err.error.message}`, className: 'bg-danger text-light' });
+      }
+    });
+  }
 
+  formatDatetime(datetime: string): string {
+    return new Date(datetime).toISOString();
   }
 
   get discountCode() {

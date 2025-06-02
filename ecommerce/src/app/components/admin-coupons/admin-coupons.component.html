@@ -31,8 +31,7 @@
                             <td>
                                 <button class="btn btn-warning me-2" 
                                         [routerLink]="['/admin/coupons/edit', coupon.id]">Edit</button>
-                                <button *ngIf="coupon.status" class="btn btn-danger" 
-                                        (click)="open(deleteMdl, coupon.id)">Delete</button>
+                                <button class="btn btn-danger" (click)="open(deleteMdl, coupon.id)">Delete</button>
                             </td>
                         </tr>
                     </tbody>

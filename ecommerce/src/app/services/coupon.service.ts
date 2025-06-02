@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Coupon } from '../common/coupon';
+import { AddCoupon } from '../common/add-coupon';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,11 @@ export class CouponService {
       const queryString = id ? `id=${id}&discountCode=${discountCode}` : `discountCode=${discountCode}`;
       const couponUrl = `${this.couponAdminBaseUrl}/can-edit-discount-code?${queryString}`;
       return this.httpClient.get(couponUrl);
+  }
+
+  createCoupon(coupon: AddCoupon): Observable<any> {
+      const couponUrl = `${this.couponAdminBaseUrl}/add`;
+      return this.httpClient.post<AddCoupon>(couponUrl, coupon);
   }
 
   deleteCoupon(id: number): Observable<any> {
