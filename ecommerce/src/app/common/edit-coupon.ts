@@ -1,4 +1,4 @@
-export class AddCoupon {
+export class EditCoupon {
 
     constructor(public discountCode: string,
                 public discountPercent: number,

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Coupon } from '../common/coupon';
 import { AddCoupon } from '../common/add-coupon';
+import { EditCoupon } from '../common/edit-coupon';
 
 @Injectable({
   providedIn: 'root'
@@ -35,19 +36,29 @@ export class CouponService {
   }
 
   canEditCouponDiscountCode(id: number | null, discountCode: string): Observable<any> {
-      const queryString = id ? `id=${id}&discountCode=${discountCode}` : `discountCode=${discountCode}`;
-      const couponUrl = `${this.couponAdminBaseUrl}/can-edit-discount-code?${queryString}`;
-      return this.httpClient.get(couponUrl);
+    const queryString = id ? `id=${id}&discountCode=${discountCode}` : `discountCode=${discountCode}`;
+    const couponUrl = `${this.couponAdminBaseUrl}/can-edit-discount-code?${queryString}`;
+    return this.httpClient.get(couponUrl);
   }
 
   createCoupon(coupon: AddCoupon): Observable<any> {
-      const couponUrl = `${this.couponAdminBaseUrl}/add`;
-      return this.httpClient.post<AddCoupon>(couponUrl, coupon);
+    const couponUrl = `${this.couponAdminBaseUrl}/add`;
+    return this.httpClient.post<AddCoupon>(couponUrl, coupon);
+  }
+
+  editCoupon(id: number, coupon: EditCoupon): Observable<any> {
+    const couponUrl = `${this.couponAdminBaseUrl}/edit/${id}`;
+    return this.httpClient.put<EditCoupon>(couponUrl, coupon);
   }
 
   deleteCoupon(id: number): Observable<any> {
     const couponUrl = `${this.couponAdminBaseUrl}/delete/${id}`;
     return this.httpClient.delete(couponUrl);
+  }
+
+  getCouponById(id: number): Observable<Coupon> {
+    const couponUrl = `${this.couponAdminBaseUrl}/${id}`;
+    return this.httpClient.get<Coupon>(couponUrl);
   }
 }
 

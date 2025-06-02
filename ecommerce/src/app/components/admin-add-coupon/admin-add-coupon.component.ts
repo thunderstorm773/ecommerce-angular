@@ -38,7 +38,7 @@ export class AdminAddCouponComponent implements OnInit {
         discountPercent: [null, {validators: [Validators.required, Validators.min(1), Validators.max(30)]}],
         validFrom: [null, {validators: [Validators.required]}],
         validTo: [null, {validators: [Validators.required]}],
-        isActive: [false]
+        status: [false]
     });
   }
 
@@ -53,8 +53,8 @@ export class AdminAddCouponComponent implements OnInit {
     const discountPercent = this.couponFormGroup.controls['discountPercent'].value;
     const validFrom = this.formatDatetime(this.couponFormGroup.controls['validFrom'].value);
     const validTo = this.formatDatetime(this.couponFormGroup.controls['validTo'].value);
-    const isActive = this.couponFormGroup.controls['isActive'].value;
-    const newCoupon = new AddCoupon(discountCode, discountPercent, validFrom, validTo, isActive);
+    const status = this.couponFormGroup.controls['status'].value;
+    const newCoupon = new AddCoupon(discountCode, discountPercent, validFrom, validTo, status);
     
     this.couponService.createCoupon(newCoupon).subscribe({
       next: (data) => {
@@ -91,7 +91,7 @@ export class AdminAddCouponComponent implements OnInit {
     return this.couponFormGroup.get('validTo');
   }
 
-  get isActive() {
-    return this.couponFormGroup.get('isActive');
+  get status() {
+    return this.couponFormGroup.get('status');
   }
 }

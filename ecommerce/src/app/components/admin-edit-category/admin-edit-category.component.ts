@@ -28,7 +28,7 @@ export class AdminEditCategoryComponent implements OnInit {
 
   ngOnInit(): void {
       this.editCategoryFormGroup();
-      this.fillCategoryName()
+      this.fillCategory()
     }
   
     editCategoryFormGroup() {
@@ -40,7 +40,7 @@ export class AdminEditCategoryComponent implements OnInit {
       });
     }
 
-    fillCategoryName() {
+    fillCategory() {
       const categoryId: number = this.getCategoryId();
 
       this.productCategoryService.getProductCategoryById(categoryId).subscribe(
