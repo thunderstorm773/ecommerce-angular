@@ -6,6 +6,7 @@ import { FormValidator } from '../../validators/form-validator';
 import { CouponService } from '../../services/coupon.service';
 import { CouponDiscountCodeValidator } from '../../validators/coupon-discount-code-validator';
 import { EditCoupon } from '../../common/edit-coupon';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-admin-edit-coupon',
@@ -24,7 +25,8 @@ export class AdminEditCouponComponent implements OnInit {
               private router: Router,
               private couponService: CouponService, 
               private couponDiscountCodeValidator: CouponDiscountCodeValidator,
-              private toastService: ToastService) {}
+              private toastService: ToastService,
+              private datePipe: DatePipe) {}
 
   ngOnInit(): void {
     this.editCouponFormGroup();
@@ -55,8 +57,8 @@ export class AdminEditCouponComponent implements OnInit {
     this.isDisabled = true;
     const discountCode = this.couponFormGroup.controls['discountCode'].value;
     const discountPercent = this.couponFormGroup.controls['discountPercent'].value;
-    const validFrom = this.formatDatetime(this.couponFormGroup.controls['validFrom'].value);
-    const validTo = this.formatDatetime(this.couponFormGroup.controls['validTo'].value);
+    const validFrom = this.convertToISODatetime(this.couponFormGroup.controls['validFrom'].value);
+    const validTo = this.convertToISODatetime(this.couponFormGroup.controls['validTo'].value);
     const status = this.couponFormGroup.controls['status'].value;
     const coupon = new EditCoupon(discountCode, discountPercent, validFrom, validTo, status);
           
@@ -82,8 +84,8 @@ export class AdminEditCouponComponent implements OnInit {
       data => {
         this.discountCode?.setValue(data.discountCode);
         this.discountPercent?.setValue(data.discountPercent);
-        this.validFrom?.setValue(data.validFrom);
-        this.validTo?.setValue(data.validTo);
+        this.validFrom?.setValue(this.convertToDatetimePickerFormat(data.validFrom));
+        this.validTo?.setValue(this.convertToDatetimePickerFormat(data.validTo));
         this.status?.setValue(data.status);
       }
     );
@@ -93,8 +95,12 @@ export class AdminEditCouponComponent implements OnInit {
     return +this.route.snapshot.paramMap.get('id')!;
   }
 
-  formatDatetime(datetime: string): string {
+  convertToISODatetime(datetime: string): string {
     return new Date(datetime).toISOString();
+  }
+
+  convertToDatetimePickerFormat(datetime: Date): string | null{
+    return this.datePipe.transform(datetime, 'yyyy-MM-dd\'T\'HH:mm');
   }
 
   get discountCode() {
