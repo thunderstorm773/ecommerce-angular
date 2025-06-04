@@ -39,7 +39,7 @@ export class AdminAddCouponComponent implements OnInit {
         validFrom: [null, {validators: [Validators.required, FormValidator.futureOrPresent]}],
         validTo: [null, {validators: [Validators.required, FormValidator.future]}],
         status: [false]
-    });
+    }, {validators: FormValidator.validToAfterValidFrom});
   }
 
   createNewCoupon() {

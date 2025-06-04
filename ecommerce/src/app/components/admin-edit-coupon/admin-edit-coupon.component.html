@@ -73,11 +73,13 @@
                                 <div *ngIf="validFrom?.errors?.['required']">
                                     Valid from is required
                                 </div>
-
-                                <div *ngIf="validFrom?.errors?.['notFutureOrPresent']">
-                                    Valid from must be a date in the present or future
-                                </div>
    
+                            </div>
+
+                            <div *ngIf="couponFormGroup?.errors?.['validToBeforeValidFrom'] && 
+                                        validFrom?.valid && validTo?.valid"
+                                 class="alert alert-danger mt-1" style="width: 30%;">
+                                Valid from must be before valid to
                             </div>
                         </div>
                     </div>

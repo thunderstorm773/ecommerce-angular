@@ -1,4 +1,4 @@
-import { FormControl, ValidationErrors } from "@angular/forms";
+import { AbstractControl, FormControl, ValidationErrors } from "@angular/forms";
 
 export class FormValidator {
 
@@ -45,5 +45,22 @@ export class FormValidator {
         inputDate.setSeconds(0, 0);
 
         return inputDate > now ? {} : { 'notFuture': true };
+    }
+
+    static validToAfterValidFrom(group: AbstractControl): ValidationErrors {
+        const validFrom = group.get('validFrom')?.value;
+        const validTo = group.get('validTo')?.value;
+
+        if (!validFrom || !validTo) {
+            return {};
+        }
+
+        const validFromDate = new Date(validFrom);
+        const validToDate = new Date(validTo);
+
+        validFromDate.setSeconds(0, 0);
+        validToDate.setSeconds(0, 0);
+
+        return validFromDate <= validToDate ? {} : { 'validToBeforeValidFrom': true };
     }
 }
