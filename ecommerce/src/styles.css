@@ -842,6 +842,12 @@ footer ul li{
     padding:10px 20px
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* 
  * ----------------------------
  * Media Queries
