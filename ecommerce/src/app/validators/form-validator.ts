@@ -12,4 +12,38 @@ export class FormValidator {
             return {};
         }
     }
+
+    static futureOrPresent(control: FormControl): ValidationErrors {
+        const now = new Date();
+
+        const val = control.value;
+        if (!val) {
+            return {};
+        }
+
+        const inputDate = new Date(val);
+        
+        // seconds/milliseconds are not considered
+        now.setSeconds(0, 0);
+        inputDate.setSeconds(0, 0);
+
+        return inputDate >= now ? {} : { 'notFutureOrPresent': true };
+    }
+
+    static future(control: FormControl): ValidationErrors {
+        const now = new Date();
+
+        const val = control.value;
+        if (!val) {
+            return {};
+        }
+
+        const inputDate = new Date(val);
+        
+        // seconds/milliseconds are not considered
+        now.setSeconds(0, 0);
+        inputDate.setSeconds(0, 0);
+
+        return inputDate > now ? {} : { 'notFuture': true };
+    }
 }

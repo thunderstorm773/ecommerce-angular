@@ -36,8 +36,8 @@ export class AdminAddCouponComponent implements OnInit {
                             asyncValidators: [(control: AbstractControl) => this.couponDiscountCodeValidator.validateCustom(null, control)]
                            }],
         discountPercent: [null, {validators: [Validators.required, Validators.min(1), Validators.max(30)]}],
-        validFrom: [null, {validators: [Validators.required]}],
-        validTo: [null, {validators: [Validators.required]}],
+        validFrom: [null, {validators: [Validators.required, FormValidator.futureOrPresent]}],
+        validTo: [null, {validators: [Validators.required, FormValidator.future]}],
         status: [false]
     });
   }
@@ -51,8 +51,8 @@ export class AdminAddCouponComponent implements OnInit {
     this.isDisabled = true;
     const discountCode = this.couponFormGroup.controls['discountCode'].value;
     const discountPercent = this.couponFormGroup.controls['discountPercent'].value;
-    const validFrom = this.formatDatetime(this.couponFormGroup.controls['validFrom'].value);
-    const validTo = this.formatDatetime(this.couponFormGroup.controls['validTo'].value);
+    const validFrom = this.convertToISODatetime(this.couponFormGroup.controls['validFrom'].value);
+    const validTo = this.convertToISODatetime(this.couponFormGroup.controls['validTo'].value);
     const status = this.couponFormGroup.controls['status'].value;
     const newCoupon = new AddCoupon(discountCode, discountPercent, validFrom, validTo, status);
     
@@ -71,7 +71,7 @@ export class AdminAddCouponComponent implements OnInit {
     });
   }
 
-  formatDatetime(datetime: string): string {
+  convertToISODatetime(datetime: string): string {
     return new Date(datetime).toISOString();
   }
 

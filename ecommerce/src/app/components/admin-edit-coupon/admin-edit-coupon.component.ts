@@ -40,8 +40,8 @@ export class AdminEditCouponComponent implements OnInit {
                               asyncValidators: [(control: AbstractControl) => this.couponDiscountCodeValidator.validateCustom(couponId, control)]
                              }],
           discountPercent: [null, {validators: [Validators.required, Validators.min(1), Validators.max(30)]}],
-          validFrom: [null, {validators: [Validators.required]}],
-          validTo: [null, {validators: [Validators.required]}],
+          validFrom: [null, {validators: [Validators.required, FormValidator.futureOrPresent]}],
+          validTo: [null, {validators: [Validators.required, FormValidator.future]}],
           status: [false]
       });
   }
