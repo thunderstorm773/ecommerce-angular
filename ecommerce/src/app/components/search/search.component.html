@@ -3,8 +3,8 @@
   <input #myInput type="text"
          placeholder="Search for products ..."
          class="au-input au-input-xl"
-         (keyup.enter)="doSearch(myInput.value)"/>
+         (input)="doSearch(myInput.value)"/>
 
-  <button class="au-btn-submit" (click)="doSearch(myInput.value)">Search</button>
+  <!-- <button class="au-btn-submit" (click)="doSearch(myInput.value)">Search</button> -->
 
 </div>
