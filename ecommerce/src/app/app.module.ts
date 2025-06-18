@@ -36,6 +36,7 @@ import { AdminCouponsComponent } from './components/admin-coupons/admin-coupons.
 import { AdminAddCouponComponent } from './components/admin-add-coupon/admin-add-coupon.component';
 import { AdminEditCouponComponent } from './components/admin-edit-coupon/admin-edit-coupon.component';
 import { DatePipe } from '@angular/common';
+import { ProductCommentComponent } from './components/product-comment/product-comment.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -106,7 +107,8 @@ const routes: Routes = [
     ToastComponent,
     AdminCouponsComponent,
     AdminAddCouponComponent,
-    AdminEditCouponComponent
+    AdminEditCouponComponent,
+    ProductCommentComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {

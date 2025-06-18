@@ -7,9 +7,13 @@
         <div class="price">{{ product.unitPrice | currency: 'USD' }}</div>
         <button (click)="addToCart()" class="btn btn-primary btn-sm">Add to cart</button>
 
-        <hr>
+        <br/>
+        <br/>
+
         <h4>Description</h4>
-        <p>{{ product.description }}</p>
+        <p class="product-description">{{ product.description }}</p>
+
+        <app-product-comment></app-product-comment>
 
         <a routerLink="/products" class="primary-btn mt-5">Back</a>
     </div>
