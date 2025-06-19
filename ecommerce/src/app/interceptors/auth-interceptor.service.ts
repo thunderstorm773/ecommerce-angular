@@ -20,7 +20,7 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     const baseURL = environment.ecommerceURL;
     const securedEndpoints = ['orders', 'coupons/actives', 'admin/coupons', 
-                              'admin/product-categories', 'checkout'];
+                              'admin/product-categories', 'checkout', 'comments/add'];
 
     if (securedEndpoints.some(url => request.urlWithParams.includes(baseURL + url))) {
       // get access token
