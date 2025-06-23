@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OKTA_AUTH, OktaAuthStateService } from '@okta/okta-angular';
 import { ToastService } from '../../services/toast.service';
@@ -8,6 +8,7 @@ import { ProductCommentService } from '../../services/product-comment.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProductComment } from '../../common/product-comment';
 import OktaAuth from '@okta/okta-auth-js';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-product-comment',
@@ -24,6 +25,9 @@ export class ProductCommentComponent implements OnInit {
   isAuthenticated: boolean = false;
   userEmail: string = '';
   isAdmin: boolean = false;
+
+  selectedCommentId?: number;
+  modalService = inject(NgbModal);
 
   // pagination properties
   currentPageNumber: number = 1;
@@ -74,6 +78,11 @@ export class ProductCommentComponent implements OnInit {
     this.currentPageNumber = data.number + 1;
     this.pageSize = data.size;
     this.totalElements = data.totalElements;
+  }
+
+  open(content: TemplateRef<any>, commentId: number) {
+    this.selectedCommentId = commentId;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true });
   }
 
   getUserDetails() {
@@ -133,6 +142,23 @@ export class ProductCommentComponent implements OnInit {
             this.toastService.show({message: `Error posting comment: ${err.error.message}`, className: 'bg-danger text-light' });
           }
     });
+  }
+
+  deleteComment(commentId?: number) {
+    if (commentId) {
+      this.modalService.dismissAll();
+
+      this.productCommentService.deleteComment(commentId).subscribe({
+        next: (data) => {
+          this.toastService.show({message: 'Comment deleted successfully', className: 'bg-success-toast text-light' });
+          this.listProductCommentsByProduct();
+        },
+        error: (err) => {
+          this.toastService.show({message: `Error deleting comment: ${err.error.message}`,
+                                  className: 'bg-danger text-light' });
+        }
+      });
+    }
   }
 
   getProductId() {

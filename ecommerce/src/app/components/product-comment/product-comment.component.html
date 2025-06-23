@@ -35,7 +35,7 @@
 
             <div class="d-flex align-items-center">
                 <i class="fas fa-clock me-2"></i>
-                <span>{{ comment.dateCreated | date: 'dd.MM.YYYY HH:mm:ss' }}</span>
+                <span>{{ comment.dateCreated | date: 'dd.MM.YYYY HH:mm' }}</span>
             </div>
             </div>
             <div class="d-flex flex-column align-items-center">
@@ -44,7 +44,7 @@
             <div class="d-flex justify-content-end mt-2">
                 <div *ngIf="canUserManageComment(comment.username)">
                     <button class="btn btn-sm btn-warning me-2">Edit</button>
-                    <button class="btn btn-sm btn-danger">Delete</button>
+                    <button class="btn btn-sm btn-danger" (click)="open(deleteMdl, comment.id)">Delete</button>
                 </div>
             </div>
         </div>
@@ -85,3 +85,20 @@
         </div>
     </div>
 </div>
+
+<ng-template #deleteMdl let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Delete Comment</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+				<p>Do you really want to delete this comment?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="deleteComment(selectedCommentId)">Delete</button>
+	</div>
+</ng-template>
