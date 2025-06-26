@@ -5,7 +5,15 @@
 
         <h3>{{ product.name }}</h3>
         <div class="price">{{ product.unitPrice | currency: 'USD' }}</div>
-        <button (click)="addToCart()" class="btn btn-primary btn-sm">Add to cart</button>
+
+        <div class="availability">
+            <span [ngClass]="product.unitsInStock > 0 ? 'text-success' : 'text-danger'">
+                {{ product.unitsInStock > 0 ? 'In stock' : 'Not in stock' }}
+            </span>
+        </div>
+
+        <button (click)="addToCart()" class="btn btn-primary btn-sm" 
+                [disabled]="product.unitsInStock < 1">Add to cart</button>
 
         <br/>
         <br/>
