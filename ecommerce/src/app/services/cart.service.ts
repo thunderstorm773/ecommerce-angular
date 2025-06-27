@@ -62,6 +62,11 @@ export class CartService {
     
     if (existingCartItem != undefined) {
       existingCartItem.quantity++;
+
+      if (existingCartItem.quantity > cartItem.unitsInStock) {
+        existingCartItem.quantity = cartItem.unitsInStock;
+        alert(`Only ${cartItem.unitsInStock} items for "${cartItem.name}" are available in stock.`);
+      }
     } else {
       this.cartItems.push(cartItem);
     }
