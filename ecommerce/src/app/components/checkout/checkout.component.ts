@@ -100,21 +100,11 @@ export class CheckoutComponent implements OnInit{
         zipCode: new FormControl('', [Validators.required, Validators.minLength(2), FormValidator.checkNotOnlyWhitespace])
       }),
       creditCard: this.formBuilder.group({
-        /*
-        cardType: new FormControl('', [Validators.required]),
-        nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2), CheckoutValidator.checkNotOnlyWhitespace]),
-        cardNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]{16}')]),
-        securityCode: new FormControl('', [Validators.required, Validators.pattern('[0-9]{3}')]),
-        expirationMonth: new FormControl('', [Validators.required]),
-        expirationYear: new FormControl('', [Validators.required])
-        */
       })
     });
   }
 
   onSubmitPurchaseBtn() {
-    //console.log('Handling the submit purchase button');
-    //console.log(this.checkoutFormGroup.get('creditCard')?.value);
 
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
