@@ -105,7 +105,6 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    //console.log(`Adding to cart: ${product.name}, price: ${product.unitPrice}`);
 
     const cartItem = new CartItem(product);
     this.cartService.addToCart(cartItem);
