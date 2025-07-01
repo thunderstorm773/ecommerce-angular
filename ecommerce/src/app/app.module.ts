@@ -35,7 +35,7 @@ import { ToastComponent } from './components/toast/toast.component';
 import { AdminCouponsComponent } from './components/admin-coupons/admin-coupons.component';
 import { AdminAddCouponComponent } from './components/admin-add-coupon/admin-add-coupon.component';
 import { AdminEditCouponComponent } from './components/admin-edit-coupon/admin-edit-coupon.component';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ProductCommentComponent } from './components/product-comment/product-comment.component';
 
 const oktaConfig = appConfig.oidc;
@@ -123,7 +123,8 @@ const routes: Routes = [
   ],
   providers: [provideHttpClient(withInterceptorsFromDi()), ProductService, ProductCategoryService, 
              {provide: OKTA_CONFIG, useValue: { oktaAuth }}, 
-             {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}, DatePipe],
+             {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}, 
+             DatePipe, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

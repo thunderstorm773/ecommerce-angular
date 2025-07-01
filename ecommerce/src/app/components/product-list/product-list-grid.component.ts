@@ -4,6 +4,7 @@ import { Product } from '../../common/product';
 import { ActivatedRoute } from '@angular/router';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-product-list',
@@ -27,7 +28,8 @@ export class ProductListComponent implements OnInit {
 
   previousNameKeyword: string | null = null;
 
-  constructor(private productService: ProductService,
+  constructor(public currencyService: CurrencyService,
+              private productService: ProductService,
               private cartService: CartService,
               private route: ActivatedRoute) {}
 
