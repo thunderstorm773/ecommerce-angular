@@ -8,10 +8,10 @@ import { SystemParameter } from '../common/system-parameter';
 })
 export class CurrencyService {
 
-  private showBothBgnEurCurrencies: string = 'SHOW_BOTH_BGN_EUR_CURRENCIES';
-  private showBgnCurrencyFirst: string = 'SHOW_BGN_CURRENCY_FIRST';
-  private bgnCurrencyName: string = 'лв.';
-  private eurCurrencyCode: string = 'EUR';
+  showBothBgnEurCurrencies: string = 'SHOW_BOTH_BGN_EUR_CURRENCIES';
+  showBgnCurrencyFirst: string = 'SHOW_BGN_CURRENCY_FIRST';
+  bgnCurrencyName: string = 'лв.';
+  eurCurrencyCode: string = 'EUR';
 
   showBothBgnEurCurrenciesParam: SystemParameter | null = null;
   showBgnCurrencyFirstParam: SystemParameter | null = null;
@@ -22,9 +22,9 @@ export class CurrencyService {
     this.initalizeSystemParameters();      
   }
 
-  public formatPriceCurrency(priceBgn: number, priceEur: number): string {
+  formatPriceCurrency(priceBgn: number, priceEur: number): string {
     let priceCurrency: string = '';
-    
+
     // If parameters exists
     if (this.showBothBgnEurCurrenciesParam && this.showBgnCurrencyFirstParam) {
       
@@ -51,7 +51,7 @@ export class CurrencyService {
     return priceCurrency;
   }
 
-  private initalizeSystemParameters() {
+  initalizeSystemParameters() {
     this.systemParameterService.getSystemParameterByCode(this.showBothBgnEurCurrencies).subscribe(
       data => this.showBothBgnEurCurrenciesParam = data
     );

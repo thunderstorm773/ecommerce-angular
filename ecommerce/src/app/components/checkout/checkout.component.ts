@@ -15,6 +15,7 @@ import { Purchase } from '../../common/purchase';
 import { environment } from '../../../environments/environment';
 import { PaymentInfo } from '../../common/payment-info';
 import { ToastService } from '../../services/toast.service';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-checkout',
@@ -28,6 +29,7 @@ export class CheckoutComponent implements OnInit{
   checkoutFormGroup!: FormGroup;
 
   totalPrice: number = 0.00;
+  totalPriceEur: number = 0.00;
   totalQuantity: number = 0;
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
@@ -44,7 +46,8 @@ export class CheckoutComponent implements OnInit{
   displayError: any = "";
   isDisabled: boolean = false;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(public currencyService: CurrencyService,
+              private formBuilder: FormBuilder,
               private nomenclatureFormService: NomenclatureFormService,
               private cartService: CartService,
               private checkoutService: CheckoutService,
@@ -201,6 +204,12 @@ export class CheckoutComponent implements OnInit{
       }
     );
 
+    // subscribe to cartService totalPriceEur
+    this.cartService.totalPriceEur.subscribe(
+      data => {
+        this.totalPriceEur = data
+      }
+    );
 
     // subscribe to cartService totalQuantity
     this.cartService.totalQuantity.subscribe(
@@ -211,7 +220,7 @@ export class CheckoutComponent implements OnInit{
   }
 
   createOrderObj(): Order {
-    return new Order(this.totalQuantity, this.totalPrice);
+    return new Order(this.totalQuantity, this.totalPrice, this.totalPriceEur);
   }
 
   createOrderItemsObj(): OrderItem[] {
@@ -239,6 +248,7 @@ export class CheckoutComponent implements OnInit{
     // reset cart data
     this.cartService.cartItems = [];
     this.cartService.totalPrice.next(0);
+    this.cartService.totalPriceEur.next(0);
     this.cartService.totalQuantity.next(0);
     this.cartService.persistCartItems();
 
@@ -252,7 +262,6 @@ export class CheckoutComponent implements OnInit{
   populateCountries() {
     this.nomenclatureFormService.getCountries().subscribe(
       data =>  {
-        //console.log(`Countries: ${JSON.stringify(data)}`);
         this.countries = data;
       }
     );

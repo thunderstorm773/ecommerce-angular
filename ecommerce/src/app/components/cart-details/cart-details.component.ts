@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { FormValidator } from '../../validators/form-validator';
 import { CouponService } from '../../services/coupon.service';
 import { ToastService } from '../../services/toast.service';
+import { CurrencyService } from '../../services/currency.service';
 
 
 @Component({
@@ -18,10 +19,12 @@ export class CartDetailsComponent implements OnInit{
 
   cartItems: CartItem[] = [];
   totalPrice: number = 0.00;
+  totalPriceEur: number = 0.00;
   totalQuantity: number = 0;
   couponFormGroup!: FormGroup;
 
-  constructor(public cartService: CartService,
+  constructor(public currencyService: CurrencyService,
+              public cartService: CartService,
               private formBuilder: FormBuilder,
               private couponService: CouponService,
               private toastService: ToastService) {}
@@ -38,6 +41,11 @@ export class CartDetailsComponent implements OnInit{
     // subscribe to the cart totalPrice
     this.cartService.totalPrice.subscribe(
       data => this.totalPrice = data
+    );
+
+    // subscribe to the cart totalPriceEur
+    this.cartService.totalPriceEur.subscribe(
+      data => this.totalPriceEur = data
     );
 
     // subscribe to the cart totalQuantity

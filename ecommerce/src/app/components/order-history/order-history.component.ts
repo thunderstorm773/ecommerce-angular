@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderHistory } from '../../common/order-history';
 import { OrderHistoryService } from '../../services/order-history.service';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-order-history',
@@ -19,7 +20,8 @@ export class OrderHistoryComponent implements OnInit {
   pageSize: number = 20;
   totalElements: number = 0;
 
-  constructor(private orderHistoryService: OrderHistoryService) { }
+  constructor(public currencyService: CurrencyService,
+              private orderHistoryService: OrderHistoryService) { }
 
   ngOnInit(): void {
     this.listOrderHistory();

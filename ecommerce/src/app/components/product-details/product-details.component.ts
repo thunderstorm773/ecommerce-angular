@@ -4,6 +4,7 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../common/product';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../common/cart-item';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-product-details',
@@ -16,7 +17,8 @@ export class ProductDetailsComponent implements OnInit{
   
   product!: Product;
 
-  constructor(private productService: ProductService,
+  constructor(public currencyService: CurrencyService,
+              private productService: ProductService,
               private cartService: CartService,
               private route: ActivatedRoute) { }
 
