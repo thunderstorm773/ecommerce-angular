@@ -197,6 +197,7 @@ export class CheckoutComponent implements OnInit{
   }
 
   reviewCartDetails() {
+    // TODO
     // subscribe to cartService totalPrice
     this.cartService.totalPriceBgn.subscribe(
       data => {

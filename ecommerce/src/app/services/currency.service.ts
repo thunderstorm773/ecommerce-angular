@@ -56,6 +56,28 @@ export class CurrencyService {
     return priceCurrency;
   }
 
+  formatCartStatusPrice(priceBgn: number, priceEur: number): string {
+    let priceCurrency: string = '';
+
+    priceBgn = this.formatNumber(priceBgn);
+    priceEur = this.formatNumber(priceEur);
+
+    // If parameters exists
+    if (this.showBgnCurrencyFirstParam) {
+      
+      if (this.showBgnCurrencyFirstParam.value === '1') {
+          priceCurrency = priceBgn.toFixed(2) + ' ' + this.bgnCurrencyName;
+        } else {
+          priceCurrency = this.currencyPipe.transform(priceEur.toFixed(2), this.eurCurrencyCode) + '';
+        }
+    } else {
+      // Default price currency format
+      priceCurrency = priceBgn + ' ' + this.bgnCurrencyName;
+    }
+
+    return priceCurrency;
+  }
+
   formatNumber(num: number): number {
     return Math.round(num * 100) / 100;
   }
