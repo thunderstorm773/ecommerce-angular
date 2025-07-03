@@ -21,7 +21,7 @@
                             <h1 class="product-title">{{ product.name }}</h1>
                         </a>
 
-                        <div class="price">{{ currencyService.formatPriceCurrency(product.unitPrice, product.unitPriceEur) }}</div>
+                        <div class="price">{{ currencyService.formatPriceString(product.unitPrice, product.unitPriceEur) }}</div>
 
                         <div class="availability">
                             <span [ngClass]="product.unitsInStock > 0 ? 'text-success' : 'text-danger'">

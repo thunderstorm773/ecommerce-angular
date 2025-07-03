@@ -19,11 +19,14 @@ export class CurrencyService {
   constructor(private currencyPipe: CurrencyPipe,
               private systemParameterService: SystemParameterService) { 
 
-    this.initalizeSystemParameters();      
+    this.initializeSystemParams();      
   }
 
-  formatPriceCurrency(priceBgn: number, priceEur: number): string {
+  formatPriceString(priceBgn: number, priceEur: number): string {
     let priceCurrency: string = '';
+
+    priceBgn = this.formatNumber(priceBgn);
+    priceEur = this.formatNumber(priceEur);
 
     // If parameters exists
     if (this.showBothBgnEurCurrenciesParam && this.showBgnCurrencyFirstParam) {
@@ -31,16 +34,18 @@ export class CurrencyService {
       if (this.showBothBgnEurCurrenciesParam.value === '1') {
 
         if (this.showBgnCurrencyFirstParam.value === '1') {
-          priceCurrency = priceBgn + ' ' + this.bgnCurrencyName + ' / ' + this.currencyPipe.transform(priceEur, this.eurCurrencyCode);
+          priceCurrency = priceBgn.toFixed(2) + ' ' + this.bgnCurrencyName + ' / ' 
+                          + this.currencyPipe.transform(priceEur.toFixed(2), this.eurCurrencyCode);
         } else {
-          priceCurrency = this.currencyPipe.transform(priceEur, this.eurCurrencyCode) + ' / ' + priceBgn + ' ' + this.bgnCurrencyName;
+          priceCurrency = this.currencyPipe.transform(priceEur.toFixed(2), this.eurCurrencyCode) 
+                          + ' / ' + priceBgn.toFixed(2) + ' ' + this.bgnCurrencyName;
         }
       } else {
 
         if (this.showBgnCurrencyFirstParam.value === '1') {
-          priceCurrency = priceBgn + ' ' + this.bgnCurrencyName;
+          priceCurrency = priceBgn.toFixed(2) + ' ' + this.bgnCurrencyName;
         } else {
-          priceCurrency = this.currencyPipe.transform(priceEur, this.eurCurrencyCode) + '';
+          priceCurrency = this.currencyPipe.transform(priceEur.toFixed(2), this.eurCurrencyCode) + '';
         }
       }
     } else {
@@ -51,7 +56,11 @@ export class CurrencyService {
     return priceCurrency;
   }
 
-  initalizeSystemParameters() {
+  formatNumber(num: number): number {
+    return Math.round(num * 100) / 100;
+  }
+
+  initializeSystemParams() {
     this.systemParameterService.getSystemParameterByCode(this.showBothBgnEurCurrencies).subscribe(
       data => this.showBothBgnEurCurrenciesParam = data
     );

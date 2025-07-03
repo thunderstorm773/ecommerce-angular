@@ -4,7 +4,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Coupon } from '../common/coupon';
 import { SystemParameterService } from './system-parameter.service';
 import { SystemParameter } from '../common/system-parameter';
-import { CurrencyService } from './currency.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +17,16 @@ export class CartService {
   couponsKey: string = 'coupons';
   coupons: Coupon[] = [];
 
-  totalPrice: Subject<number> = new BehaviorSubject<number>(0);
+  totalPriceBgn: Subject<number> = new BehaviorSubject<number>(0);
   totalPriceEur: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
   bgnEurExchangeRateParam: SystemParameter | null = null;
 
   storage: Storage = sessionStorage;
 
-  constructor(private currencyService: CurrencyService,
-              private systemParameterService: SystemParameterService) { 
+  constructor(private systemParameterService: SystemParameterService) { 
     
-    this.initializeBgnEurExchangeRate();
+    this.initializeSystemParams();
     this.getCouponsFromStorage();
     this.getCartItemsFromStorage();
   }
@@ -77,7 +75,10 @@ export class CartService {
         existingCartItem.quantity = cartItem.unitsInStock;
         alert(`Only ${cartItem.unitsInStock} items for "${cartItem.name}" are available in stock.`);
       }
+
+      this.setSubtotalPrices(cartItem);
     } else {
+      this.setSubtotalPrices(cartItem);
       this.cartItems.push(cartItem);
     }
 
@@ -86,32 +87,33 @@ export class CartService {
   }
 
   computeCartTotals() {
-    let totalPriceValue: number = 0;
+    let totalPriceBgnValue: number = 0;
     let totalQuantityValue: number = 0;
 
     for (let cartItem of this.cartItems) {
-      totalPriceValue += cartItem.quantity * cartItem.unitPrice;
+      totalPriceBgnValue += cartItem.quantity * cartItem.unitPrice;
       totalQuantityValue += cartItem.quantity;
     }
 
+    // TODO
     // if there is applied coupon
     if (this.coupons.length > 0) {
       for (const coupon of this.coupons) {
-        totalPriceValue = totalPriceValue - (totalPriceValue * coupon.discountPercent / 100);
+        totalPriceBgnValue = totalPriceBgnValue - (totalPriceBgnValue * coupon.discountPercent / 100);
       }
     } 
     
+    // calculate total price in EUR
+    // TODO
+    let totalPriceEurValue =  totalPriceBgnValue / Number(this.bgnEurExchangeRateParam?.value);
+
     // remove coupons from storage if the cart is empty
     if (this.cartItems.length == 0) {
       this.coupons = [];
     }
 
-    // calculate total price in EUR
-    let totalPriceEurValue =  totalPriceValue / Number(this.bgnEurExchangeRateParam?.value);
-    console.log(totalPriceEurValue);
-
     // publish the new values
-    this.totalPrice.next(totalPriceValue);
+    this.totalPriceBgn.next(totalPriceBgnValue);
     this.totalPriceEur.next(totalPriceEurValue);
     this.totalQuantity.next(totalQuantityValue);
 
@@ -126,6 +128,7 @@ export class CartService {
     if (cartItem.quantity == 0) {
       this.removeItem(cartItem);
     } else {
+      this.setSubtotalPrices(cartItem);
       this.computeCartTotals();
     }
   }
@@ -140,10 +143,15 @@ export class CartService {
     }
   }
 
-  initializeBgnEurExchangeRate() {
+  initializeSystemParams() {
     this.systemParameterService.getSystemParameterByCode(this.bgnEurExchangeRate).subscribe(
       data => this.bgnEurExchangeRateParam = data
     );
   }
 
+  // TODO
+  setSubtotalPrices(cartItem: CartItem) {
+    cartItem.subtotalPrice = cartItem.quantity * cartItem.unitPrice;
+    cartItem.subtotalPriceEur = cartItem.subtotalPrice / Number(this.bgnEurExchangeRateParam?.value);
+  }
 }

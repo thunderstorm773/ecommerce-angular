@@ -198,7 +198,7 @@ export class CheckoutComponent implements OnInit{
 
   reviewCartDetails() {
     // subscribe to cartService totalPrice
-    this.cartService.totalPrice.subscribe(
+    this.cartService.totalPriceBgn.subscribe(
       data => {
         this.totalPrice = data
       }
@@ -247,7 +247,7 @@ export class CheckoutComponent implements OnInit{
   resetCart() {
     // reset cart data
     this.cartService.cartItems = [];
-    this.cartService.totalPrice.next(0);
+    this.cartService.totalPriceBgn.next(0);
     this.cartService.totalPriceEur.next(0);
     this.cartService.totalQuantity.next(0);
     this.cartService.persistCartItems();
