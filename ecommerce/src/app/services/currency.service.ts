@@ -11,6 +11,7 @@ export class CurrencyService {
   showBothBgnEurCurrencies: string = 'SHOW_BOTH_BGN_EUR_CURRENCIES';
   showBgnCurrencyFirst: string = 'SHOW_BGN_CURRENCY_FIRST';
   bgnCurrencyName: string = 'лв.';
+  bgnCurrencyCode: string = 'BGN';
   eurCurrencyCode: string = 'EUR';
 
   showBothBgnEurCurrenciesParam: SystemParameter | null = null;
@@ -80,6 +81,20 @@ export class CurrencyService {
 
   formatNumber(num: number): number {
     return Math.round(num * 100) / 100;
+  }
+
+  getMainCurrencyCode(): string {
+    // If parameters exists
+    if (this.showBgnCurrencyFirstParam) {
+      
+      if (this.showBgnCurrencyFirstParam.value === '1') {
+          return this.bgnCurrencyCode;
+        } else {
+          return this.eurCurrencyCode;
+        }
+    }
+
+    return this.bgnCurrencyCode;
   }
 
   initializeSystemParams() {
