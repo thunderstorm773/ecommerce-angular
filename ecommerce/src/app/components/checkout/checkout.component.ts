@@ -28,7 +28,7 @@ export class CheckoutComponent implements OnInit{
 
   checkoutFormGroup!: FormGroup;
 
-  totalPrice: number = 0.00;
+  totalPriceBgn: number = 0.00;
   totalPriceEur: number = 0.00;
   totalQuantity: number = 0;
   creditCardYears: number[] = [];
@@ -123,7 +123,13 @@ export class CheckoutComponent implements OnInit{
     let purchase = this.createPurchaseObj(order, orderItems, shippingAddress, billingAddress, customer);
 
     // compute payment info
-    this.paymentInfo.amount = Math.round(this.totalPrice * 100);
+
+    if (this.currencyService.showBgnCurrencyFirstParam?.value === '1') {
+      this.paymentInfo.amount = Math.round(this.totalPriceBgn * 100);
+    }else {
+      this.paymentInfo.amount = Math.round(this.totalPriceEur * 100);
+    }
+
     this.paymentInfo.currency = this.currencyService.getMainCurrencyCode();
     this.paymentInfo.receiptEmail = purchase.customer.email;
 
@@ -197,11 +203,10 @@ export class CheckoutComponent implements OnInit{
   }
 
   reviewCartDetails() {
-    // TODO
     // subscribe to cartService totalPrice
     this.cartService.totalPriceBgn.subscribe(
       data => {
-        this.totalPrice = data
+        this.totalPriceBgn = data
       }
     );
 
@@ -221,7 +226,11 @@ export class CheckoutComponent implements OnInit{
   }
 
   createOrderObj(): Order {
-    return new Order(this.totalQuantity, this.totalPrice, this.totalPriceEur);
+    if(this.currencyService.showBgnCurrencyFirstParam?.value === '1') {
+      return new Order(this.totalQuantity, this.totalPriceBgn);
+    }else {
+      return new Order(this.totalQuantity, this.totalPriceEur);
+    }
   }
 
   createOrderItemsObj(): OrderItem[] {

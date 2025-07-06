@@ -10,12 +10,14 @@ export class CurrencyService {
 
   showBothBgnEurCurrencies: string = 'SHOW_BOTH_BGN_EUR_CURRENCIES';
   showBgnCurrencyFirst: string = 'SHOW_BGN_CURRENCY_FIRST';
+  bgnEurExchangeRate: string = 'BGN_EUR_EXCHANGE_RATE';
   bgnCurrencyName: string = 'лв.';
   bgnCurrencyCode: string = 'BGN';
   eurCurrencyCode: string = 'EUR';
 
   showBothBgnEurCurrenciesParam: SystemParameter | null = null;
   showBgnCurrencyFirstParam: SystemParameter | null = null;
+  bgnEurExchangeRateParam: SystemParameter | null = null;
 
   constructor(private currencyPipe: CurrencyPipe,
               private systemParameterService: SystemParameterService) { 
@@ -104,6 +106,10 @@ export class CurrencyService {
 
     this.systemParameterService.getSystemParameterByCode(this.showBgnCurrencyFirst).subscribe(
       data => this.showBgnCurrencyFirstParam = data
+    );
+
+    this.systemParameterService.getSystemParameterByCode(this.bgnEurExchangeRate).subscribe(
+      data => this.bgnEurExchangeRateParam = data
     );
   }
 }

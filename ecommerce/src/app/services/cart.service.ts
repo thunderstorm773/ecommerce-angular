@@ -2,15 +2,12 @@ import { Injectable } from '@angular/core';
 import { CartItem } from '../common/cart-item';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Coupon } from '../common/coupon';
-import { SystemParameterService } from './system-parameter.service';
-import { SystemParameter } from '../common/system-parameter';
+import { CurrencyService } from './currency.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-
-  bgnEurExchangeRate: string = 'BGN_EUR_EXCHANGE_RATE';
 
   cartItems: CartItem[] = [];
   cartItemsKey: string = 'cartItems';
@@ -20,13 +17,10 @@ export class CartService {
   totalPriceBgn: Subject<number> = new BehaviorSubject<number>(0);
   totalPriceEur: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
-  bgnEurExchangeRateParam: SystemParameter | null = null;
 
   storage: Storage = sessionStorage;
 
-  constructor(private systemParameterService: SystemParameterService) { 
-    
-    this.initializeSystemParams();
+  constructor(private currencyService: CurrencyService) { 
     this.getCouponsFromStorage();
     this.getCartItemsFromStorage();
   }
@@ -88,24 +82,37 @@ export class CartService {
 
   computeCartTotals() {
     let totalPriceBgnValue: number = 0;
+    let totalPriceEurValue: number = 0;
     let totalQuantityValue: number = 0;
 
+    let showBgnCurrencyFirst = this.currencyService.showBgnCurrencyFirstParam?.value;
     for (let cartItem of this.cartItems) {
-      totalPriceBgnValue += cartItem.quantity * cartItem.unitPrice;
+      if (showBgnCurrencyFirst == '1') {
+        totalPriceBgnValue += cartItem.quantity * cartItem.unitPrice;
+      }else {
+        totalPriceEurValue += cartItem.quantity * cartItem.unitPriceEur;
+      }
+      
       totalQuantityValue += cartItem.quantity;
     }
 
-    // TODO
     // if there is applied coupon
     if (this.coupons.length > 0) {
       for (const coupon of this.coupons) {
-        totalPriceBgnValue = totalPriceBgnValue - (totalPriceBgnValue * coupon.discountPercent / 100);
+        if (showBgnCurrencyFirst == '1') {
+          totalPriceBgnValue = totalPriceBgnValue - (totalPriceBgnValue * coupon.discountPercent / 100);
+        }else {
+          totalPriceEurValue = totalPriceEurValue - (totalPriceEurValue * coupon.discountPercent / 100);
+        }
       }
     } 
     
-    // calculate total price in EUR
-    // TODO
-    let totalPriceEurValue =  totalPriceBgnValue / Number(this.bgnEurExchangeRateParam?.value);
+    // calculate total price in BGN or EUR
+    if (showBgnCurrencyFirst == '1') {
+      totalPriceEurValue =  totalPriceBgnValue / Number(this.currencyService.bgnEurExchangeRateParam?.value);
+    } else {
+      totalPriceBgnValue =  totalPriceEurValue * Number(this.currencyService.bgnEurExchangeRateParam?.value);
+    }
 
     // remove coupons from storage if the cart is empty
     if (this.cartItems.length == 0) {
@@ -143,15 +150,13 @@ export class CartService {
     }
   }
 
-  initializeSystemParams() {
-    this.systemParameterService.getSystemParameterByCode(this.bgnEurExchangeRate).subscribe(
-      data => this.bgnEurExchangeRateParam = data
-    );
-  }
-
-  // TODO
   setSubtotalPrices(cartItem: CartItem) {
-    cartItem.subtotalPrice = cartItem.quantity * cartItem.unitPrice;
-    cartItem.subtotalPriceEur = cartItem.subtotalPrice / Number(this.bgnEurExchangeRateParam?.value);
+    if (this.currencyService.showBgnCurrencyFirstParam?.value == '1') {
+      cartItem.subtotalPrice = cartItem.quantity * cartItem.unitPrice;
+      cartItem.subtotalPriceEur = cartItem.subtotalPrice / Number(this.currencyService.bgnEurExchangeRateParam?.value);
+    }else {
+      cartItem.subtotalPriceEur = cartItem.quantity * cartItem.unitPriceEur;
+      cartItem.subtotalPrice = cartItem.subtotalPriceEur * Number(this.currencyService.bgnEurExchangeRateParam?.value);
+    }
   }
 }
