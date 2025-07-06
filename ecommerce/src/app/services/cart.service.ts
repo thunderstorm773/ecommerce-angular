@@ -108,10 +108,12 @@ export class CartService {
     } 
     
     // calculate total price in BGN or EUR
-    if (showBgnCurrencyFirst == '1') {
-      totalPriceEurValue =  totalPriceBgnValue / Number(this.currencyService.bgnEurExchangeRateParam?.value);
-    } else {
-      totalPriceBgnValue =  totalPriceEurValue * Number(this.currencyService.bgnEurExchangeRateParam?.value);
+    if (showBgnCurrencyFirst) {
+      if (showBgnCurrencyFirst == '1') {
+        totalPriceEurValue = totalPriceBgnValue / Number(this.currencyService.bgnEurExchangeRateParam?.value);
+      } else {
+        totalPriceBgnValue = totalPriceEurValue * Number(this.currencyService.bgnEurExchangeRateParam?.value);
+      }
     }
 
     // remove coupons from storage if the cart is empty
