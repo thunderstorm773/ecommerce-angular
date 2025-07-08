@@ -27,17 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.oktaSignIn = new OktaSignIn({
       logo: appConfig.oidc.logo,
-      baseUrl: appConfig.oidc.baseUrl,
-      clientId: appConfig.oidc.clientId,
-      redirectUri: appConfig.oidc.redirectUri,
-      authParams: {
-        pkce: true,
-        issuer: appConfig.oidc.issuer,
-        scopes: appConfig.oidc.scopes
-      },
-      features: {
-        registration: true
-      }
+      authClient: this.oktaAuth
     });
 
     this.oktaSignIn.renderEl({
