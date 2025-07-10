@@ -37,11 +37,13 @@ export class CurrencyService {
       if (this.showBothBgnEurCurrenciesParam.value === '1') {
 
         if (this.showBgnCurrencyFirstParam.value === '1') {
-          priceCurrency = priceBgn.toFixed(2) + ' ' + this.bgnCurrencyName + ' / ' 
-                          + this.currencyPipe.transform(priceEur.toFixed(2), this.eurCurrencyCode);
+          priceCurrency = priceBgn.toFixed(2) + ' ' + this.bgnCurrencyName + ' (' 
+                          + this.currencyPipe.transform(priceEur.toFixed(2), this.eurCurrencyCode) 
+                          + ')';
         } else {
           priceCurrency = this.currencyPipe.transform(priceEur.toFixed(2), this.eurCurrencyCode) 
-                          + ' / ' + priceBgn.toFixed(2) + ' ' + this.bgnCurrencyName;
+                          + ' (' + priceBgn.toFixed(2) + ' ' + this.bgnCurrencyName
+                          + ')';
         }
       } else {
 
