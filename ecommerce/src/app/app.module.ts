@@ -38,6 +38,7 @@ import { AdminEditCouponComponent } from './components/admin-edit-coupon/admin-e
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ProductCommentComponent } from './components/product-comment/product-comment.component';
 import { AdminSystemParametersComponent } from './components/admin-system-parameters/admin-system-parameters.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -54,6 +55,7 @@ const routes: Routes = [
                     data: {onAuthRequired: sendToLoginPage}},
   {path: 'login/callback', component: OktaCallbackComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent},
   {path: 'products/:id', component: ProductDetailsComponent},
   {path: 'products/category/:id', component: ProductListComponent},
   {path: 'cart-details', component: CartDetailsComponent},
@@ -113,7 +115,8 @@ const routes: Routes = [
     AdminAddCouponComponent,
     AdminEditCouponComponent,
     ProductCommentComponent,
-    AdminSystemParametersComponent
+    AdminSystemParametersComponent,
+    RegisterComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {

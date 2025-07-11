@@ -1,0 +1,151 @@
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+        <div id="okta-sign-in-widget" >
+            <main tabindex="-1" id="okta-sign-in" class="auth-container main-container no-beacon">
+
+                <div class="okta-sign-in-header auth-header">
+                    <h1>
+                        <img src="images/logo.png" class="auth-org-logo" alt="logo">
+                    </h1>
+                </div>
+
+                <div class="auth-content">
+
+                    <div class="auth-content-inner">
+                        <div class="primary-auth">
+                            <form [formGroup]="registerUserFormGroup" (ngSubmit)="registerUser()" class="primary-auth-form o-form o-form-edit-mode">
+                                <div class="o-form-content o-form-theme clearfix">
+
+                                    <h2 data-se="o-form-head" class="okta-form-title o-form-head">Sign Up</h2>
+                                    <div class="o-form-fieldset-container">
+                                        <div class="o-form-fieldset o-form-label-top margin-btm-5">
+
+                                            <div class="okta-form-label o-form-label">
+                                                <label>Email&nbsp;</label>
+                                            </div>
+
+                                            <div class="o-form-input o-form-has-errors">
+                                                <span class="o-form-input-name-username o-form-control okta-form-input-field input-fix">
+                                                    <input type="email" formControlName="email">
+                                                </span>
+
+                                                <p *ngIf="email?.invalid && (email?.dirty || email?.touched)" 
+                                                   class="okta-form-input-error o-form-input-error o-form-explain">
+   
+                                                    <span *ngIf="email?.errors?.['required']" class="icon icon-16 error-16-small">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email is required
+                                                    </span>
+                                    
+                                                    <span *ngIf="email?.errors?.['pattern']" class="icon icon-16 error-16-small">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email must be in valid format
+                                                    </span>
+   
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="o-form-fieldset o-form-label-top margin-btm-5">
+
+                                            <div class="okta-form-label o-form-label">
+                                                <label>First Name&nbsp;</label>
+                                            </div>
+
+                                            <div class="o-form-input o-form-has-errors">
+                                                <span class="o-form-input-name-username o-form-control okta-form-input-field input-fix">
+                                                    <input type="text" formControlName="firstName">
+                                                </span>
+
+                                                <p *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" 
+                                                   class="okta-form-input-error o-form-input-error o-form-explain">
+   
+                                                    <span *ngIf="firstName?.errors?.['required'] || 
+                                                          firstName?.errors?.['notOnlyWhitespace']" class="icon icon-16 error-16-small">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Name is required
+                                                    </span>
+                                    
+                                                    <span *ngIf="firstName?.errors?.['minlength']" class="icon icon-16 error-16-small">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Name must be minimum 2 characters
+                                                    </span>
+                                                    
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="o-form-fieldset o-form-label-top margin-btm-5">
+
+                                            <div class="okta-form-label o-form-label">
+                                                <label>Last Name&nbsp;</label>
+                                            </div>
+
+                                            <div class="o-form-input o-form-has-errors">
+                                                <span class="o-form-input-name-username o-form-control okta-form-input-field input-fix">
+                                                    <input type="text" formControlName="lastName">
+                                                </span>
+
+                                                <p *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" 
+                                                   class="okta-form-input-error o-form-input-error o-form-explain">
+                                                
+                                                    <span *ngIf="lastName?.errors?.['required'] || 
+                                                          lastName?.errors?.['notOnlyWhitespace']" class="icon icon-16 error-16-small">
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Name is required
+                                                    </span>
+                                        
+                                                    <span *ngIf="lastName?.errors?.['minlength']" class="icon icon-16 error-16-small">
+                                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Name must be minimum 2 characters
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="o-form-fieldset o-form-label-top margin-btm-5">
+
+                                            <div class="okta-form-label o-form-label">
+                                                <label>Password&nbsp;</label>
+                                            </div>
+
+                                            <div class="o-form-input o-form-has-errors">
+                                                <span class="o-form-input-name-password o-form-control okta-form-input-field input-fix">
+                                                    <input type="password" formControlName="password">
+                                                </span>
+
+                                                <p *ngIf="password?.invalid && (password?.dirty || password?.touched)" 
+                                                   class="okta-form-input-error o-form-input-error o-form-explain">
+                                                
+                                                    <span *ngIf="password?.errors?.['required'] || 
+                                                          password?.errors?.['notOnlyWhitespace']" class="icon icon-16 error-16-small">
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password is required
+                                                    </span>
+                                        
+                                                    <span *ngIf="password?.errors?.['minlength']" class="icon icon-16 error-16-small">
+                                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password must be minimum 5 characters
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="o-form-button-bar">
+                                    <button class="button button-primary" type="submit">
+                                        Sign Up
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div class="registration-container">
+                                <div class="content-container">
+                                    <span class="registration-label">Back to Sign In?</span>
+                                    <a class="registration-link" routerLink="/login">Sign in</a>
+                                </div>
+                            </div>  
+
+                        </div>
+                    </div>
+                </div>
+            </main>              
+        </div>
+    </div>
+  </div>
+</div>
