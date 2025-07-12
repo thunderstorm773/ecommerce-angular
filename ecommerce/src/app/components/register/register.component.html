@@ -64,7 +64,8 @@
                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Name is required
                                                     </span>
                                     
-                                                    <span *ngIf="firstName?.errors?.['minlength']" class="icon icon-16 error-16-small">
+                                                    <span *ngIf="!firstName?.errors?.['notOnlyWhitespace'] 
+                                                          && firstName?.errors?.['minlength']" class="icon icon-16 error-16-small">
                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Name must be minimum 2 characters
                                                     </span>
                                                     
@@ -91,7 +92,8 @@
                                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Name is required
                                                     </span>
                                         
-                                                    <span *ngIf="lastName?.errors?.['minlength']" class="icon icon-16 error-16-small">
+                                                    <span *ngIf="!lastName?.errors?.['notOnlyWhitespace'] 
+                                                          && lastName?.errors?.['minlength']" class="icon icon-16 error-16-small">
                                                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Name must be minimum 2 characters
                                                     </span>
                                                 </p>
@@ -117,7 +119,8 @@
                                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password is required
                                                     </span>
                                         
-                                                    <span *ngIf="password?.errors?.['minlength']" class="icon icon-16 error-16-small">
+                                                    <span *ngIf="!password?.errors?.['notOnlyWhitespace'] 
+                                                          && password?.errors?.['minlength']" class="icon icon-16 error-16-small">
                                                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password must be minimum 5 characters
                                                     </span>
                                                 </p>

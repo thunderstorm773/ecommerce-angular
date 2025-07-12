@@ -5,6 +5,8 @@ export default {
         issuer: 'https://trial-8852316.okta.com/oauth2/default',
         redirectUri: 'https://localhost:4200/login/callback',
         scopes: ['openid', 'profile', 'email'],
+        apiToken: '',
+        domain: 'https://trial-8852316.okta.com',
         pkce: true
     }
 }
