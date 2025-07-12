@@ -1,10 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { FormValidator } from '../../validators/form-validator';
-import { OktaAuth } from '@okta/okta-auth-js';
-import { OKTA_AUTH } from '@okta/okta-angular';
 import { UserRegistrationService } from '../../services/user-registration.service';
 
 @Component({
@@ -20,7 +18,6 @@ export class RegisterComponent implements OnInit {
   
   constructor(private userRegistrationService: UserRegistrationService,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute,
               private router: Router,
               private toastService: ToastService) { }
 
@@ -37,7 +34,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  async registerUser() {
+  registerUser() {
     if (this.registerUserFormGroup.invalid) {
         this.registerUserFormGroup.markAllAsTouched();
         return;
