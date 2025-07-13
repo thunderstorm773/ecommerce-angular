@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { SystemParameter } from '../common/system-parameter';
 import { Observable } from 'rxjs';
+import { AddSystemParameter } from '../common/add-system-parameter';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,11 @@ export class SystemParameterService {
       
       const systemParameterUrl = `${this.systemParameterBaseUrl}/code/${code}`;
       return this.httpClient.get<SystemParameter>(systemParameterUrl);
+  }
+
+  createSystemParameter(systemParameter: AddSystemParameter): Observable<any> {
+    const systemParameterUrl = `${this.systemParameterAdminBaseUrl}/add`;
+    return this.httpClient.post<AddSystemParameter>(systemParameterUrl, systemParameter);
   }
 }
 
