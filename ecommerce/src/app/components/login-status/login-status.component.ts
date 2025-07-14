@@ -43,7 +43,12 @@ export class LoginStatusComponent implements OnInit {
           }
           
           const userEmail = res.email;
+          const userFirstName = res.given_name as string;
+          const userLastName = res.family_name as string;
+
           this.storage.setItem('userEmail', JSON.stringify(userEmail));
+          this.storage.setItem('userFirstName', JSON.stringify(userFirstName));
+          this.storage.setItem('userLastName', JSON.stringify(userLastName));
         }
       );
     }
