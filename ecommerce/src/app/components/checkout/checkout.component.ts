@@ -123,7 +123,6 @@ export class CheckoutComponent implements OnInit{
     let purchase = this.createPurchaseObj(order, orderItems, shippingAddress, billingAddress, customer);
 
     // compute payment info
-
     if (this.currencyService.showBgnCurrencyFirstParam?.value === '1') {
       this.paymentInfo.amount = Math.round(this.totalPriceBgn * 100);
     }else {
