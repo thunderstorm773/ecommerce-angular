@@ -54,11 +54,11 @@ export class CheckoutComponent implements OnInit{
               private toastService: ToastService,
               private router: Router) {}
 
-  ngOnInit(): void {
-
+  async ngOnInit(): Promise<void> {
+    await this.currencyService.initSystemParams();
+    
     this.setupStripePaymentForm();
     this.createCheckoutFormGroup();
-
     this.populateCountries();
     this.reviewCartDetails();
   }

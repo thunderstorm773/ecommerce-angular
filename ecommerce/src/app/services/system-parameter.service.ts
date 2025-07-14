@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { SystemParameter } from '../common/system-parameter';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { AddSystemParameter } from '../common/add-system-parameter';
 import { EditSystemParameter } from '../common/edit-system-parameter';
 
@@ -33,6 +33,10 @@ export class SystemParameterService {
       
       const systemParameterUrl = `${this.systemParameterBaseUrl}/code/${code}`;
       return this.httpClient.get<SystemParameter>(systemParameterUrl);
+  }
+
+  async getSystemParameterByCodeSync(code: string): Promise<SystemParameter> {
+    return await firstValueFrom(this.getSystemParameterByCode(code));
   }
 
   createSystemParameter(systemParameter: AddSystemParameter): Observable<any> {

@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { SystemParameterService } from './system-parameter.service';
 import { SystemParameter } from '../common/system-parameter';
 
@@ -7,6 +7,8 @@ import { SystemParameter } from '../common/system-parameter';
   providedIn: 'root'
 })
 export class CurrencyService {
+
+  initializedSystemParams: boolean = false;
 
   showBothBgnEurCurrencies: string = 'SHOW_BOTH_BGN_EUR_CURRENCIES';
   showBgnCurrencyFirst: string = 'SHOW_BGN_CURRENCY_FIRST';
@@ -22,7 +24,18 @@ export class CurrencyService {
   constructor(private currencyPipe: CurrencyPipe,
               private systemParameterService: SystemParameterService) { 
 
-    this.initializeSystemParams();      
+  }
+
+  async initSystemParams(): Promise<void> {
+    if(this.initializedSystemParams) {
+      return;
+    }
+    
+    this.showBothBgnEurCurrenciesParam = await this.systemParameterService.getSystemParameterByCodeSync(this.showBothBgnEurCurrencies);
+    this.showBgnCurrencyFirstParam = await this.systemParameterService.getSystemParameterByCodeSync(this.showBgnCurrencyFirst);
+    this.bgnEurExchangeRateParam = await this.systemParameterService.getSystemParameterByCodeSync(this.bgnEurExchangeRate);
+    
+    this.initializedSystemParams = true;
   }
 
   formatPriceString(priceBgn: number, priceEur: number): string {
@@ -99,19 +112,5 @@ export class CurrencyService {
     }
 
     return this.bgnCurrencyCode;
-  }
-
-  initializeSystemParams() {
-    this.systemParameterService.getSystemParameterByCode(this.showBothBgnEurCurrencies).subscribe(
-      data => this.showBothBgnEurCurrenciesParam = data
-    );
-
-    this.systemParameterService.getSystemParameterByCode(this.showBgnCurrencyFirst).subscribe(
-      data => this.showBgnCurrencyFirstParam = data
-    );
-
-    this.systemParameterService.getSystemParameterByCode(this.bgnEurExchangeRate).subscribe(
-      data => this.bgnEurExchangeRateParam = data
-    );
   }
 }

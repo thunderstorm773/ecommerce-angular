@@ -18,7 +18,9 @@ export class CartStatusComponent implements OnInit{
   constructor(public currencyService: CurrencyService,
               private cartService: CartService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.currencyService.initSystemParams();
+    
     this.updateCartStatus();
   }
 

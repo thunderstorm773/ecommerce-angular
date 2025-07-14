@@ -22,7 +22,9 @@ export class ProductDetailsComponent implements OnInit{
               private cartService: CartService,
               private route: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.currencyService.initSystemParams();
+    
     this.route.paramMap.subscribe(() => {
         this.handleProductDetails();
     });

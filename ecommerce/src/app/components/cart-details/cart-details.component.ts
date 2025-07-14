@@ -29,7 +29,9 @@ export class CartDetailsComponent implements OnInit{
               private couponService: CouponService,
               private toastService: ToastService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.currencyService.initSystemParams();
+    
     this.createCouponFormGroup();
     this.listCartDetails();
   }

@@ -23,7 +23,9 @@ export class OrderHistoryComponent implements OnInit {
   constructor(public currencyService: CurrencyService,
               private orderHistoryService: OrderHistoryService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.currencyService.initSystemParams();
+    
     this.listOrderHistory();
   }
 
