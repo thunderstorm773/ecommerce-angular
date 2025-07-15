@@ -11,6 +11,7 @@
                             <th scope="col" width="10%">Total Price</th>
                             <th scope="col" width="10%">Total Quantity</th>
                             <th scope="col" width="10%">Date</th>
+                            <th scope="col" width="10%">Actions</th>
                         </tr>
                     </thead>
 
@@ -20,6 +21,10 @@
                             <td>{{ currencyService.formatPriceString(orderHistory.totalPrice, orderHistory.totalPriceEur) }}</td>
                             <td>{{ orderHistory.totalQuantity }}</td>
                             <td>{{ orderHistory.dateCreated | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+                            <td>
+                                <button class="btn btn-primary me-2" 
+                                        [routerLink]="['/order-history', orderHistory.id]">Details</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -41,6 +41,7 @@ import { AdminSystemParametersComponent } from './components/admin-system-parame
 import { RegisterComponent } from './components/register/register.component';
 import { AdminAddSystemParameterComponent } from './components/admin-add-system-parameter/admin-add-system-parameter.component';
 import { AdminEditSystemParameterComponent } from './components/admin-edit-system-parameter/admin-edit-system-parameter.component';
+import { OrderHistoryDetailsComponent } from './components/order-history-details/order-history-details.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -53,6 +54,8 @@ function sendToLoginPage(oktaAuth: OktaAuth, injector: Injector) {
 const routes: Routes = [
   {path: 'order-history', component: OrderHistoryComponent, canActivate: [OktaAuthGuard],
                     data: {onAuthRequired: sendToLoginPage}},
+  {path: 'order-history/:id', component: OrderHistoryDetailsComponent, canActivate: [OktaAuthGuard],
+                    data: {onAuthRequired: sendToLoginPage}},                  
   {path: 'members', component: MembersPageComponent, canActivate: [OktaAuthGuard],
                     data: {onAuthRequired: sendToLoginPage}},
   {path: 'login/callback', component: OktaCallbackComponent},
@@ -126,7 +129,8 @@ const routes: Routes = [
     AdminSystemParametersComponent,
     RegisterComponent,
     AdminAddSystemParameterComponent,
-    AdminEditSystemParameterComponent
+    AdminEditSystemParameterComponent,
+    OrderHistoryDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {
