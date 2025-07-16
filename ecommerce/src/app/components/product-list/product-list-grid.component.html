@@ -31,6 +31,9 @@
 
                         <button (click)="addToCart(product)" class="btn btn-primary btn-sm"
                                 [disabled]="product.unitsInStock < 1" >Buy</button>
+
+                        <button *oktaHasAnyGroup="['Admin']" class="btn btn-warning btn-sm ms-2" 
+                                [routerLink]="['/admin/products/edit', product.id]">Edit</button>        
                     </div>
                     
                 </div>
