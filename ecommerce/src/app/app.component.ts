@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ecommerce';
+
+  reloadProductsPage(event: MouseEvent): void {
+    event.preventDefault();
+    window.location.href = '/products';
+  }
 }
