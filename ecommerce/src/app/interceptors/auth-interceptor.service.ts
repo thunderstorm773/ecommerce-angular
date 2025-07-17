@@ -21,18 +21,21 @@ export class AuthInterceptorService implements HttpInterceptor {
     const baseURL = environment.ecommerceURL;
     const securedEndpoints = ['orders', 'coupons/actives', 'admin/coupons', 
                               'admin/product-categories', 'checkout', 'comments/add', 
-                              'comments/delete', 'admin/system-parameters'];
+                              'comments/delete', 'admin/system-parameters',
+                              'products'];
 
     if (securedEndpoints.some(url => request.urlWithParams.includes(baseURL + url))) {
       // get access token
       const accessToken = this.oktaAuth.getAccessToken();
+      if(accessToken) {
+        // clone the request and add new header with access token
+        request = request.clone({
+          setHeaders: {
+            Authorization: 'Bearer ' + accessToken
+          }
+        });
 
-      // clone the request and add new header with access token
-      request = request.clone({
-        setHeaders: {
-          Authorization: 'Bearer ' + accessToken
-        }
-      });
+      }
     }
 
     return await lastValueFrom(next.handle(request));
