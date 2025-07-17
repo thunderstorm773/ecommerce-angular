@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../common/product';
 import { ActivatedRoute } from '@angular/router';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
 import { CurrencyService } from '../../services/currency.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-product-list',
@@ -21,6 +23,9 @@ export class ProductListComponent implements OnInit {
   currentCategoryName: string | null = '';
   searchMode: boolean = false;
 
+  selectedProductId?: number;
+  modalService = inject(NgbModal);
+
   // pagination properties
   currentPageNumber: number = 1;
   pageSize: number = 20;
@@ -31,6 +36,7 @@ export class ProductListComponent implements OnInit {
   constructor(public currencyService: CurrencyService,
               private productService: ProductService,
               private cartService: CartService,
+              private toastService: ToastService,
               private route: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
@@ -112,5 +118,16 @@ export class ProductListComponent implements OnInit {
 
     const cartItem = new CartItem(product);
     this.cartService.addToCart(cartItem);
+  }
+
+  open(content: TemplateRef<any>, productId: number) {
+    this.selectedProductId = productId;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true });
+  }
+
+  publishProduct(productId?: number) {
+  }
+
+  unpublishProduct(productId?: number) {
   }
 }

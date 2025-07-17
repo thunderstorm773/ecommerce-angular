@@ -13,9 +13,9 @@
                 <button *ngIf="userRoleDropdownLabel != 'Admin'" routerLink="/members" class="dropdown-item">Member</button>
                 <button routerLink="/order-history" class="dropdown-item">My Orders</button>
                 <button *oktaHasAnyGroup="['Admin']" routerLink="/admin/products/add" class="dropdown-item">Add Product</button>
-                <button *oktaHasAnyGroup="['Admin']" routerLink="/admin/coupons" class="dropdown-item">Coupons</button>
                 <button *oktaHasAnyGroup="['Admin']" routerLink="/admin/categories" class="dropdown-item">Product Categories</button>
                 <button *oktaHasAnyGroup="['Admin']" routerLink="/admin/system-parameters" class="dropdown-item">System Parameters</button>
+                <button *oktaHasAnyGroup="['Admin']" routerLink="/admin/coupons" class="dropdown-item">Coupons</button>
             </div>
         </div>
     </div>

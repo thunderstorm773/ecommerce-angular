@@ -16,7 +16,15 @@
                 [disabled]="product.unitsInStock < 1">Buy</button>
 
         <button *oktaHasAnyGroup="['Admin']" class="btn btn-warning btn-sm ms-2" 
-                [routerLink]="['/admin/products/edit', product.id]">Edit</button>        
+                [routerLink]="['/admin/products/edit', product.id]">Edit</button>
+                
+        <ng-container *oktaHasAnyGroup="['Admin']">        
+            <button *ngIf="product.isActive" class="btn btn-danger btn-sm ms-2" 
+                    (click)="open(deactivate, product.id)">Unpublish</button>
+
+            <button *ngIf="!product.isActive" class="btn btn-info btn-sm ms-2" 
+                           (click)="open(activate, product.id)">Publish</button>
+        </ng-container>        
 
         <br/>
         <br/>
@@ -41,3 +49,37 @@
         </div>
     </div>
 </div>
+
+<ng-template #deactivate let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Unpublish Product</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+				<p>Do you really want to unpublish this product?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="unpublishProduct(selectedProductId)">Unpublish</button>
+	</div>
+</ng-template>
+
+<ng-template #activate let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Publish Product</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+				<p>Do you want to publish this product?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="publishProduct(selectedProductId)">Publish</button>
+	</div>
+</ng-template>
