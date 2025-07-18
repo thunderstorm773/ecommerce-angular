@@ -30,9 +30,10 @@
                         </div>
 
                         <button (click)="addToCart(product)" class="btn btn-primary btn-sm"
-                                [disabled]="product.unitsInStock < 1" >Buy</button>
+                                *ngIf="product.unitsInStock > 0 && product.isActive" >Buy</button>
 
-                        <button *oktaHasAnyGroup="['Admin']" class="btn btn-warning btn-sm ms-2" 
+                        <button *oktaHasAnyGroup="['Admin']" [ngClass]="product.unitsInStock > 0 && product.isActive ? 
+                                                             'btn btn-warning btn-sm ms-2' : 'btn btn-warning btn-sm'" 
                                 [routerLink]="['/admin/products/edit', product.id]">Edit</button>
                                 
                         <ng-container *oktaHasAnyGroup="['Admin']">        

@@ -126,8 +126,36 @@ export class ProductListComponent implements OnInit {
   }
 
   publishProduct(productId?: number) {
+    if (productId) {
+      this.modalService.dismissAll();
+
+      this.productService.publishProduct(productId).subscribe({
+        next: (data) => {
+          this.toastService.show({message: 'Product published successfully', className: 'bg-success-toast text-light' });
+          this.listProducts();
+        },
+        error: (err) => {
+          this.toastService.show({message: `Error published product: ${err.error.message}`,
+                                  className: 'bg-danger text-light' });
+        }
+      });
+    }
   }
 
   unpublishProduct(productId?: number) {
+    if (productId) {
+      this.modalService.dismissAll();
+
+      this.productService.unpublishProduct(productId).subscribe({
+        next: (data) => {
+          this.toastService.show({message: 'Product unpublished successfully', className: 'bg-success-toast text-light' });
+          this.listProducts();
+        },
+        error: (err) => {
+          this.toastService.show({message: `Error unpublished product: ${err.error.message}`,
+                                  className: 'bg-danger text-light' });
+        }
+      });
+    }
   }
 }

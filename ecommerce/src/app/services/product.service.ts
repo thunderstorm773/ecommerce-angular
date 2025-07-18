@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 export class ProductService {
 
   private baseUrl = environment.ecommerceURL + 'products';
+  private adminBaseUrl = environment.ecommerceURL + 'admin/products';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -39,6 +40,16 @@ export class ProductService {
     const productUrl = `${this.baseUrl}/${productId}`;
 
     return this.httpClient.get<Product>(productUrl);
+  }
+
+  publishProduct(productId: number): Observable<Product> {
+    const productUrl = `${this.adminBaseUrl}/publish/${productId}`;
+    return this.httpClient.post<Product>(productUrl, {});
+  }
+
+  unpublishProduct(productId: number): Observable<Product> {
+    const productUrl = `${this.adminBaseUrl}/unpublish/${productId}`;
+    return this.httpClient.post<Product>(productUrl, {});
   }
 
   private getProductsPaginate(url: string, 

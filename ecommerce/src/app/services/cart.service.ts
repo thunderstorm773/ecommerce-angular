@@ -70,7 +70,7 @@ export class CartService {
         alert(`Only ${cartItem.unitsInStock} items for "${cartItem.name}" are available in stock.`);
       }
 
-      this.setSubtotalPrices(cartItem);
+      this.setSubtotalPrices(existingCartItem);
     } else {
       this.setSubtotalPrices(cartItem);
       this.cartItems.push(cartItem);
