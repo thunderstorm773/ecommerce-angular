@@ -3,11 +3,7 @@
     <div *ngIf="isAuthenticated" class="login-status-user-info">
         Hi, {{ userFullName }}
 
-        <button (click)="logout()" class="security-btn">
-            Logout
-        </button>
-
-        <div style="margin-left: 5px;" ngbDropdown class="d-inline-block">
+        <div style="margin-right: 5px;" ngbDropdown class="d-inline-block">
             <button class="security-btn" ngbDropdownToggle>{{ userRoleDropdownLabel }}</button>
             <div ngbDropdownMenu>
                 <button *ngIf="userRoleDropdownLabel != 'Admin'" routerLink="/members" class="dropdown-item">Member</button>
@@ -18,6 +14,10 @@
                 <button *oktaHasAnyGroup="['Admin']" routerLink="/admin/coupons" class="dropdown-item">Coupons</button>
             </div>
         </div>
+
+        <button (click)="logout()" class="security-btn">
+            Logout
+        </button>
     </div>
 
     <div *ngIf="!isAuthenticated" class="login-status-user-info">
