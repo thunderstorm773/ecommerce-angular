@@ -35,10 +35,6 @@ export class SystemParameterService {
       return this.httpClient.get<SystemParameter>(systemParameterUrl);
   }
 
-  async getSystemParameterByCodeSync(code: string): Promise<SystemParameter> {
-    return await firstValueFrom(this.getSystemParameterByCode(code));
-  }
-
   createSystemParameter(systemParameter: AddSystemParameter): Observable<any> {
     const systemParameterUrl = `${this.systemParameterAdminBaseUrl}/add`;
     return this.httpClient.post<AddSystemParameter>(systemParameterUrl, systemParameter);

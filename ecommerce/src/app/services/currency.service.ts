@@ -1,14 +1,13 @@
 import { CurrencyPipe } from '@angular/common';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { SystemParameterService } from './system-parameter.service';
 import { SystemParameter } from '../common/system-parameter';
+import { firstValueFrom, forkJoin, shareReplay, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurrencyService {
-
-  initializedSystemParams: boolean = false;
 
   showBothBgnEurCurrencies: string = 'SHOW_BOTH_BGN_EUR_CURRENCIES';
   showBgnCurrencyFirst: string = 'SHOW_BGN_CURRENCY_FIRST';
@@ -22,20 +21,20 @@ export class CurrencyService {
   bgnEurExchangeRateParam: SystemParameter | null = null;
 
   constructor(private currencyPipe: CurrencyPipe,
-              private systemParameterService: SystemParameterService) { 
+              private systemParameterService: SystemParameterService) {}
 
-  }
-
-  async initSystemParams(): Promise<void> {
-    if(this.initializedSystemParams) {
-      return;
-    }
-    
-    this.showBothBgnEurCurrenciesParam = await this.systemParameterService.getSystemParameterByCodeSync(this.showBothBgnEurCurrencies);
-    this.showBgnCurrencyFirstParam = await this.systemParameterService.getSystemParameterByCodeSync(this.showBgnCurrencyFirst);
-    this.bgnEurExchangeRateParam = await this.systemParameterService.getSystemParameterByCodeSync(this.bgnEurExchangeRate);
-    
-    this.initializedSystemParams = true;
+  initSystemParams(): Promise<void> {
+    return firstValueFrom(
+      forkJoin({
+        showBothBgnEurCurrencies: this.systemParameterService.getSystemParameterByCode(this.showBothBgnEurCurrencies),
+        showBgnCurrencyFirst: this.systemParameterService.getSystemParameterByCode(this.showBgnCurrencyFirst),
+        bgnEurExchangeRate: this.systemParameterService.getSystemParameterByCode(this.bgnEurExchangeRate)
+      })
+    ).then((params) => {
+      this.showBothBgnEurCurrenciesParam = params.showBothBgnEurCurrencies;
+      this.showBgnCurrencyFirstParam = params.showBgnCurrencyFirst;
+      this.bgnEurExchangeRateParam = params.bgnEurExchangeRate;
+    });
   }
 
   formatPriceString(priceBgn: number, priceEur: number): string {
@@ -96,10 +95,6 @@ export class CurrencyService {
     return priceCurrency;
   }
 
-  formatNumber(num: number): number {
-    return Math.round(num * 100) / 100;
-  }
-
   getMainCurrencyCode(): string {
     // If parameters exists
     if (this.showBgnCurrencyFirstParam) {
@@ -112,5 +107,9 @@ export class CurrencyService {
     }
 
     return this.bgnCurrencyCode;
+  }
+
+  formatNumber(num: number): number {
+    return Math.round(num * 100) / 100;
   }
 }

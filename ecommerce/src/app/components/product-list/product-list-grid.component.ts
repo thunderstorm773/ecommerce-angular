@@ -39,9 +39,7 @@ export class ProductListComponent implements OnInit {
               private toastService: ToastService,
               private route: ActivatedRoute) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.currencyService.initSystemParams();
-    
+  ngOnInit(): void {
     // Query params
     this.route.queryParamMap.subscribe(params => {
       this.currentCategoryName = params.get('categoryName');

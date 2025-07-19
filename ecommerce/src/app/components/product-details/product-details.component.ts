@@ -27,8 +27,7 @@ export class ProductDetailsComponent implements OnInit{
               private toastService: ToastService,
               private route: ActivatedRoute) { }
 
-  async ngOnInit(): Promise<void> {
-    await this.currencyService.initSystemParams();
+  ngOnInit(): void {
     
     this.route.paramMap.subscribe(() => {
         this.handleProductDetails();

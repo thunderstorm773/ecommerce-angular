@@ -1,4 +1,4 @@
-import { Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +42,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AdminAddSystemParameterComponent } from './components/admin-add-system-parameter/admin-add-system-parameter.component';
 import { AdminEditSystemParameterComponent } from './components/admin-edit-system-parameter/admin-edit-system-parameter.component';
 import { OrderHistoryDetailsComponent } from './components/order-history-details/order-history-details.component';
+import { CurrencyService } from './services/currency.service';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -143,10 +144,18 @@ const routes: Routes = [
     OktaAuthModule,
     GoogleMapsModule
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi()), ProductService, ProductCategoryService, 
-             {provide: OKTA_CONFIG, useValue: { oktaAuth }}, 
-             {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}, 
-             DatePipe, CurrencyPipe],
+  providers: [
+              provideHttpClient(withInterceptorsFromDi()), ProductService, ProductCategoryService, 
+              {provide: OKTA_CONFIG, useValue: { oktaAuth }}, 
+              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}, 
+              DatePipe, CurrencyPipe,
+              {
+                provide: APP_INITIALIZER,
+                useFactory: (currencyService: CurrencyService) => () => currencyService.initSystemParams(),
+                deps: [CurrencyService],
+                multi: true
+              }
+            ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
