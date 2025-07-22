@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../common/product';
 import { environment } from '../../environments/environment';
+import { AddProduct } from '../common/add-product';
+import { EditProduct } from '../common/edit-product';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +52,16 @@ export class ProductService {
   unpublishProduct(productId: number): Observable<Product> {
     const productUrl = `${this.adminBaseUrl}/unpublish/${productId}`;
     return this.httpClient.post<Product>(productUrl, {});
+  }
+
+  createProduct(product: AddProduct): Observable<any> {
+    const productUrl = `${this.adminBaseUrl}/add`;
+    return this.httpClient.post<AddProduct>(productUrl, product);
+  }
+  
+  editProduct(id: number, product: EditProduct): Observable<any> {
+    const productUrl = `${this.adminBaseUrl}/edit/${id}`;
+    return this.httpClient.put<EditProduct>(productUrl, product);
   }
 
   private getProductsPaginate(url: string, 

@@ -43,6 +43,7 @@ import { AdminAddSystemParameterComponent } from './components/admin-add-system-
 import { AdminEditSystemParameterComponent } from './components/admin-edit-system-parameter/admin-edit-system-parameter.component';
 import { OrderHistoryDetailsComponent } from './components/order-history-details/order-history-details.component';
 import { CurrencyService } from './services/currency.service';
+import { AdminAddProductComponent } from './components/admin-add-product/admin-add-product.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -95,6 +96,9 @@ const routes: Routes = [
   {path: 'admin/system-parameters/edit/:id', component: AdminEditSystemParameterComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
     data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
   },
+  {path: 'admin/products/add', component: AdminAddProductComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
+    data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
+  },
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
   {path: 'about-us', component: AboutUsComponent},
@@ -131,7 +135,8 @@ const routes: Routes = [
     RegisterComponent,
     AdminAddSystemParameterComponent,
     AdminEditSystemParameterComponent,
-    OrderHistoryDetailsComponent
+    OrderHistoryDetailsComponent,
+    AdminAddProductComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {
