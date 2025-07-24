@@ -36,7 +36,7 @@ export class AdminAddProductComponent implements OnInit {
         unitPrice: [null, {validators: [Validators.required, Validators.min(0.5)]}],
         imageUrl: ['', {validators: [Validators.required, FormValidator.checkNotOnlyWhitespace]}],
         unitsInStock: [null, {validators: [Validators.required, Validators.min(1), Validators.pattern(/^\d+$/)]}],
-        isActive: [false]
+        isActive: [false] 
       });
   }
 
