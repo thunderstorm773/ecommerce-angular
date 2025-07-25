@@ -44,6 +44,7 @@ import { AdminEditSystemParameterComponent } from './components/admin-edit-syste
 import { OrderHistoryDetailsComponent } from './components/order-history-details/order-history-details.component';
 import { CurrencyService } from './services/currency.service';
 import { AdminAddProductComponent } from './components/admin-add-product/admin-add-product.component';
+import { AdminEditProductComponent } from './components/admin-edit-product/admin-edit-product.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -136,7 +137,8 @@ const routes: Routes = [
     AdminAddSystemParameterComponent,
     AdminEditSystemParameterComponent,
     OrderHistoryDetailsComponent,
-    AdminAddProductComponent
+    AdminAddProductComponent,
+    AdminEditProductComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {
