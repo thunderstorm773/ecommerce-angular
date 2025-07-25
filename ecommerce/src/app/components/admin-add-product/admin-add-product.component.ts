@@ -5,6 +5,9 @@ import { ProductService } from '../../services/product.service';
 import { ToastService } from '../../services/toast.service';
 import { FormValidator } from '../../validators/form-validator';
 import { AddProduct } from '../../common/add-product';
+import { ProductCategory } from '../../common/product-category';
+import { ProductCategoryService } from '../../services/product-category.service';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-admin-add-product',
@@ -17,14 +20,21 @@ export class AdminAddProductComponent implements OnInit {
 
   productFormGroup!: FormGroup;
   isDisabled: boolean = false;
+
+  productCategories: ProductCategory[] = [];
+  mainCurrency: string = '';
     
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private productService: ProductService, 
+              private productCategoryService: ProductCategoryService,
+              private currencyService: CurrencyService,
               private toastService: ToastService) {}
   
   
   ngOnInit(): void {
+    this.fillProductCategories();
+    this.mainCurrency = this.currencyService.getMainCurrencyCode();
     this.createProductFormGroup();
   }
 
@@ -38,6 +48,12 @@ export class AdminAddProductComponent implements OnInit {
         unitsInStock: [null, {validators: [Validators.required, Validators.min(1), Validators.pattern(/^\d+$/)]}],
         isActive: [false] 
       });
+  }
+
+  fillProductCategories() {
+    this.productCategoryService.getActiveProductCategories().subscribe(
+      data => { this.productCategories = data; },
+    );
   }
 
   createNewProduct() {

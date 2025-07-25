@@ -65,8 +65,7 @@ export class AdminEditSystemParameterComponent implements OnInit {
         this.isDisabled = false;
         this.systemParameterFormGroup.reset();
           
-        this.router.navigateByUrl('/admin/system-parameters');
-        this.toastService.show({message: 'System parameter edited successfully', className: 'bg-success-toast text-light' });
+        window.location.href = '/admin/system-parameters';
       },
       error: (err) => {
         this.isDisabled = false;
