@@ -11,12 +11,13 @@
                 {{ product.unitsInStock > 0 ? 'In stock' : 'Not in stock' }}
             </span>
         </div>
+        
+        <button (click)="addToCart()" class="btn btn-primary btn-sm"
+                *ngIf="product.unitsInStock > 0 && product.isActive" >Buy</button>        
 
-        <button (click)="addToCart()" class="btn btn-primary btn-sm" 
-                [disabled]="product.unitsInStock < 1">Buy</button>
-
-        <button *oktaHasAnyGroup="['Admin']" class="btn btn-warning btn-sm ms-2" 
-                [routerLink]="['/admin/products/edit', product.id]">Edit</button>
+        <button *oktaHasAnyGroup="['Admin']" [ngClass]="product.unitsInStock > 0 && product.isActive ? 
+                'btn btn-warning btn-sm ms-2' : 'btn btn-warning btn-sm'" 
+                [routerLink]="['/admin/products/edit', product.id]">Edit</button>        
                 
         <ng-container *oktaHasAnyGroup="['Admin']">        
             <button *ngIf="product.isActive" class="btn btn-danger btn-sm ms-2" 

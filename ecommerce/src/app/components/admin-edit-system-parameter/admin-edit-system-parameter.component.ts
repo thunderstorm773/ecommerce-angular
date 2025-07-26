@@ -66,6 +66,7 @@ export class AdminEditSystemParameterComponent implements OnInit {
         this.systemParameterFormGroup.reset();
           
         window.location.href = '/admin/system-parameters';
+        alert('System parameter edited successfully');
       },
       error: (err) => {
         this.isDisabled = false;

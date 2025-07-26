@@ -1,8 +1,11 @@
-export class Product {
+import { ProductCategory } from "./product-category";
+
+export class ProductAdmin {
 
     constructor(public id: number,
                 public name: string,
                 public description: string,
+                public category: ProductCategory,
                 public unitPrice: number,
                 public unitPriceEur: number,
                 public imageUrl: string,

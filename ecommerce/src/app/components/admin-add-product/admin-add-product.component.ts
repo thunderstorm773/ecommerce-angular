@@ -45,7 +45,7 @@ export class AdminAddProductComponent implements OnInit {
         categoryId: ['', {validators: [Validators.required]}],
         unitPrice: [null, {validators: [Validators.required, Validators.min(0.5)]}],
         imageUrl: ['', {validators: [Validators.required, FormValidator.checkNotOnlyWhitespace]}],
-        unitsInStock: [null, {validators: [Validators.required, Validators.min(1), Validators.pattern(/^\d+$/)]}],
+        unitsInStock: [null, {validators: [Validators.required, Validators.min(0), Validators.pattern(/^\d+$/)]}],
         isActive: [false] 
       });
   }
@@ -65,11 +65,12 @@ export class AdminAddProductComponent implements OnInit {
     this.isDisabled = true;
     const name = this.productFormGroup.controls['name'].value;
     const description = this.productFormGroup.controls['description'].value;
+    const categoryId = this.productFormGroup.controls['categoryId'].value;
     const unitPrice = this.productFormGroup.controls['unitPrice'].value;
     const imageUrl = this.productFormGroup.controls['imageUrl'].value;
     const unitsInStock = this.productFormGroup.controls['unitsInStock'].value;
     const isActive = this.productFormGroup.controls['isActive'].value;
-    const newProduct = new AddProduct(name, description, unitPrice, imageUrl, unitsInStock, 1, isActive);
+    const newProduct = new AddProduct(name, description, unitPrice, imageUrl, unitsInStock, categoryId, isActive);
         
     this.productService.createProduct(newProduct).subscribe({
         next: (data) => {

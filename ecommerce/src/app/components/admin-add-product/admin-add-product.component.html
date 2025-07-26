@@ -120,7 +120,7 @@
                     <div class="col-md-9">
                         <div class="input-space">
                             <input type="number" formControlName="unitsInStock" placeholder="Enter quantity" 
-                                   style="width: 30%;" min="1" step="1" pattern="\d*">
+                                   style="width: 30%;" min="0" step="1" pattern="\d*">
 
                             <div *ngIf="unitsInStock?.invalid && (unitsInStock?.dirty || unitsInStock?.touched)" 
                                  class="alert alert-danger mt-1" style="width: 30%;">
@@ -130,7 +130,7 @@
                                 </div>
             
                                 <div *ngIf="unitsInStock?.errors?.['min']">
-                                    Quantity must be at least 1
+                                    Quantity must be at least 0
                                 </div>
 
                                 <div *ngIf="unitsInStock?.errors?.['pattern']">

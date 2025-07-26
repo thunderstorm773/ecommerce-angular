@@ -5,6 +5,7 @@ import { Product } from '../common/product';
 import { environment } from '../../environments/environment';
 import { AddProduct } from '../common/add-product';
 import { EditProduct } from '../common/edit-product';
+import { ProductAdmin } from '../common/product-admin';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,12 @@ export class ProductService {
     const productUrl = `${this.baseUrl}/${productId}`;
 
     return this.httpClient.get<Product>(productUrl);
+  }
+
+  getProductForAdmin(productId: number): Observable<ProductAdmin> {
+    const productUrl = `${this.adminBaseUrl}/${productId}`;
+
+    return this.httpClient.get<ProductAdmin>(productUrl);
   }
 
   publishProduct(productId: number): Observable<Product> {
