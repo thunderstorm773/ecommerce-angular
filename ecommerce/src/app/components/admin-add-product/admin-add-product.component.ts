@@ -22,6 +22,7 @@ export class AdminAddProductComponent implements OnInit {
   isDisabled: boolean = false;
 
   productCategories: ProductCategory[] = [];
+  imageFile!: File;
   mainCurrency: string = '';
     
   constructor(private formBuilder: FormBuilder,
@@ -33,8 +34,8 @@ export class AdminAddProductComponent implements OnInit {
   
   
   ngOnInit(): void {
-    this.fillProductCategories();
     this.mainCurrency = this.currencyService.getMainCurrencyCode();
+    this.fillProductCategories();
     this.createProductFormGroup();
   }
 
@@ -44,7 +45,7 @@ export class AdminAddProductComponent implements OnInit {
         description: ['', {validators: [Validators.required, Validators.minLength(10), FormValidator.checkNotOnlyWhitespace]}],
         categoryId: ['', {validators: [Validators.required]}],
         unitPrice: [null, {validators: [Validators.required, Validators.min(0.5)]}],
-        imageUrl: ['', {validators: [Validators.required, FormValidator.checkNotOnlyWhitespace]}],
+        image: [null, {validators: [FormValidator.checkFile]}],
         unitsInStock: [null, {validators: [Validators.required, Validators.min(0), Validators.pattern(/^\d+$/)]}],
         isActive: [false] 
       });
@@ -67,10 +68,9 @@ export class AdminAddProductComponent implements OnInit {
     const description = this.productFormGroup.controls['description'].value;
     const categoryId = this.productFormGroup.controls['categoryId'].value;
     const unitPrice = this.productFormGroup.controls['unitPrice'].value;
-    const imageUrl = this.productFormGroup.controls['imageUrl'].value;
     const unitsInStock = this.productFormGroup.controls['unitsInStock'].value;
     const isActive = this.productFormGroup.controls['isActive'].value;
-    const newProduct = new AddProduct(name, description, unitPrice, imageUrl, unitsInStock, categoryId, isActive);
+    const newProduct = new AddProduct(name, description, unitPrice, this.imageFile, unitsInStock, categoryId, isActive);
         
     this.productService.createProduct(newProduct).subscribe({
         next: (data) => {
@@ -87,6 +87,17 @@ export class AdminAddProductComponent implements OnInit {
       });
   }
 
+  onFileChange(event: Event) {
+    const imageInput = event.target as HTMLInputElement;
+    if(imageInput.files && imageInput.files.length > 0) {
+      this.imageFile = imageInput.files[0];
+      console.log(this.imageFile);
+
+      this.image?.patchValue(this.imageFile);
+      this.image?.updateValueAndValidity();
+    }
+  }
+
   get name() {
     return this.productFormGroup.get('name');
   }
@@ -95,16 +106,16 @@ export class AdminAddProductComponent implements OnInit {
     return this.productFormGroup.get('description');
   }
 
+  get image() {
+    return this.productFormGroup.get('image');
+  }
+
   get categoryId() {
     return this.productFormGroup.get('categoryId');
   }
 
   get unitPrice() {
     return this.productFormGroup.get('unitPrice');
-  }
-
-  get imageUrl() {
-    return this.productFormGroup.get('imageUrl');
   }
 
   get unitsInStock() {

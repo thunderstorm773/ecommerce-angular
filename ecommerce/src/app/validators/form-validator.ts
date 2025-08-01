@@ -63,4 +63,24 @@ export class FormValidator {
 
         return validFromDate <= validToDate ? {} : { 'validToBeforeValidFrom': true };
     }
+
+    static checkFile(control: FormControl): ValidationErrors {
+        const file = control.value;
+
+        if (!file) {
+            return { required: true };
+        }
+
+        const allowedTypes = ['image/png', 'image/jpeg'];
+        if (!allowedTypes.includes(file.type)) {
+            return { invalidType: true };
+        }
+
+        const maxBytesSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxBytesSize) {
+            return { maxSize: true };
+        }
+
+        return {};
+    } 
 }

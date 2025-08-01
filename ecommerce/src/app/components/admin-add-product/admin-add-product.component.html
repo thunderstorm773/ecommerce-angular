@@ -6,7 +6,7 @@
                 <h3>Create Product</h3>
             </div>
 
-            <form [formGroup]="productFormGroup" (ngSubmit)="createNewProduct()">
+            <form [formGroup]="productFormGroup" (ngSubmit)="createNewProduct()" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-2"> <label>Name</label></div>
                     <div class="col-md-9">
@@ -98,16 +98,24 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-2"> <label>Image URL</label></div>
+                    <div class="col-md-2"> <label>Image</label></div>
                     <div class="col-md-9">
                         <div class="input-space">
-                            <input type="text" formControlName="imageUrl" placeholder="Enter image url" style="width: 30%;">
+                            <input type="file" (change)="onFileChange($event)">
 
-                            <div *ngIf="imageUrl?.invalid && (imageUrl?.dirty || imageUrl?.touched)" 
+                            <div *ngIf="image?.invalid && (image?.dirty || image?.touched)" 
                                  class="alert alert-danger mt-1" style="width: 30%;">
    
-                                <div *ngIf="imageUrl?.errors?.['required'] || imageUrl?.errors?.['notOnlyWhitespace']">
-                                    Image URL is required
+                                <div *ngIf="image?.errors?.['required']">
+                                    Image is required
+                                </div>
+
+                                <div *ngIf="image?.errors?.['invalidType']">
+                                    Supported image types are: jpg, jpeg, png
+                                </div>
+
+                                <div *ngIf="image?.errors?.['maxSize']">
+                                    Maximum allowed image size is 10MB
                                 </div>
    
                             </div>

@@ -63,7 +63,17 @@ export class ProductService {
 
   createProduct(product: AddProduct): Observable<any> {
     const productUrl = `${this.adminBaseUrl}/add`;
-    return this.httpClient.post<AddProduct>(productUrl, product);
+
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('description', product.description);
+    formData.append('unitPrice', "" + product.unitPrice);
+    formData.append('file', product.image);
+    formData.append('unitsInStock', "" + product.unitsInStock);
+    formData.append('categoryId', "" + product.categoryId);
+    formData.append('isActive', "" + product.isActive);
+
+    return this.httpClient.post<AddProduct>(productUrl, formData);
   }
   
   editProduct(id: number, product: EditProduct): Observable<any> {
