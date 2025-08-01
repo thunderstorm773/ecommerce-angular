@@ -22,6 +22,7 @@ export class AdminEditProductComponent implements OnInit {
   isDisabled: boolean = false;
   
   productCategories: ProductCategory[] = [];
+  imageFile!: File;
   mainCurrency: string = '';
 
   constructor(private formBuilder: FormBuilder,
@@ -33,8 +34,8 @@ export class AdminEditProductComponent implements OnInit {
               private toastService: ToastService) {}
 
   ngOnInit(): void {
-    this.fillProductCategories();
     this.mainCurrency = this.currencyService.getMainCurrencyCode();
+    this.fillProductCategories();
     this.editProductFormGroup();
     this.fillProduct();
   }
@@ -45,7 +46,7 @@ export class AdminEditProductComponent implements OnInit {
         description: ['', {validators: [Validators.required, Validators.minLength(10), FormValidator.checkNotOnlyWhitespace]}],
         categoryId: ['', {validators: [Validators.required]}],
         unitPrice: [null, {validators: [Validators.required, Validators.min(0.5)]}],
-        imageUrl: ['', {validators: [Validators.required, FormValidator.checkNotOnlyWhitespace]}],
+        image: [null, {validators: [FormValidator.checkFile]}],
         unitsInStock: [null, {validators: [Validators.required, Validators.min(0), Validators.pattern(/^\d+$/)]}],
         isActive: [false] 
       });
@@ -70,10 +71,9 @@ export class AdminEditProductComponent implements OnInit {
     const description = this.productFormGroup.controls['description'].value;
     const categoryId = this.productFormGroup.controls['categoryId'].value;
     const unitPrice = this.productFormGroup.controls['unitPrice'].value;
-    const imageUrl = this.productFormGroup.controls['imageUrl'].value;
     const unitsInStock = this.productFormGroup.controls['unitsInStock'].value;
     const isActive = this.productFormGroup.controls['isActive'].value;
-    const product = new EditProduct(name, description, unitPrice, imageUrl, unitsInStock, categoryId, isActive);
+    const product = new EditProduct(name, description, unitPrice, this.imageFile, unitsInStock, categoryId, isActive);
           
     this.productService.editProduct(productId, product).subscribe({
         next: (data) => {
@@ -106,12 +106,20 @@ export class AdminEditProductComponent implements OnInit {
         }
 
         this.categoryId?.setValue(data.category.id);
-        this.imageUrl?.setValue(data.imageUrl);
         this.unitsInStock?.setValue(data.unitsInStock);
         this.isActive?.setValue(data.isActive);
       }
     );
-  }  
+  }
+  
+  onFileChange(event: Event) {
+    const imageInput = event.target as HTMLInputElement;
+    if(imageInput.files && imageInput.files.length > 0) {
+      this.imageFile = imageInput.files[0];
+      this.image?.patchValue(this.imageFile);
+      this.image?.updateValueAndValidity();
+    }
+  }
   
   getProductId() {
     return +this.route.snapshot.paramMap.get('id')!;
@@ -124,6 +132,10 @@ export class AdminEditProductComponent implements OnInit {
   get description() {
     return this.productFormGroup.get('description');
   }
+
+  get image() {
+    return this.productFormGroup.get('image');
+  }
   
   get categoryId() {
     return this.productFormGroup.get('categoryId');
@@ -131,10 +143,6 @@ export class AdminEditProductComponent implements OnInit {
   
   get unitPrice() {
     return this.productFormGroup.get('unitPrice');
-  }
-  
-  get imageUrl() {
-    return this.productFormGroup.get('imageUrl');
   }
   
   get unitsInStock() {

@@ -63,22 +63,14 @@ export class ProductService {
 
   createProduct(product: AddProduct): Observable<any> {
     const productUrl = `${this.adminBaseUrl}/add`;
-
-    const formData = new FormData();
-    formData.append('name', product.name);
-    formData.append('description', product.description);
-    formData.append('unitPrice', "" + product.unitPrice);
-    formData.append('file', product.image);
-    formData.append('unitsInStock', "" + product.unitsInStock);
-    formData.append('categoryId', "" + product.categoryId);
-    formData.append('isActive', "" + product.isActive);
-
+    const formData = this.createFormDataAttributes(product);
     return this.httpClient.post<AddProduct>(productUrl, formData);
   }
   
   editProduct(id: number, product: EditProduct): Observable<any> {
     const productUrl = `${this.adminBaseUrl}/edit/${id}`;
-    return this.httpClient.put<EditProduct>(productUrl, product);
+    const formData = this.createFormDataAttributes(product);
+    return this.httpClient.put<EditProduct>(productUrl, formData);
   }
 
   private getProductsPaginate(url: string, 
@@ -91,6 +83,19 @@ export class ProductService {
     }
  
     return this.httpClient.get<GetResponseMany>(url);
+  }
+
+  private createFormDataAttributes(product: any): FormData {
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('description', product.description);
+    formData.append('unitPrice', "" + product.unitPrice);
+    formData.append('file', product.image);
+    formData.append('unitsInStock', "" + product.unitsInStock);
+    formData.append('categoryId', "" + product.categoryId);
+    formData.append('isActive', "" + product.isActive);
+
+    return formData;
   }
 }
 
