@@ -45,6 +45,8 @@ import { OrderHistoryDetailsComponent } from './components/order-history-details
 import { CurrencyService } from './services/currency.service';
 import { AdminAddProductComponent } from './components/admin-add-product/admin-add-product.component';
 import { AdminEditProductComponent } from './components/admin-edit-product/admin-edit-product.component';
+import { LoadingInterceptorService } from './interceptors/loading-interceptor.service';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -141,7 +143,8 @@ const routes: Routes = [
     AdminEditSystemParameterComponent,
     OrderHistoryDetailsComponent,
     AdminAddProductComponent,
-    AdminEditProductComponent
+    AdminEditProductComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {
@@ -157,7 +160,8 @@ const routes: Routes = [
   providers: [
               provideHttpClient(withInterceptorsFromDi()), ProductService, ProductCategoryService, 
               {provide: OKTA_CONFIG, useValue: { oktaAuth }}, 
-              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}, 
+              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+              {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true}, 
               DatePipe, CurrencyPipe,
               {
                 provide: APP_INITIALIZER,
