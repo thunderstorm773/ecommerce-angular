@@ -8,6 +8,7 @@ export class ProductAdmin {
                 public category: ProductCategory,
                 public unitPrice: number,
                 public unitPriceEur: number,
+                public image: string,
                 public imageUrl: string,
                 public isActive: boolean,
                 public unitsInStock: number,

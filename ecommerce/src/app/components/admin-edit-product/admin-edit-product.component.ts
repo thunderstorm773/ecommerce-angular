@@ -8,6 +8,7 @@ import { CurrencyService } from '../../services/currency.service';
 import { ToastService } from '../../services/toast.service';
 import { FormValidator } from '../../validators/form-validator';
 import { EditProduct } from '../../common/edit-product';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-admin-edit-product',
@@ -23,6 +24,7 @@ export class AdminEditProductComponent implements OnInit {
   
   productCategories: ProductCategory[] = [];
   imageFile!: File;
+  showAdditionalImageFileName: boolean = true;
   mainCurrency: string = '';
 
   constructor(private formBuilder: FormBuilder,
@@ -91,12 +93,14 @@ export class AdminEditProductComponent implements OnInit {
     }
 
   fillProduct() {
+    this.showAdditionalImageFileName = true;
     const productId: number = this.getProductId();
 
     this.productService.getProductForAdmin(productId).subscribe(
       data => {
         this.name?.setValue(data.name);
         this.description?.setValue(data.description);
+        this.fillImage(data.image, data.imageUrl);
 
         // Set the unit price based on the main currency
         if(this.currencyService.showBgnCurrencyFirstParam?.value == "1") {
@@ -113,12 +117,36 @@ export class AdminEditProductComponent implements OnInit {
   }
   
   onFileChange(event: Event) {
+    this.showAdditionalImageFileName = false;
+
     const imageInput = event.target as HTMLInputElement;
     if(imageInput.files && imageInput.files.length > 0) {
       this.imageFile = imageInput.files[0];
       this.image?.patchValue(this.imageFile);
       this.image?.updateValueAndValidity();
     }
+  }
+
+  fillImage(imageContent: string, imageUrl: string) {
+    const base64Image = imageContent.replace(/^data:[^;]+;base64,/, '');
+    const buffer = Buffer.from(base64Image, 'base64');
+
+    let fileType = '';
+    let fileName = '';
+
+    // Set the file type and name based on the image URL
+    if(imageUrl.endsWith('png')) {
+      fileType = 'image/png';
+      fileName = 'image.png';
+    } else if(imageUrl.endsWith('jpg') || imageUrl.endsWith('jpeg')) {
+      fileType = 'image/jpeg';
+      fileName = 'image.jpg';
+    }
+
+    const imageFile = new File([buffer], fileName, { type: fileType });
+    this.imageFile = imageFile;
+    this.image?.patchValue(this.imageFile);
+    this.image?.updateValueAndValidity();
   }
   
   getProductId() {
