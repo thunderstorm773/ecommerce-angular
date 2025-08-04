@@ -11,6 +11,7 @@ import { OrderHistoryWithItems } from '../common/order-history-with-items';
 export class OrderHistoryService {
 
   private orderURL: string =  environment.ecommerceURL + 'orders';
+  private orderAdminURL: string =  environment.ecommerceURL + 'admin/orders';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -18,12 +19,23 @@ export class OrderHistoryService {
                           pageSize: number): Observable<GetResponseOrderHistory> {
 
     const orderHistoryURL = `${this.orderURL}?customerEmail=${email}&page=${currentPageNumber}&size=${pageSize}`;
-    return this.httpClient.get<GetResponseOrderHistory>(orderHistoryURL)
+    return this.httpClient.get<GetResponseOrderHistory>(orderHistoryURL);
+  }
+
+  getAllOrdersPaginate(currentPageNumber: number, pageSize: number): Observable<GetResponseOrderHistory> {
+
+    const ordersURL = `${this.orderAdminURL}?page=${currentPageNumber}&size=${pageSize}`;
+    return this.httpClient.get<GetResponseOrderHistory>(ordersURL);
   }
 
   getOrderHistory(orderHistoryId: number): Observable<OrderHistoryWithItems> {
     const orderHistoryURL = `${this.orderURL}/${orderHistoryId}`;
     return this.httpClient.get<OrderHistoryWithItems>(orderHistoryURL);
+  }
+
+  getOrder(orderId: number): Observable<OrderHistoryWithItems> {
+    const orderURL = `${this.orderAdminURL}/${orderId}`;
+    return this.httpClient.get<OrderHistoryWithItems>(orderURL);
   }
 }
 

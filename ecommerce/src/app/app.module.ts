@@ -47,6 +47,8 @@ import { AdminAddProductComponent } from './components/admin-add-product/admin-a
 import { AdminEditProductComponent } from './components/admin-edit-product/admin-edit-product.component';
 import { LoadingInterceptorService } from './interceptors/loading-interceptor.service';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component';
+import { AdminOrderDetailsComponent } from './components/admin-order-details/admin-order-details.component';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -105,6 +107,12 @@ const routes: Routes = [
   {path: 'admin/products/edit/:id', component: AdminEditProductComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
     data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
   },
+  {path: 'admin/orders', component: AdminOrdersComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
+    data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
+  },
+  {path: 'admin/orders/:id', component: AdminOrderDetailsComponent, canActivate: [OktaAuthGuard, AuthGroupGuard],
+    data: {onAuthRequired: sendToLoginPage, groups: ['Admin']},
+  },
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
   {path: 'about-us', component: AboutUsComponent},
@@ -144,7 +152,9 @@ const routes: Routes = [
     OrderHistoryDetailsComponent,
     AdminAddProductComponent,
     AdminEditProductComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    AdminOrdersComponent,
+    AdminOrderDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(routes, {
