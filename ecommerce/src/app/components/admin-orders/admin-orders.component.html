@@ -11,7 +11,8 @@
                             <th scope="col" width="10%">Total Price</th>
                             <th scope="col" width="10%">Total Quantity</th>
                             <th scope="col" width="10%">Date</th>
-                            <th scope="col" width="10%">Actions</th>
+                            <th scope="col" width="10%">Status</th>
+                            <th scope="col" width="15%">Actions</th>
                         </tr>
                     </thead>
 
@@ -21,9 +22,18 @@
                             <td>{{ currencyService.formatPriceString(order.totalPrice, order.totalPriceEur) }}</td>
                             <td>{{ order.totalQuantity }}</td>
                             <td>{{ order.dateCreated | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+                            <td>{{ order.status }}</td>
                             <td>
-                                <button class="btn btn-primary me-2" 
+                                <button class="btn btn-info me-2" 
                                         [routerLink]="['/admin/orders', order.id]">Details</button>
+
+                                <ng-container *ngIf="order.status === 'Pending'">  
+                                    <button class="btn btn-primary me-2" 
+                                            [routerLink]="['/admin/orders/process', order.id]">Process</button>
+                                        
+                                    <button class="btn btn-danger me-2" 
+                                            [routerLink]="['/admin/orders/reject', order.id]">Reject</button>
+                                </ng-container>                
                             </td>
                         </tr>
                     </tbody>

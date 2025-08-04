@@ -5,5 +5,6 @@ export class OrderHistory {
                 public totalPrice: number,
                 public totalPriceEur: number,
                 public totalQuantity: number,
+                public status: string,
                 public dateCreated: Date) {}
 }
