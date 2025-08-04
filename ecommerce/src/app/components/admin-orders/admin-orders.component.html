@@ -17,7 +17,7 @@
                     </thead>
 
                     <tbody>
-                        <tr *ngFor="let order of ordersList">
+                        <tr *ngFor="let order of ordersList" [ngClass]="{'table-danger': order.status === 'Rejected'}">
                             <td>{{ order.orderTrackingNumber }}</td>
                             <td>{{ currencyService.formatPriceString(order.totalPrice, order.totalPriceEur) }}</td>
                             <td>{{ order.totalQuantity }}</td>
@@ -29,10 +29,10 @@
 
                                 <ng-container *ngIf="order.status === 'Pending'">  
                                     <button class="btn btn-primary me-2" 
-                                            [routerLink]="['/admin/orders/process', order.id]">Process</button>
+                                            (click)="open(process, order.id)">Process</button>
                                         
                                     <button class="btn btn-danger me-2" 
-                                            [routerLink]="['/admin/orders/reject', order.id]">Reject</button>
+                                            (click)="open(reject, order.id)">Reject</button>
                                 </ng-container>                
                             </td>
                         </tr>
@@ -83,3 +83,37 @@
         </div>
     </div>
 </div>
+
+<ng-template #process let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Process Order</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+				<p>Do you want to process this order?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="processOrder(selectedOrderId)">Process</button>
+	</div>
+</ng-template>
+
+<ng-template #reject let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Reject Order</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+				<p>Do you really want to reject this order?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="rejectOrder(selectedOrderId)">Reject</button>
+	</div>
+</ng-template>

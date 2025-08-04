@@ -37,6 +37,16 @@ export class OrderHistoryService {
     const orderURL = `${this.orderAdminURL}/${orderId}`;
     return this.httpClient.get<OrderHistoryWithItems>(orderURL);
   }
+
+  processOrder(orderId: number): Observable<any> {
+    const orderURL = `${this.orderAdminURL}/process/${orderId}`;
+    return this.httpClient.post(orderURL, null);
+  }
+
+  rejectOrder(orderId: number): Observable<any> {
+    const orderURL = `${this.orderAdminURL}/reject/${orderId}`;
+    return this.httpClient.post(orderURL, null);
+  }
 }
 
 interface GetResponseOrderHistory {
