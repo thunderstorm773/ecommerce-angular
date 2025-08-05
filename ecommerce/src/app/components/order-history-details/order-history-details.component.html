@@ -12,7 +12,7 @@
 
           <tr *ngFor="let orderItem of orderHistoryDetails.orderItems">
             <td>
-              <img src="{{ orderItem.imageURL }}" class="img-responsive" width="150px" />
+              <img src="{{ orderItem.imageURL }}" class="img-responsive" width="150px" appFallbackImage/>
             </td>
             <td>
               <div class="items">

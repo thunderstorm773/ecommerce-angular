@@ -49,6 +49,7 @@ import { LoadingInterceptorService } from './interceptors/loading-interceptor.se
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component';
 import { AdminOrderDetailsComponent } from './components/admin-order-details/admin-order-details.component';
+import { FallbackImageDirective } from './directives/fallback-image.directive';
 
 const oktaConfig = appConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -154,7 +155,8 @@ const routes: Routes = [
     AdminEditProductComponent,
     LoadingSpinnerComponent,
     AdminOrdersComponent,
-    AdminOrderDetailsComponent
+    AdminOrderDetailsComponent,
+    FallbackImageDirective
   ],
   imports: [
     RouterModule.forRoot(routes, {
