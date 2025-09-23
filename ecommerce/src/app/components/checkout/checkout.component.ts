@@ -7,7 +7,6 @@ import { FormValidator } from '../../validators/form-validator';
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { Router } from '@angular/router';
-import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
 import { Address } from '../../common/address';
 import { Customer } from '../../common/customer';
@@ -115,12 +114,11 @@ export class CheckoutComponent implements OnInit{
     }
 
     // set up purchase and call REST API
-    let order = this.createOrderObj();
     let orderItems = this.createOrderItemsObj();
     let shippingAddress = this.createAddressObj('shippingAddress');
     let billingAddress = this.createAddressObj('billingAddress');
     let customer = this.createCustomerObj();
-    let purchase = this.createPurchaseObj(order, orderItems, shippingAddress, billingAddress, customer);
+    let purchase = this.createPurchaseObj(orderItems, shippingAddress, billingAddress, customer);
 
     // compute payment info
     if (this.currencyService.showBgnCurrencyFirstParam?.value === '1') {
@@ -224,14 +222,6 @@ export class CheckoutComponent implements OnInit{
     );
   }
 
-  createOrderObj(): Order {
-    if(this.currencyService.showBgnCurrencyFirstParam?.value === '1') {
-      return new Order(this.totalQuantity, this.totalPriceBgn);
-    }else {
-      return new Order(this.totalQuantity, this.totalPriceEur);
-    }
-  }
-
   createOrderItemsObj(): OrderItem[] {
     return this.cartService.cartItems.map(item => new OrderItem(item));
   }
@@ -248,9 +238,9 @@ export class CheckoutComponent implements OnInit{
     return new Customer(formGroup.firstName, formGroup.lastName, formGroup.email);
   }
 
-  createPurchaseObj(order: Order, orderItems: OrderItem[], shippingAddress: Address,
+  createPurchaseObj(orderItems: OrderItem[], shippingAddress: Address,
                     billingAddress: Address, customer: Customer): Purchase {
-    return new Purchase(customer, shippingAddress, billingAddress, order, orderItems);
+    return new Purchase(customer, shippingAddress, billingAddress, orderItems);
   }
 
   resetCart() {
